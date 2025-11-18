@@ -1,0 +1,215 @@
+﻿@using Bps.BpsBase.Entities.Concrete.IK
+@using Bps.Core.Web.Model
+@model List<IKPERS>
+
+@{
+    Html.DevExpress().GridView<IKPERS>(settings =>
+    {
+        settings.Name = "gridPersonel";
+        settings.KeyFieldName = "Id";
+
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("PersonelEkleWindow", "Personel", new {area = "IK"}),
+            DegistirUrl = Url.Action("PersonelEkleWindow", "Personel", new {area = "IK" }),
+            SilUrl = Url.Action("PersonelSil", "Personel", new {area = "IK" }),
+            YerlesimDiv = "personelLayoutDiv",
+            BelgeAkisDiv = "personelBelgeAkisDiv",
+            TopluAktarDiv = "personelTopluAktarDiv",
+            MenuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG,
+            Type = "IKPERS",
+            ExcluldeList = new List<string>(){ "tb_Add", "tb_Edit" },
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+        settings.CallbackRouteValues = new {Controller = "Personel", Action = "PersonelGridPartial", area = "IK", menuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG};
+
+        var yetki = (ProjeMenuListed) ViewData["YetkiModel"];
+
+        var addButton = new MVCxGridViewToolbarItem();
+        addButton.Text = "Ekle";
+        addButton.Name = "tb_Add";
+        addButton.Enabled = yetki.EKLEME;
+        addButton.Command = GridViewToolbarCommand.Custom;
+        addButton.NavigateUrl = @"javascript:personel.Ekle(" + toolParam.MenuTag + ",'" + toolParam.EkleUrl + "')";
+        addButton.Image.IconID = IconID.ActionsNew16x16;
+
+        var editButton = new MVCxGridViewToolbarItem();
+        editButton.Text = "Değiştir";
+        editButton.Name = "tb_Edit";
+        editButton.Enabled = yetki.DEGIST;
+        editButton.Command = GridViewToolbarCommand.Custom;
+        editButton.NavigateUrl = @"javascript:personel.Degistir('" + toolParam.Grid + "', " + toolParam.MenuTag + ", '" + toolParam.DegistirUrl + "')";
+        editButton.Image.IconID = IconID.ActionsEdit16x16devav;
+
+        toolParam.ItemList.Add(addButton);
+        toolParam.ItemList.Add(editButton);
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        List<string> excludeList = new List<string>();
+        excludeList.Add("DEPAKD");
+        excludeList.Add("POZSKD");
+        excludeList.Add("CNEDKD");
+        excludeList.Add("CLDRKD");
+        excludeList.Add("MSRFKD");
+        excludeList.Add("UYRKKD");
+        excludeList.Add("CINSKD");
+        excludeList.Add("MHALKD");
+        excludeList.Add("MAHAKD");
+        excludeList.Add("ILCEKD");
+        excludeList.Add("SEHRKD");
+        excludeList.Add("ULKEKD");
+
+        #region Columns
+
+        settings.Columns.Add(m => m.DEPAKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["DepartmanList"]);
+
+            });
+        });
+        settings.Columns.Add(m => m.POZSKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["PozisyonList"]);
+            });
+        });
+        settings.Columns.Add(m => m.LOKAKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["LokasyonList"]);
+            });
+        });
+        settings.Columns.Add(m => m.CNEDKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["CikisNedenList"]);
+            });
+        });
+        settings.Columns.Add(m => m.CLDRKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["CalismaDurumList"]);
+            });
+        });
+        settings.Columns.Add(m => m.MSRFKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["MasrafYeriList"]);
+            });
+        });
+        settings.Columns.Add(m => m.UYRKKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["UyrukList"]);
+            });
+        });
+        settings.Columns.Add(m => m.CINSKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["CinsiyetList"]);
+            });
+        });
+        settings.Columns.Add(m => m.MHALKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["MedeniHalList"]);
+            });
+        });
+        settings.Columns.Add(m => m.ULKEKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["UlkeList"]);
+            });
+        });
+        settings.Columns.Add(m => m.SEHRKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["SehirList"]);
+            });
+        });
+        settings.Columns.Add(m => m.ILCEKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["IlceList"]);
+            });
+        });
+        settings.Columns.Add(m => m.MAHAKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["MahalleList"]);
+            });
+        });
+
+        #endregion
+
+        GridViewHelper<IKPERS>.Settings(settings, new IKPERS(), excludeList);
+    }).Bind(Model).Render();
+}
+
+<div id="personelLayoutDiv">
+</div>
+<div id="personelBelgeAkisDiv">
+</div>
+<div id="personelTopluAktarDiv">
+</div>

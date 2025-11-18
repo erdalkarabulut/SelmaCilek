@@ -1,0 +1,182 @@
+@using Bps.BpsBase.Entities.Concrete.GN;
+@using Bps.Core.Web.Model
+@model List<GNMENU>
+
+@{
+    Html.DevExpress().GridView<GNMENU>(settings =>
+    {
+        settings.Name = "gridGnmenu";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "---", Action ="GnmenuGp", area = "GN"};
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("GnmenuPartial", "---", new { area = "GN" }),
+            DegistirUrl = Url.Action("GnmenuPartial", "---", new { area = "GN" }),
+            SilUrl = Url.Action("GnmenuSil", "---", new { area = "GN" }),
+            EklePopup = "ppGnmenuEkle", 
+            DegistirPopup = "ppGnmenuDegistir", 
+            EkleDiv = "gnmenuEkleDiv", 
+            DegistirDiv = "gnmenuEkleDiv", 
+            BelgeAkisDiv = "gnmenuBelgeAkisDiv", 
+            YerlesimDiv = "gnmenuLayoutDiv", 
+            TopluAktarDiv = "gnmenuTopluAktarDiv", 
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "GNMENU", 
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "", 
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #region Columns
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Id";
+            column.Visible = false;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "PROKOD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "MNUNAM";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "MNUTAG";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "PARENT";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "GNICON";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "GNAREA";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CONTNM";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FUNCNM";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EKKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ETARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DTARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CHKCTR";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        #endregion Columns
+
+        GridViewHelper<GNMENU>.SettingsWihoutColumns(settings, new GNMENU());
+    }).Bind(Model).Render();
+}
+
+<div id="gnmenuEkleDiv"></div>
+<div id="gnmenuLayoutDiv"></div>
+<div id="gnmenuBelgeAkisDiv"></div>
+<div id="gnmenuTopluAktarDiv"></div>

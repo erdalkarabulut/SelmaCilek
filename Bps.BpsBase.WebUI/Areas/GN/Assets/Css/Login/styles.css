@@ -1,0 +1,140 @@
+body {
+    font-family: BRANDONTEXT-REGULAR;
+}
+ 
+@font-face {
+    font-family: 'BRANDONTEXT-REGULAR';
+    src: url('../../../../../Assets/Fonts/BRANDONTEXT-REGULAR.OTF') format('opentype');
+}
+ 
+div {
+}
+/*iphone x için 812 ölçüye bakýlacak*/
+@media (max-width: 767px)  {
+    #soldiv {
+        display: none;
+       
+    }
+    #sagdiv {  
+        padding-bottom: 10rem;
+        margin-top: 10rem;
+    }
+}
+
+#soldiv {
+  width: 100%;
+  height: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+#sagdiv {
+  width: 100%;
+  height: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+#mainbody {
+  width: 100%;
+  height: 100%;
+}
+
+.row {
+  width: 100%;
+  height: 100%;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 100%;
+}
+
+#carousel-1 {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-item-next, .carousel-item-prev, .carousel-item.active {
+  width: 100%;
+  height: 100%;
+  background-image: url("../../Images/Login/bg11.jpg");
+  /*background-position: -400px;*/
+    background-size: 100% 100%;
+}
+
+.carousel-item {
+  width: 100%;
+  height: 100%;
+}
+
+.w-100.d-block {
+  width: 100%;
+  height: 100%;
+}
+
+#item1 {
+    background-image: url('../../Images/Login/bg12.jpg');
+}
+
+#item2 {
+  background-image: url("../../Images/Login/bg13.jpg");
+}
+
+#item3 {
+  background-image: url("../../Images/Login/bg14.jpg");
+}
+
+#item4 {
+  background-image: url("../../Images/Login/bg15.jpg");
+}
+
+#item5 {
+  background-image: url("../../Images/Login/bg16.jpg");
+}
+
+#item6 {
+  background-image: url("../../Images/Login/bg17.jpg");
+}
+
+#item7 {
+  background-image: url("../../Images/Login/bg18.jpg");
+}
+#item8 {
+  background-image: url("../../Images/Login/bg19.jpg");
+}
+#item9 {
+    background-image: url("../../Images/Login/bg20.jpg");
+}
+#item10 {
+    background-image: url("../../Images/Login/bg21.jpg");
+}
+#item11 {
+    background-image: url("../../Images/Login/bg22.jpg");
+}
+#item12 {
+    background-image: url("../../Images/Login/bg23.jpg");
+}
+#item13 {
+    background-image: url("../../Images/Login/bg24.jpg");
+}
+#item14 {
+    background-image: url("../../Images/Login/bg25.jpg");
+}
+#item15 {
+    background-image: url("../../Images/Login/bg26.jpg");
+}
+#item16 {
+    background-image: url("../../Images/Login/bg27.jpg");
+}
+#item17 {
+    background-image: url("../../Images/Login/bg28.jpg");
+}
+#item18 {
+    background-image: url("../../Images/Login/bg29.jpg");
+}
+#item19 {
+    background-image: url("../../Images/Login/bg30.jpg");
+}

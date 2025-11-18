@@ -1,0 +1,29 @@
+﻿@model int?
+
+@{
+    ViewBag.Title = "KullaniciMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="../../../../../Areas/GN/Assets/Js/kullanici.js"></script>
+@using (Html.BeginForm())
+{
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlKullanici";
+            PageControlHelper.Settings(settings, false);
+            settings.ActiveTabIndex = 0;
+
+            settings.TabPages.Add("Kullanıcı Listesi", "Tab1").SetContent(() =>
+            {
+                Html.RenderAction("KullaniciGridPartial", "Tanim",new {area = "GN"});
+            });
+
+            settings.TabPages.Add("Kullanıcı İşlemleri", "Tab2").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+}

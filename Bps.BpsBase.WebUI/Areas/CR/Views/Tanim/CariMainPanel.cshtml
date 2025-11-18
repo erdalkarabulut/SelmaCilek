@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "CariMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model int?
+<script src="../../../../Areas/CR/Assets/Js/cariKart.js"></script>
+<body>
+    @using (Html.BeginForm())
+    {
+
+        @Html.DevExpress().PageControl(settings =>
+        {
+
+            settings.Name = "pageControlCariKart";
+            PageControlHelper.Settings(settings, false);
+
+            settings.TabPages.Add("Ara", "cariKartTab1").SetContent(() =>
+            {
+                Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formCariKartAra";
+                    formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.Off;
+                    formLayoutsettings.AlignItemCaptions = true;
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Ara";
+                        g.ColCount = 1;
+                        g.Paddings.Padding = Unit.Pixel(0);
+                        g.Paddings.PaddingTop = Unit.Pixel(10);
+                        g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                        g.GroupBoxStyle.Caption.Font.Bold = true;
+                        g.GroupBoxStyle.Caption.Font.Size = 16;
+                        g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+                        g.Items.Add(i =>
+                        {
+                            i.Caption = "Cari Tipi";
+                            i.NestedExtension().ComboBox(s =>
+                            {
+                                s.Name = "cmb_CariKart_Tip";
+                                s.Properties.NullText = "Cari Tip Seçiniz...";
+                                s.Properties.TextField = "TANIMI";
+                                s.Properties.ValueField = "HARKOD";
+                                s.Properties.NullTextDisplayMode = NullTextDisplayMode.UnfocusedAndFocused;
+                                s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+                                s.Properties.TextFormatString = "{0}";
+                                s.Properties.Columns.Add("TANIMI", "Tanımı", 100);
+                                s.Properties.Columns.Add("TIPKOD", "Tip Kod", 100);
+                                s.Properties.Columns.Add("HARKOD", "Hareket Kodu", 80);
+                                s.Properties.Columns.Add("Id", "Id", 50);
+                                s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                s.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                                s.Properties.DataSource = ViewData["CRHRKDList"];
+                            });
+                        });
+
+                        g.Items.Add(i =>
+                        {
+                            i.ShowCaption = DefaultBoolean.False;
+                            i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                        }).SetNestedContent(() =>
+                        {
+                            Html.DevExpress().Button(s =>
+                            {
+                                s.Name = "btnCariKart_Ara";
+                                s.Text = "Ara";
+                                s.ControlStyle.CssClass = "buttonAlign";
+                                s.Styles.Style.HorizontalAlign = HorizontalAlign.Right;
+                                s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                s.ClientSideEvents.Click = @"function(s,e) {cariKart.CariKartAra(" + Model + ")}";
+                            }).Render();
+                        });
+                    });
+                }).Render();
+            });
+            settings.TabPages.Add("Liste", "cariKartTab2").SetContent(() =>
+            {
+                Html.RenderAction("CariGridPartial", "Tanim", new { area = "CR" });
+            });
+            settings.TabPages.Add("İşlemler", "cariKartTab3").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+    }
+</body>

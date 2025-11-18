@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "EvrakMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Bps.Core.Web.Session
+@model int?
+
+<body>
+
+@using (Html.BeginForm())
+{
+    @Html.Action("DepoTanimGridPartial", "Tanim", new {area="GN"})
+
+    <script type="text/javascript">
+        function FormDepoTanimKaydet() {
+            bpsMain.submitForm('formDepoTanimEkle',
+                gridName,
+                'ppDepoTanimEkle',
+                '@Html.Raw(Url.Action("DepoTanimKaydet", "Tanim", new {area=SessionHelper.ProjeKod}))',
+                @Model);
+        }
+    </script>
+}
+</body>

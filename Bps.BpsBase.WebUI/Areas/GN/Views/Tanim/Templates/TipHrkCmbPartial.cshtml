@@ -1,0 +1,25 @@
+﻿@model Bps.BpsBase.Entities.Models.GN.Single.CmbComboModel
+@{
+    var cmb = Html.DevExpress().ComboBox(settings =>
+    {
+        settings.Name = Model.ComboboxName;
+        settings.Width = Unit.Percentage(100);
+        settings.Properties.ValueType = typeof(string);
+        settings.Properties.TextField = "TANIMI";
+        settings.Properties.ValueField = "HARKOD";
+        settings.Properties.CallbackPageSize = 15;
+        settings.ShowModelErrors = true;
+        settings.Properties.ValidationSettings.Display = Display.Dynamic;
+        settings.Properties.ValidationSettings.RequiredField.IsRequired = Model.IsRequired ?? false;
+        settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+        settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+        settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+    }).BindList(Model.TipHareketList);
+
+    if (!string.IsNullOrEmpty(Model.HARKOD))
+    {
+        cmb.Bind(Model.HARKOD);
+    }
+    cmb.Render();
+}

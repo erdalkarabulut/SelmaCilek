@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "StokTedTurMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Bps.Core.Web.Session
+@model int?
+
+<body>
+
+@using (Html.BeginForm())
+{
+    @Html.Action("StokTedTurGridPartial", "Tanim", new {area="ST"})
+
+    <script type="text/javascript">
+        function FormStokTedTurKaydet() {
+            bpsMain.submitForm('formStokTedTurEkle',
+                'gridStokTedTur',
+                'ppStokTedTurEkle',
+                '@Html.Raw(Url.Action("StokTedTurKaydet", "Tanim", new {area=SessionHelper.ProjeKod}))',
+                @Model);
+        }
+    </script>
+}
+</body>

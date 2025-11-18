@@ -1,0 +1,127 @@
+﻿@using System.Web.UI.WebControls
+@using DevExpress.Web
+@using DevExpress.Web.Mvc.UI
+@model int?
+
+@{
+    ViewBag.Title = "DovizKuruMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <script>
+        var dovizKuruScript = {
+            Ekle :function(menuTag,url) {
+                console.log('e');
+                LoadingPanel.Show();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { menuTag: menuTag},
+                    success: function(response) {
+                        pageControlDovizKuru.GetTabByName('Tab1').SetVisible(0);
+                        pageControlDovizKuru.GetTabByName('Tab2').SetVisible(1);
+                        pageControlDovizKuru.SetActiveTab(pageControlDovizKuru.GetTabByName('Tab2'));
+                        $("#editableContainer").html(response);
+                    }
+                });
+                LoadingPanel.Hide();
+            },
+            Degistir: function(gridName, menuTag, url) {
+                var grid = ASPxClientControl.GetControlCollection().GetByName(gridName);
+                var selectedRow = grid.GetSelectedKeysOnPage();
+                if (selectedRow.length > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            Id: selectedRow[0],
+                            menuTag: menuTag
+                        },
+                        success: function(response) {
+                            pageControlDovizKuru.GetTabByName('Tab1').SetVisible(0);
+                            pageControlDovizKuru.GetTabByName('Tab2').SetVisible(1);
+                            pageControlDovizKuru.SetActiveTab(pageControlDovizKuru.GetTabByName('Tab2'));
+                            $("#editableContainer").html(response);
+                        }
+                    });
+                } else {
+                    BpsAlert.warning('Lütfen kayıt seçiniz !');
+                    return;
+                }
+            },
+            FormDovizKuruKaydet: function () {
+                var formList = [];
+                formList.push("formDovizKuruEkle");
+                var menuTag=@Model;
+                var model = {};
+                var grid = ASPxClientControl.GetControlCollection().GetByName('gridDovizKuru');
+                formList.forEach(function(formName) {
+                    var form = ASPxClientControl.GetControlCollection().GetByName(formName);
+                    form.rootItem.items.forEach(function (item) {
+                        if (item.name != "") {
+                            model[item.name] = name;
+                        } else {
+                            item.items.forEach(function (data) {
+                                console.log(data.name);
+                                if (data.name != null && data.name != "") {
+                                    var control = ASPxClientControl.GetControlCollection().GetByName(data.name);
+                                    model[data.name] = control.GetValueString();
+                                }
+                            });
+                        }
+                    });
+                });
+                $.ajax({
+                    url: '@Html.Raw(Url.Action("DovizKuruKaydet", "Tanim", new {area="GN"}))',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        model: model,
+                        menuTag: menuTag
+                    },
+                    success: function(response, result) {
+
+                        BpsAlert.alertResponse(response);
+                        if (response.Status === 0) {
+                            grid.Refresh();
+                            pageControlDovizKuru.GetTabByName('Tab1').SetVisible(1);
+                            pageControlDovizKuru.GetTabByName('Tab2').SetVisible(0);
+                        }
+                        return;
+                    }
+                });
+            },
+            FormDovizKuruIptal: function () {
+                pageControlDovizKuru.GetTabByName('Tab1').SetVisible(1);
+                pageControlDovizKuru.GetTabByName('Tab2').SetVisible(0);
+            }
+        }
+
+    </script>
+
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlDovizKuru";
+            settings.Width = Unit.Percentage(100);
+            settings.ControlStyle.CssClass = "dxtcFixed";
+            settings.EnableTabScrolling = true;
+            settings.TabAlign = TabAlign.Justify;
+            settings.ClientSideEvents.Init = @"function(s,e) { pageControlDovizKuru.GetTabByName('Tab2').SetVisible(0);}";
+            settings.ActiveTabIndex = 0;
+
+            settings.TabPages.Add("Döviz Kuru Listesi", "Tab1").SetContent(() =>
+            {
+                Html.RenderAction("DovizKuruGridPartial", "Tanim",new {area = "GN"});
+            });
+
+            settings.TabPages.Add("Döviz Kuru İşlemleri", "Tab2").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                @Html.RenderAction("DovizKuruEkleWindow", "Tanim", new {menuTag = Model});
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+}

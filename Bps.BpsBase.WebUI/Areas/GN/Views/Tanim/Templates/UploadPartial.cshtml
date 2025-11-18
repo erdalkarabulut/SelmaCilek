@@ -1,0 +1,84 @@
+﻿@model Bps.BpsBase.Entities.Concrete.GN.GNFILE
+@{
+    var urlImage = Model.FLTYPE == 0 == true ? Model.GNPATH : "#";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#imagePath").val('@Model.GNPATH');
+        $("#imageName").val('@Model.FLNAME');
+    });
+    function onUploadControlFileUploadComplete(s, e) {
+        var path = e.callbackData.split('&')[1];
+        var fileName = e.callbackData.split('&')[0];
+        if (e.isValid) {
+            $("#imagePath").val(path);
+            $("#imageName").val(fileName);
+            $("#uploadedImage").attr("src", path);
+        }
+        setElementVisible("uploadedImage", e.isValid);
+    }
+    function onImageLoad() {
+        var externalDropZone = $("#externalDropZone");
+        var uploadedImage = $("#uploadedImage");
+        uploadedImage.css({
+            left: (externalDropZone.width() - uploadedImage.width()) / 2,
+            top: (externalDropZone.height() - uploadedImage.height()) / 2
+        });
+        setElementVisible("dragZone", false);
+    }
+    function setElementVisible(elementId, visible) {
+        var el = $("#" + elementId);
+        if (visible)
+            el.show();
+        else
+            el.hide();
+    }
+</script>
+<input type="hidden" id="imagePath" name="imagePath">
+<input type="hidden" id="imageName" name="imageName">
+<div id="externalDropZone" class="dropZoneExternal">
+    <div id="dragZone">
+        <span class="dragZoneText">Drag an image here</span>
+    </div>
+    <img id="uploadedImage" src="@urlImage" alt="" style="display: block" onload="onImageLoad()" />
+    <div id="dropZone" style="display: none">
+        <span class="dropZoneText">Drop an image here</span>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    <div class="uploadContainer">
+        @Html.DevExpress().UploadControl(settings =>
+   {
+       settings.ShowProgressPanel = true;
+       settings.CallbackRouteValues = new { Controller = "Upload", Action = "DragAndDropImageUpload", area="" };
+       settings.Name = "ucDragAndDrop";
+       settings.UploadMode = UploadControlUploadMode.Auto;
+       settings.ValidationSettings.DisableHttpHandlerValidation = true;
+       settings.AutoStartUpload = true;
+       settings.ValidationSettings.ShowErrors = false;
+       settings.Width = Unit.Percentage(0);
+       settings.ShowUploadButton = false;
+       settings.DialogTriggerID = "externalDropZone";
+       settings.AdvancedModeSettings.EnableDragAndDrop = true;
+       settings.AdvancedModeSettings.EnableFileList = false;
+       settings.AdvancedModeSettings.EnableMultiSelect = false;
+       settings.AdvancedModeSettings.ExternalDropZoneID = "externalDropZone";
+       settings.AdvancedModeSettings.DropZoneText = "";
+       settings.ValidationSettings.MaxFileSize = 4194304;
+       settings.ValidationSettings.AllowedFileExtensions = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
+       settings.ValidationSettings.ErrorStyle.CssClass = "validationMessage";
+       settings.BrowseButton.Text = "Select an image for upload...";
+       settings.Styles.DropZone.CssClass = "uploadControlDropZone";
+       settings.ClientSideEvents.DropZoneEnter = "function(s, e) { if(e.dropZone.id == 'externalDropZone') setElementVisible('dropZone', true); }";
+       settings.ClientSideEvents.DropZoneLeave = "function(s, e) { if(e.dropZone.id == 'externalDropZone') setElementVisible('dropZone', false); }";
+       settings.ClientSideEvents.FileUploadComplete = "onUploadControlFileUploadComplete";
+       settings.ClientSideEvents.FilesUploadStart = "function(s, e) {console.log(arguments);}";
+   }).GetHtml()
+    </div>
+}
+<br />
+<br />
+@Html.DevExpress().Label(settings => { settings.Text = "Sadece JPG, GIF yada PNG dosya tipinde yükleme yapılabilir."; }).GetHtml()
+<br />
+@Html.DevExpress().Label(settings => { settings.Text = "Maximum dosya boytu: 4MB."; }).GetHtml()

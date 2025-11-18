@@ -1,0 +1,145 @@
+﻿@using System.Web.UI.WebControls
+@using AnimationType = DevExpress.Web.AnimationType
+@using CloseAction = DevExpress.Web.CloseAction
+@model string
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("TopluAktarWindow", "Upload", FormMethod.Post, new { @class = "upload" }))
+{
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppTopluAktar";
+        settings.Width = 500;
+        settings.AllowDragging = true;
+        settings.Images.Header.IconID = IconID.ActionsFill16x16;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Toplu Aktarım";
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formTopluAktarim";
+                formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                formLayoutsettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 576;
+
+                formLayoutsettings.Items.Add(i =>
+                {
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.NestedExtension().Label(s =>
+                    {
+                        s.Width = Unit.Percentage(100);
+                        s.Text = " Toplu aktarım için Export yaptığınız dosyaları örnek olarak kullanıp, onlar üzerinden aktarım yapınız ! ";
+                    });
+                });
+
+                formLayoutsettings.Items.Add(i =>
+                {
+                    i.ShowCaption = DefaultBoolean.False;
+                    i.NestedExtension().UploadControl(s =>
+                    {
+                        s.Width = Unit.Percentage(100);
+                        s.Name = "ucTopluAktarim";
+                        s.ValidationSettings.DisableHttpHandlerValidation = true;
+                        s.ValidationSettings.ShowErrors = false;
+                        s.UploadMode = UploadControlUploadMode.Advanced;
+                        s.CallbackRouteValues = new {Controller = "Upload", Action = "TopluAktar", type = Model};
+
+                        s.Width = Unit.Percentage(100);
+                        s.ShowUploadButton = true;
+                        s.NullText = "Dosya seçiniz...";
+                        s.ValidationSettings.AllowedFileExtensions = new string[] {".xlsx"};
+                        s.ValidationSettings.MaxFileSize = 4294967295;
+                        s.UploadButton.Text = "Aktar";
+                        s.BrowseButton.Text = "Dosya Seç";
+                        s.ValidationSettings.MaxFileSizeErrorText = "Dosya boyutu çok büyük.";
+                        s.AdvancedModeSettings.EnableMultiSelect = false;
+                        
+                        //s.ClientSideEvents.FilesUploadStart = "function(s,e) { console.log(arguments); }";
+                        s.ClientSideEvents.FileUploadComplete = "function(s,e) { scriptToolbarDev.FileUploadComplete(e.callbackData, '" + Model + "', e.errorText); }";
+                    });
+                });
+
+                //formLayoutsettings.Items.Add(itemSettings =>
+                //{
+                //    itemSettings.ShowCaption = DefaultBoolean.False;
+                //    itemSettings.NestedExtensionType = FormLayoutNestedExtensionItemType.UploadControl;
+                //    UploadControlSettings nestedSettings = itemSettings.NestedExtensionSettings as UploadControlSettings;
+                //    nestedSettings.Name = "ucMultiSelection";
+                //    nestedSettings.CallbackRouteValues = new { Controller = "Main", Action = "MultiSelectionImageUpload" };
+                //    nestedSettings.AdvancedModeSettings.EnableMultiSelect = false;
+                //    nestedSettings.Width = 240;
+                //    nestedSettings.ShowUploadButton = true;
+                //    nestedSettings.UploadButton.Text = "Aktar";
+                //    nestedSettings.NullText = "Dosya seçiniz...";
+                //    nestedSettings.ValidationSettings.AllowedFileExtensions = new string[] {".xlsx"};
+                //    nestedSettings.ValidationSettings.MaxFileSize = 4194304;
+                //    nestedSettings.ValidationSettings.MaxFileSizeErrorText = "Dosya çok büyükttür.";
+                //    nestedSettings.ClientSideEvents.FilesUploadStart = "function(s,e) { DXUploadedFilesContainer.Clear(); }";
+                //    nestedSettings.ClientSideEvents.FileUploadComplete = "function(s,e) { onFileUploadComplete(e); }";
+                //});
+
+                //formLayoutsettings.Items.AddGroupItem(g =>
+                //{
+                //    g.Caption = "Menü Detayı";
+                //    g.ColCount = 2;
+                //    g.Paddings.Padding = Unit.Pixel(0);
+                //    g.Paddings.PaddingTop = Unit.Pixel(10);
+                //    g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                //    g.GroupBoxStyle.Caption.Font.Bold = true;
+                //    g.GroupBoxStyle.Caption.Font.Size = 16;
+                //    g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+
+                //    g.Items.Add(i =>
+                //    {
+                //        i.SetNestedContent(() =>
+                //        {
+                //            Html.DevExpress().UploadControl(
+                //                upSetttings =>
+                //                {
+                //                    upSetttings.Name = "ucMultiSelection";
+                //                    settings.CallbackRouteValues = new { Controller = "Main", Action = "MultiSelectionImageUpload" };
+
+                //                    upSetttings.Width = Unit.Percentage(100);
+                //                    upSetttings.ShowUploadButton = true;
+                //                    upSetttings.NullText = "Select multiple files...";
+
+                //                    //settings.ValidationSettings.Assign(UploadControlHelper.UploadValidationSettings);
+
+                //                    //upSetttings.ClientSideEvents.FilesUploadStart = "function(s,e) { DXUploadedFilesContainer.Clear(); }";
+                //                    //upSetttings.ClientSideEvents.FileUploadComplete = "function(s,e) { onFileUploadComplete(e); }";
+                //                }).Render();
+                //        });
+                //    });
+
+                //    //g.Items.Add(itemSettings =>
+                //    //{
+                //    //    itemSettings.NestedExtensionType = FormLayoutNestedExtensionItemType.UploadControl;
+                //    //    var upSettings = (UploadControlSettings)itemSettings.NestedExtensionSettings;
+                //    //    upSettings.Name = "UploadControl";
+                //    //    upSettings.ShowProgressPanel = true;
+                //    //    upSettings.ShowClearFileSelectionButton = true;
+                //    //    upSettings.Size = 30;
+                //    //    itemSettings.RowSpan = 6;
+                //    //});
+
+                //});
+            }).Render();
+        });
+    }).GetHtml()
+
+
+
+@Html.Partial("UploadedFilesContainer")
+
+}

@@ -1,0 +1,67 @@
+﻿@using Bps.BpsBase.Entities.Concrete
+@using Bps.Core.Web.Model
+@model List<DOVKUR>
+
+@{Html.DevExpress().GridView<DOVKUR>(settings =>
+    {
+        settings.Name = "gridDovizKur";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new { Controller = "Islem", Action = "DovizKurGridPartial", area = "GN" };
+        settings.ClientSideEvents.BeginCallback = "function(s,e){ e.customArgs['menuTag'] =" + ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG + ";}";
+
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("DovizKurEkleWindow", "Islem", new { area = "GN" }),
+            DegistirUrl = Url.Action("DovizKurEkleWindow", "Islem", new { area = "GN" }),
+            SilUrl = Url.Action("DovizKurSil", "Islem", new { area = "GN" }),
+            YerlesimDiv = "dovizKurLayoutDiv",
+            BelgeAkisDiv = "dovizKurBelgeAkisDiv",
+            TopluAktarDiv = "dovizKurTopluAktDiv",
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "DOVKUR",
+            ExcluldeList = null,
+            ItemList = new List<MVCxGridViewToolbarItem>(),
+
+            WithTab = true,
+            PcName = "pageControlDovizKur",
+            TabIndexEkle = 1,
+            TabIndexDegistir = 1,
+            TabIndexKaydet = 0,
+            TabIndexIptal = 0,
+            MultiModel = false,
+            FormList = new List<string>(){"formDovizKur"}
+        };
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        settings.Columns.Add(m => m.DVCNKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["DVCNKDList"]);
+            });
+        });
+
+        List<string> excludeList = new List<string>();
+        excludeList.Add("DVCNKD");
+        GridViewHelper<DOVKUR>.Settings(settings, new DOVKUR(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="dovizKurLayoutDiv">
+</div>
+<div id="dovizKurBelgeAkisDiv">
+</div>
+<div id="dovizKurTopluAktDiv">
+</div>

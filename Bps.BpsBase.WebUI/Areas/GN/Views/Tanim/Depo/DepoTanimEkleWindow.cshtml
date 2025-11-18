@@ -1,0 +1,157 @@
+﻿@model Bps.BpsBase.Entities.Concrete.GN.GNDPTN
+
+@{
+    Layout = null;
+}
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppDepoTanimEkle";
+        settings.Width = 500;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Depo Tanım " + (Model.Id > 0 ? "Düzenle" : "Ekle");
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.ShowFooter = true;
+
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formDepoTanimEkle";
+                formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                formLayoutsettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 576;
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Depo Tanım Detayı";
+                    g.ColCount = 2;
+                    g.Paddings.Padding = Unit.Pixel(0);
+                    g.Paddings.PaddingTop = Unit.Pixel(10);
+                    g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                    g.GroupBoxStyle.Caption.Font.Bold = true;
+                    g.GroupBoxStyle.Caption.Font.Size = 16;
+                    g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+
+                    g.Items.Add(m => m.Id, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "Id";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.SIRKID, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "SIRKID";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.EKKULL, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "EKKULL";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.ETARIH, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "ETARIH";
+                        });
+                        i.ClientVisible = false;
+                    });
+                    
+                    g.Items.Add(m => m.URYRKD, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "URYRKD";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "020", harKod = Model.URYRKD, cmbName = "URYRKD" });
+                        });
+                    });
+
+                    g.Items.Add(m => m.DPKODU, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "DPKODU";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.DPTANM, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "DPTANM";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+
+                    g.Items.Add(m => m.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                            s.Checked = true;
+                        });
+                    });
+                });
+            }).Bind(Model).Render();
+        });
+
+        settings.SetFooterTemplateContent(c =>
+        {
+            Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "footerFormLayout";
+                formLayoutsettings.Width = Unit.Percentage(100);
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.GroupBoxDecoration = GroupBoxDecoration.None;
+                    g.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                    g.Items.Add(i => { i.ShowCaption = DefaultBoolean.False; }).SetNestedContent(() =>
+                    {
+                        //ViewContext.Writer.Write("<div class='buttonsContainer'>");
+                        Html.DevExpress().Button(s =>
+                        {
+                            s.Name = "submitDepoTanimKaydet";
+                            s.Width = Unit.Pixel(100);
+                            s.ControlStyle.CssClass = "buttonAlign";
+                            s.Text = "Kaydet";
+                            s.Images.Image.IconID = IconID.SaveSave16x16;
+                            //s.UseSubmitBehavior = true;
+                            s.ClientSideEvents.Click = "FormDepoTanimKaydet";
+                        }).Render();
+
+                        Html.DevExpress().Button(s =>
+                        {
+                            s.Name = "cancel";
+                            s.Width = Unit.Pixel(100);
+                            s.ControlStyle.CssClass = "cancelButton";
+                            s.Text = "İptal";
+                            s.ClientSideEvents.Click = "function (s, e) { formDepoTanimEkle.Hide(); }";
+                            s.Images.Image.IconID = IconID.ActionsCancel16x16;
+                        }).Render();
+                        //ViewContext.Writer.Write("</div>");
+                    });
+                });
+            }).Bind(Model).Render();
+        });
+    }).GetHtml()

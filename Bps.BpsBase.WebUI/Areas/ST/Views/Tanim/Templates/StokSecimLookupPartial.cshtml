@@ -1,0 +1,74 @@
+﻿
+@using DevExpress.Data.Filtering
+@model List<Bps.BpsBase.Entities.Concrete.ST.STKART>
+@{
+    var name = ViewData["Name"].ToString();
+    var stokKodu = ViewData["StokKodu"].ToString();
+    var enable = (bool)ViewData["Enable"];
+    var isRequired = (bool)ViewData["IsRequired"];
+}
+@{
+    Html.DevExpress().GridLookup(settings =>
+    {
+        settings.Name = "lookUpStok";
+        settings.GridViewProperties.CallbackRouteValues = new { Controller = "Tanim", Action = "StokSecimLookupPartial", area = "ST", cmbName = name };
+
+        settings.KeyFieldName = "STKODU";
+        settings.Width = Unit.Percentage(100);
+        settings.Properties.Width = Unit.Percentage(100);
+        settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Single;
+        settings.Properties.IncrementalFilteringDelay = 500;
+        settings.Properties.TextFormatString = "{0}";
+        settings.ShowModelErrors = true;
+
+        //settings.CommandColumn.Visible = true;
+        //settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.Columns.Add("STKODU");
+        settings.Columns.Add("STKNAM");
+        settings.Columns.Add("STEKOD");
+
+        //settings.GridViewProperties.Settings.ShowFilterRow = true;
+        //settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+        //settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+        //settings.GridViewProperties.SettingsPager.PageSize = 7;
+        //settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+        //{
+        //    ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+        //    Html.DevExpress().Button(btnSettings =>
+        //    {
+        //        btnSettings.Name = "btnClose_" + name;
+        //        btnSettings.UseSubmitBehavior = false;
+        //        btnSettings.Text = "Kapat";
+        //        btnSettings.ClientSideEvents.Click = "function(s, e) {" + name + ".ConfirmCurrentSelection();" + name + ".HideDropDown();}";
+        //    }).Render();
+        //    ViewContext.Writer.Write("</div>");
+        //});
+
+        settings.DataBound = (sender, e) =>
+        {
+            var gridLookup = (MVCxGridLookup)sender;
+            gridLookup.GridView.Width = Unit.Percentage(100);
+        };
+
+        settings.PreRender = (sender, e) =>
+        {
+            ASPxGridLookup l = (ASPxGridLookup)sender;
+            if (!string.IsNullOrEmpty(stokKodu))
+            {
+                l.GridView.Selection.SetSelectionByKey(stokKodu, true);
+            }
+            else
+            {
+                l.GridView.Selection.UnselectAll();
+            }
+        };
+    }).BindList(Model).Render();
+
+    //if (!string.IsNullOrEmpty(stokKodu))
+    //{
+    //    lookUp.Bind(stokKodu);
+    //}
+
+    //lookUp.Render();
+
+}

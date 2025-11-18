@@ -1,0 +1,150 @@
+﻿@using Bps.Core.Web.Session
+@model int?
+
+@{
+    ViewBag.Title = "YetkiMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <script type="text/javascript">
+
+        function YetkiAra() {
+            var gridYetki = ASPxClientControl.GetControlCollection().GetByName('gridYetki');
+            var menuTag = '@(Html.Raw(Model))';
+            var kulKod = cmb_Yetki_Kullanici.GetValue();
+            var projeKod = cmb_Yetki_Proje.GetValue();
+            if (kulKod == "" || kulKod == null) {
+                cilekAlert.warning('Lütfen kullanıcı seçiniz!');
+                return;
+            }
+            gridYetki.PerformCallback({
+                menuTag: menuTag,
+                kulKod: kulKod,
+                projeKod: projeKod
+            });
+            pageControlYetki.SetActiveTab(pageControlYetki.GetTabByName('yetkiTab2'));
+        }
+
+        function FormYetkiKaydet() {
+            bpsMain.submitForm('formYetkiEkle',
+                'gridYetki',
+                'ppYetkiEkle',
+                '@Html.Raw(Url.Action("YetkiKaydet", "Tanim", new {area=SessionHelper.ProjeKod}))',
+                @Model);
+        }
+
+        var yetkiScript = {
+            Ekle: function (divName, popupName, ekleUrl, menuTag, kullaniciKod, projeKod) {
+                console.log(arguments);
+                $("#" + divName).load(ekleUrl,
+                    {
+                        'menuTag': menuTag,
+                        'kullaniciKod': kullaniciKod,
+                        'projeKod': projeKod
+                    },
+                    function (response, status, xhr) {
+                        if (status == "success") {
+                            eval(popupName + '.Show()');
+                        }
+                        if (status == "error") {
+                            console.log(arguments);
+                            cilekAlert.evalScript(response);
+                        }
+                    });
+            }
+        }
+
+    </script>
+
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlYetki";
+            PageControlHelper.Settings(settings, false);
+            settings.TabPages.Add("Ara", "yetkiTab1").SetContent(() =>
+            {
+                Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formYetkiTab1";
+                    formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.Off;
+                    formLayoutsettings.AlignItemCaptions = true;
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Detay";
+                        g.ColCount = 1;
+                        g.Paddings.Padding = Unit.Pixel(0);
+                        g.Paddings.PaddingTop = Unit.Pixel(10);
+                        g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                        g.GroupBoxStyle.Caption.Font.Bold = true;
+                        g.GroupBoxStyle.Caption.Font.Size = 16;
+                        g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+                        g.Items.Add(i =>
+                        {
+                            i.Caption = "Kullanıcı";
+                            i.NestedExtension().ComboBox(s =>
+                            {
+                                s.Name = "cmb_Yetki_Kullanici";
+                                s.Properties.NullText = "Kullanıcı seçiniz...";
+                                s.Properties.NullTextDisplayMode = NullTextDisplayMode.UnfocusedAndFocused;
+                                s.Properties.CallbackPageSize = 15;
+                                s.Properties.FilterMinLength = 0;
+                                s.Properties.TextField = "GNNAME";
+                                s.Properties.ValueField = "KULKOD";
+                                s.Properties.Columns.Add("KULKOD", "Kod", 70);
+                                s.Properties.TextFormatString = "{0}";
+                                s.Properties.Columns.Add("GNNAME", "Ad", 80);
+                                s.Properties.Columns.Add("GNSNAM", "Soyad", 80);
+                                s.Properties.DataSource = ViewData["KullaniciList"];
+                                s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            });
+                        });
+
+                        g.Items.Add(i =>
+                        {
+                            i.Caption = "Proje";
+                            i.NestedExtension().ComboBox(s =>
+                            {
+                                s.Name = "cmb_Yetki_Proje";
+                                s.Properties.NullText = "Proje seçiniz...";
+                                s.Properties.CallbackPageSize = 15;
+                                s.Properties.FilterMinLength = 0;
+                                s.Properties.TextFormatString = "{0}";
+                                s.Properties.TextField = "TANIMI";
+                                s.Properties.ValueField = "HARKOD";
+                                s.Properties.Columns.Add("TANIMI", "Tanımı", 140);
+                                s.Properties.Columns.Add("HARKOD", "Hareket Kodu", 80);
+                                s.Properties.DataSource = ViewData["ProjeList"];
+                                s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                //s.SelectedIndex = 0;
+                                s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            });
+                        });
+
+                        g.Items.Add(i =>
+                        {
+                            i.ShowCaption = DefaultBoolean.False;
+                            i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                        }).SetNestedContent(() =>
+                        {
+                            Html.DevExpress().Button(s =>
+                            {
+                                s.Name = "btnYetki_Ara";
+                                s.Text = "Ara";
+                                s.ControlStyle.CssClass = "buttonAlign";
+                                s.Styles.Style.HorizontalAlign = HorizontalAlign.Right;
+                                s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                s.ClientSideEvents.Click = "YetkiAra";
+                            }).Render();
+                        });
+                    });
+                }).Render();
+            });
+            settings.TabPages.Add("Liste", "yetkiTab2").SetContent(() =>
+            {
+                Html.RenderAction("YetkiGridPartial", "Tanim",new {area = "GN",kulKod=""});
+            });
+        }).GetHtml()
+}

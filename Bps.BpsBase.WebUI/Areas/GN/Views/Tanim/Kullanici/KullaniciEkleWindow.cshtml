@@ -1,0 +1,168 @@
+﻿@using System.Drawing
+@using Bps.BpsBase.Entities.Concrete.GN
+@model GNKULL
+
+@{
+    Layout = null;
+    var menuTag = (int)ViewData["MenuTag"];
+}
+
+@Html.DevExpress().PageControl(
+    settings =>
+    {
+        settings.Name = "pageControlKullaniciForm";
+        PageControlHelper.Settings(settings);
+        settings.TabPages.Add("Kullanıcı Form", "TabKullaniciForm").SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formKullaniciEkle";
+                formLayoutsettings.AlignItemCaptionsInAllGroups = true;
+                formLayoutsettings.UseDefaultPaddings = false;
+                formLayoutsettings.ColumnCount = 2;
+                formLayoutsettings.SettingsAdaptivity.GridSettings.Breakpoints.Add(new LayoutBreakpoint { ColumnCount = 1, MaxWidth = 790, Name = "S" });
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Detaylar";
+                    g.GridSettings.WrapCaptionAtWidth = 400;
+                    g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+
+                    g.Items.Add(m => m.Id, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.SIRKID, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.EKKULL, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.ETARIH, i => { i.ClientVisible = false; });
+
+                    g.Items.Add(m => m.KULKOD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "KULKOD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.PASSWD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "PASSWD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.GNNAME, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "GNNAME";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.GNSNAM, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "GNSNAM";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.GNMAIL, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "GNMAIL";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.DEFPRO, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "DEFPRO";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.LANGKD, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "LANGKD";
+                            s.Properties.CallbackPageSize = 15;
+                            s.Properties.TextField = "TANIMI";
+                            s.Properties.ValueField = "HARKOD";
+                            s.Properties.DataSource = ViewData["DilList"];
+                            s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                            s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                        });
+                    });
+                    g.Items.Add(m => m.ROLEKD, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "ROLEKD";
+                            s.Properties.CallbackPageSize = 15;
+                            s.Properties.TextField = "TANIMI";
+                            s.Properties.ValueField = "HARKOD";
+                            s.Properties.DataSource = ViewData["RolList"];
+                            s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                            s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                        });
+                    });
+                    g.Items.Add(m => m.SCQUKD, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "SCQUKD";
+                            s.Properties.CallbackPageSize = 15;
+                            s.Properties.TextField = "TANIMI";
+                            s.Properties.ValueField = "HARKOD";
+                            s.Properties.DataSource = ViewData["SCQList"];
+                            s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                            s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                        });
+                    });
+                    g.Items.Add(m => m.SCANSW, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "SCANSW";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                            s.Checked = true;
+                        });
+                    });
+                });
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Kullanıcı Resmi";
+                    g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+                    g.GridSettings.WrapCaptionAtWidth = 400;
+                    g.Items.Add(i =>
+                    {
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("UploadPartial", "Upload", new { area = "", tableName = "GNKULL", tableId = Model.Id, size = new Size(128, 128) });
+                        });
+                    });
+                });
+                FormLayoutHelper<GNKULL>.Settings(formLayoutsettings);
+            }).Bind(Model).Render();
+        });
+    }).GetHtml()
+
+@{
+    Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "kullanici.FormKullaniciKaydet(" + menuTag + ", '" + Url.Action("KullaniciKaydet", "Tanim", new { area = "GN" }) + "');", iptalJs = "kullanici.FormKullaniciIptal();" });
+}

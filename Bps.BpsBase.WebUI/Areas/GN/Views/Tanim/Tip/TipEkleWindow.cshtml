@@ -1,0 +1,103 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@model GNTIPI
+
+@{
+    Layout = null;
+}
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppTipEkle";
+        settings.Width = 600;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Tip " + (Model.Id > 0 ? "Düzenle" : "Ekle");
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.ShowFooter = true;
+
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formTipEkle";
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Tip Detayı";
+                    g.ColCount = 2;
+
+                    g.Items.Add(m => m.Id, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.SIRKID, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.EKKULL, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.ETARIH, i => { i.ClientVisible = false; });
+
+                    g.Items.Add(m => m.TIPKOD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TIPKOD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.TEKNAD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TEKNAD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.TIPADI, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TIPADI";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.UTPKOD, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "UTPKOD";
+                            s.Properties.CallbackPageSize = 15;
+                            s.Properties.TextField = "TIPADI";
+                            s.Properties.ValueField = "TIPKOD";
+                            s.Properties.TextFormatString = "{0}";
+                            s.Properties.Columns.Add("TIPADI", "Tip Adı", 100);
+                            s.Properties.Columns.Add("UTPKOD", "Üst Tip Kod", 70);
+                            s.Properties.DataSource = ViewData["TipListesi"];
+                            s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                            s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                        });
+                    });
+                    g.Items.Add(m => m.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                            s.Checked = true;
+                        });
+                    });
+                });
+                FormLayoutHelper<GNTIPI>.Settings(formLayoutsettings);
+            }).Bind(Model).Render();
+        });
+
+        settings.SetFooterTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<div id='menuFormFooter'>");
+            Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "FormTipKaydet();", iptalJs = "ppTipEkle.Hide();" });
+            ViewContext.Writer.Write("</div>");
+        });
+    }).GetHtml()

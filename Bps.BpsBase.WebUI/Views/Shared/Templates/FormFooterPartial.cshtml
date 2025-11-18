@@ -1,0 +1,47 @@
+﻿@using System.Web.UI.WebControls
+@{
+    var ekleJs = ViewData["EkleJs"].ToString();
+    var iptalJs = ViewData["IptalJs"].ToString();
+    var enableKaydet = (bool)ViewData["EnableKaydet"];
+    var enableIptal = (bool)ViewData["EnableIptal"];
+}
+
+@Html.DevExpress().FormLayout(formLayoutsettings =>
+{
+    formLayoutsettings.Name = "footerFormLayout3";
+    formLayoutsettings.Width = Unit.Percentage(100);
+    formLayoutsettings.ControlStyle.CssClass = "clearPaddings";
+    formLayoutsettings.Styles.LayoutItem.CssClass = "clearPaddings";
+    formLayoutsettings.Styles.LayoutGroup.CssClass = "clearPaddings";
+    formLayoutsettings.Styles.Style.Paddings.PaddingBottom = 23;
+    formLayoutsettings.Items.AddGroupItem(g =>
+    {
+        g.GroupBoxDecoration = GroupBoxDecoration.None;
+        g.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        g.Items.Add(i => { i.ShowCaption = DefaultBoolean.False; }).SetNestedContent(() =>
+        {
+            Html.DevExpress().Button(s =>
+            {
+                s.Name = "submitMenuKaydet";
+                s.Width = Unit.Pixel(100);
+                s.ControlStyle.CssClass = "buttonAlign";
+                s.Text = "Kaydet";
+                s.Images.Image.IconID = IconID.SaveSave16x16;
+                s.ClientSideEvents.Click = @"function (s, e) { " + ekleJs + " }";
+                s.UseSubmitBehavior = false;
+                s.Enabled = enableKaydet;
+            }).Render();
+
+            Html.DevExpress().Button(s =>
+            {
+                s.Name = "cancel";
+                s.Width = Unit.Pixel(100);
+                s.ControlStyle.CssClass = "cancelButton";
+                s.Text = "İptal";
+                s.ClientSideEvents.Click = @"function (s, e) { " + iptalJs + " }";
+                s.Images.Image.IconID = IconID.ActionsCancel16x16;
+                s.Enabled = enableIptal;
+            }).Render();
+        });
+    });
+}).GetHtml()

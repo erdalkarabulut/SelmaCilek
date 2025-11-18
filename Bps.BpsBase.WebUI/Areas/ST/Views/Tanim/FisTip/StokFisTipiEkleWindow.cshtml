@@ -1,0 +1,188 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@using DevExpress.Utils
+@using DevExpress.Web
+@using DevExpress.Web.ASPxThemes
+@using DevExpress.Web.Mvc.UI
+@model Bps.BpsBase.Entities.Concrete.ST.STFTIP
+
+@{
+    Layout = null;
+}
+
+@Html.DevExpress().PageControl(
+    settings =>
+    {
+        settings.Name = "pageControlStokFisTipiForm";
+        settings.Width = Unit.Percentage(100);
+        settings.ControlStyle.CssClass = "dxtcFixed";
+        settings.EnableTabScrolling = true;
+        settings.TabAlign = TabAlign.Justify;
+        settings.ActiveTabIndex = 0;
+
+        settings.TabPages.Add("Kullanıcı Form", "TabStokFisTipiForm").SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formStokFisTipiEkle";
+                formLayoutsettings.AlignItemCaptionsInAllGroups = true;
+                formLayoutsettings.UseDefaultPaddings = false;
+                formLayoutsettings.ColumnCount = 2;
+                formLayoutsettings.Width = Unit.Percentage(100);
+                formLayoutsettings.SettingsAdaptivity.GridSettings.Breakpoints.Add(new LayoutBreakpoint { ColumnCount = 1, MaxWidth = 790, Name = "S" });
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Detaylar";
+                    g.GroupBoxDecoration = GroupBoxDecoration.Box;
+                    g.GridSettings.WrapCaptionAtWidth = 400;
+                    g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+                    g.Paddings.Padding = Unit.Pixel(0);
+                    g.Paddings.PaddingTop = Unit.Pixel(10);
+
+
+                    g.Items.Add(m => m.Id, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "Id";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.SIRKID, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "SIRKID";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.EKKULL, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "EKKULL";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.ETARIH, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "ETARIH";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.STFTNO, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "STFTNO";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+
+                    g.Items.Add(m => m.TANIMI, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TANIMI";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+
+                    g.Items.Add(m => m.GNEVID, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "GNEVID";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+
+                    g.Items.Add(m => m.GNACIK, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "GNACIK";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+
+                    g.Items.Add(m => m.GNONAY, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "GNONAY";
+                            s.Checked = true;
+                        });
+                    });
+
+                    g.Items.Add(m => m.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                            s.Checked = true;
+                        });
+                    });
+                });
+                //formLayoutsettings.Items.AddGroupItem(g =>
+                //{
+                //    g.Caption = "Kullanıcı Resmi";
+                //    g.GroupBoxDecoration = GroupBoxDecoration.Box;
+                //    g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+                //    g.GridSettings.WrapCaptionAtWidth = 400;
+                //    g.Items.Add(i =>
+                //    {
+                //        i.ShowCaption = DefaultBoolean.False;
+                //        i.SetNestedContent(() =>
+                //        {
+                //            Html.RenderAction("UploadPartial", "Upload", new { area = "", tableName = "GNKULL", tableId = Model.Id, size = new Size(128, 128) });
+                //        });
+                //    });
+                //});
+            }).Bind(Model).Render();
+        });
+    }).GetHtml()
+
+@Html.DevExpress().FormLayout(formLayoutsettings =>
+{
+    formLayoutsettings.Name = "footerFormLayout";
+    formLayoutsettings.Width = Unit.Percentage(100);
+    formLayoutsettings.Items.AddGroupItem(g =>
+    {
+        g.GroupBoxDecoration = GroupBoxDecoration.None;
+        g.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        g.Items.Add(i => { i.ShowCaption = DefaultBoolean.False; }).SetNestedContent(() =>
+        {
+            Html.DevExpress().Button(s =>
+            {
+                s.Name = "submitStokFisTipiKaydet";
+                s.Width = Unit.Pixel(100);
+                s.ControlStyle.CssClass = "buttonAlign";
+                s.Text = "Kaydet";
+                s.Images.Image.IconID = IconID.SaveSave16x16;
+                s.ClientSideEvents.Click = "stokFisTipiScript.FormStokFisTipiKaydet";
+            }).Render();
+
+            Html.DevExpress().Button(s =>
+            {
+                s.Name = "cancel";
+                s.Width = Unit.Pixel(100);
+                s.ControlStyle.CssClass = "cancelButton";
+                s.Text = "İptal";
+                s.Images.Image.IconID = IconID.ActionsCancel16x16;
+                s.ClientSideEvents.Click = "stokFisTipiScript.FormStokFisTipiIptal";
+            }).Render();
+        });
+    });
+}).GetHtml()

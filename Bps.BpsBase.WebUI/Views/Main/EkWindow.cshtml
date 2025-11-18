@@ -1,0 +1,63 @@
+﻿@using System.Web.UI.WebControls
+@using AnimationType = DevExpress.Web.AnimationType
+@using CloseAction = DevExpress.Web.CloseAction
+
+@{
+    Layout = null;
+    var tableId =(int) ViewData["TableId"];
+    var tableName = (string) ViewData["TableName"];
+    var title = (string) ViewData["Title"];
+    var key = tableName + "---" + tableId;
+}
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppEk";
+        settings.Width = 1100;
+        settings.Images.Header.IconID = IconID.MailAttachment16x16;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = (string.IsNullOrEmpty(title) ? "Ekler" : title);
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.Styles.Style.Paddings.Padding = 0;
+        settings.ControlStyle.Paddings.Padding = 0;
+        settings.Styles.Content.Paddings.Padding = 0;
+        settings.ScrollBars = ScrollBars.Vertical;
+        settings.AllowResize = false;
+        settings.MinWidth = 500;
+        settings.MinHeight = 300;
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().PageControl(
+                sttPc =>
+                {
+                    sttPc.Name = "pageControlEk";
+                    PageControlHelper.Settings(sttPc, false);
+
+                    sttPc.TabPages.Add("FileManager", "_tab1").SetContent(() =>
+                    {
+                        using (Html.BeginForm())
+                        {
+                            ViewContext.Writer.Write("<div id='divEkFileManager'>");
+                            //Html.RenderAction("ImageGaleryPartial", "Upload", new { key, firstAdd=false });
+                            Html.RenderAction("FileManagerPartial", "Upload", new { area = "", tableName, tableId, isGantt = false, firstAdd = false });
+                            ViewContext.Writer.Write("</div>");
+                        }
+                    });
+
+                }).Render();
+        });
+
+    }).GetHtml()
+
+@*<br />
+<p class="Note">
+    <b>İzin Verilen Uzantılar</b>: .jpg, .jpeg, .gif, .rtf, .txt, .avi, .png, .mp3, .xml, .doc, .pdf
+</p>*@

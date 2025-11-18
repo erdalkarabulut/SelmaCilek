@@ -1,0 +1,46 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@using Bps.Core.Web.Model
+@model List<GNMESJ>
+
+@{
+    Html.DevExpress().GridView<GNMESJ>(settings =>
+    {
+        settings.Name = "gridMesaj";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "Tanim", Action = "MesajGridPartial", menuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG};
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed) ViewData["YetkiModel"],
+            toolParam = new DevToolBarParam()
+            {
+                Grid = settings.Name,
+                EkleUrl = Url.Action("MesajEkleWindow", "Tanim", new {area = "GN"}),
+                DegistirUrl = Url.Action("MesajEkleWindow", "Tanim", new {area = "GN"}),
+                SilUrl = Url.Action("MesajSil", "Tanim", new {area = "GN"}),
+                EklePopup = "ppMesajEkle",
+                DegistirPopup = "ppMesajEkle",
+                EkleDiv = "mesajEkleDiv",
+                DegistirDiv = "mesajEkleDiv",
+                YerlesimDiv = "mesajLayoutDiv",
+                BelgeAkisDiv = "mesajBelgeAkisDiv",
+                TopluAktarDiv = "mesajTopluAktDiv",
+                MenuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG,
+                Type = "GNMESJ"
+            }
+        });
+
+        GridViewHelper<GNMESJ>.Settings(settings, new GNMESJ());
+
+    }).Bind(Model).Render();
+}
+<div id="mesajEkleDiv">
+</div>
+<div id="mesajLayoutDiv">
+</div>
+<div id="mesajBelgeAkisDiv">
+</div>
+<div id="mesajTopluAktDiv">
+</div>

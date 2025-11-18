@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "EvrakMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Bps.Core.Web.Session
+@model int?
+
+<body>
+
+    @using (Html.BeginForm())
+    {
+        @Html.Action("EvrakGridPartial", "Tanim", new{area="GN"})
+
+        <script type="text/javascript">
+        function FormEvrakKaydet() {
+            bpsMain.submitForm('formEvrakEkle',
+                'gridEvrak',
+                'ppEvrakEkle',
+                '@Html.Raw(Url.Action("EvrakKaydet", "Tanim", new {area=SessionHelper.ProjeKod}))',
+                @Model);
+        }
+        </script>
+    }
+</body>

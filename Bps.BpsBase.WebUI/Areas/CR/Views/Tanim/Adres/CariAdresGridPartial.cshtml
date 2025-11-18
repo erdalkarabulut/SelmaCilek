@@ -1,0 +1,87 @@
+﻿@using Bps.BpsBase.Entities.Concrete.CR
+@using Bps.Core.Web.Model
+@model List<CRADRS>
+@{
+    var cariKartKod = ViewData["CariKartKod"].ToString();
+}
+
+@{
+    Html.DevExpress().GridView<CRADRS>(settings =>
+    {
+        settings.Name = "gridCariAdres";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new { Controller = "Tanim", Action = "CariAdresGridPartial", area = "CR" };
+        settings.ClientSideEvents.BeginCallback = "function(s,e){" +
+                                                  "e.customArgs['menuTag'] =" + ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG + ";" +
+                                                  "e.customArgs['cariKartKod'] = cmbCariAdres_CariKart.GetValue();" +
+                                                  "}";
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("CariAdresEkleWindow", "Tanim", new { area = "CR" }),
+            DegistirUrl = Url.Action("CariAdresEkleWindow", "Tanim", new { area = "CR" }),
+            SilUrl = Url.Action("", "Tanim", new { area = "CR" }),
+            YerlesimDiv = "cariAdresLayoutDiv",
+            BelgeAkisDiv = "cariAdresBelgeAkisDiv",
+            TopluAktarDiv = "cariAdresTopluAktDiv",
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "CRADRS",
+            ExcluldeList = new List<string>() { "tb_Add", "tb_Edit" },
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+
+        #region Toolbar
+
+        var addButton = new MVCxGridViewToolbarItem();
+        addButton.Text = "Ekle";
+        addButton.Name = "tb_Add";
+        addButton.Enabled = yetki.EKLEME == 1;
+        addButton.Command = GridViewToolbarCommand.Custom;
+        addButton.NavigateUrl = @"javascript:cariKart.Ekle(" + toolParam.MenuTag + ",'" + toolParam.EkleUrl + "', 'cmbCariAdres_CariKart', 'pageControlCariAdres')";
+        addButton.Image.IconID = IconID.ActionsNew16x16;
+
+        var editButton = new MVCxGridViewToolbarItem();
+        editButton.Text = "Değiştir";
+        editButton.Name = "tb_Edit";
+        editButton.Enabled = yetki.DEGIST == 1;
+        editButton.Command = GridViewToolbarCommand.Custom;
+        editButton.NavigateUrl = @"javascript:cariKart.Degistir('" + toolParam.Grid + "', " + toolParam.MenuTag + ", '" + toolParam.DegistirUrl + "', 'cmbCariAdres_CariKart', 'pageControlCariAdres')";
+        editButton.Image.IconID = IconID.ActionsEdit16x16devav;
+        var backButton = new MVCxGridViewToolbarItem();
+        backButton.Text = "Geri";
+        backButton.Name = "tb_Back";
+        backButton.Command = GridViewToolbarCommand.Custom;
+        backButton.NavigateUrl = @"javascript:pageControlCariAdres.SetActiveTabIndex(0);";
+        backButton.Image.IconID = IconID.NavigationBackward16x16;
+
+        toolParam.ItemList.Add(addButton);
+        toolParam.ItemList.Add(editButton);
+        toolParam.ItemList.Add(backButton);
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #endregion
+
+        #region Columns
+
+
+        #endregion Columns
+
+        List<string> excludeList = new List<string>();
+        GridViewHelper<CRADRS>.Settings(settings, new CRADRS(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="cariAdresLayoutDiv">
+</div>
+<div id="cariAdresBelgeAkisDiv">
+</div>
+<div id="cariAdresTopluAktDiv">
+</div>

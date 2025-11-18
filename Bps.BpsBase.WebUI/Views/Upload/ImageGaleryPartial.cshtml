@@ -1,0 +1,36 @@
+﻿@using System.Web.UI.WebControls
+@{
+    var key = ViewData["Key"].ToString();
+    var firstAdd =(bool) ViewData["FirstAdd"];
+}
+@Html.DevExpress().ImageGallery(settings =>
+{
+    settings.Name = "imageGallery";
+    settings.Width = Unit.Percentage(100);
+    settings.Height = Unit.Percentage(100);
+    //settings.ImageCacheFolder = ImageGalleryDemoHelper.DefaultImageCacheFolder;
+    settings.CallbackRouteValues = new { Controller = "Upload", Action = "ImageGaleryPartial", area = "", key, firstAdd };
+    settings.ImageContentBytesField = "GNDOSY";
+    settings.TextField = "FLNAME";
+    settings.AllowPaging = true;
+    settings.SettingsFullscreenViewer.NavigationBarVisibility = ElementVisibilityMode.OnMouseOver;
+    //settings.SettingsTableLayout.RowsPerPage = 2;
+    //settings.SettingsTableLayout.ColumnCount = 3;
+    settings.AlwaysShowPager = false;
+    settings.PagerSettings.EndlessPagingMode = DataViewEndlessPagingMode.Disabled;
+
+    //settings.ClientSideEvents.EndCallback = "onEndCallback";
+    //settings.SetItemTextTemplateContent(c =>
+    //{
+    //    ViewContext.Writer.Write(
+    //        "<div class=\"item\">" +
+    //        "<div class=\"item_email\">" + c.EvalDataItem("Text") + "</div>" +
+    //        "</div>"
+    //        );
+    //    Html.DevExpress().CheckBox(settingsChB =>
+    //    {
+    //        settingsChB.Name = "checkBox" + c.ItemIndex;
+    //        settingsChB.Properties.ClientSideEvents.CheckedChanged = "function(s, e) { selectedIndexChanged(s, e, '" + c.ItemIndex + "', '" + c.EvalDataItem("Text") + "'); }";
+    //    }).Render();
+    //});
+}).Bind(Model).GetHtml()

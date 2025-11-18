@@ -1,0 +1,138 @@
+@using Bps.BpsBase.Entities.Concrete.GN;
+@using Bps.Core.Web.Model
+@model List<GNKUKR>
+
+@{
+    Html.DevExpress().GridView<GNKUKR>(settings =>
+    {
+        settings.Name = "gridGnkukr";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "---", Action ="GnkukrGp", area = "GN"};
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("GnkukrPartial", "---", new { area = "GN" }),
+            DegistirUrl = Url.Action("GnkukrPartial", "---", new { area = "GN" }),
+            SilUrl = Url.Action("GnkukrSil", "---", new { area = "GN" }),
+            EklePopup = "ppGnkukrEkle", 
+            DegistirPopup = "ppGnkukrDegistir", 
+            EkleDiv = "gnkukrEkleDiv", 
+            DegistirDiv = "gnkukrEkleDiv", 
+            BelgeAkisDiv = "gnkukrBelgeAkisDiv", 
+            YerlesimDiv = "gnkukrLayoutDiv", 
+            TopluAktarDiv = "gnkukrTopluAktarDiv", 
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "GNKUKR", 
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "", 
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #region Columns
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Id";
+            column.Visible = false;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "KULKOD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "KARTKD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "GNPOSI";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "SIRASI";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EKKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ETARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DTARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+
+        #endregion Columns
+
+        GridViewHelper<GNKUKR>.SettingsWihoutColumns(settings, new GNKUKR());
+    }).Bind(Model).Render();
+}
+
+<div id="gnkukrEkleDiv"></div>
+<div id="gnkukrLayoutDiv"></div>
+<div id="gnkukrBelgeAkisDiv"></div>
+<div id="gnkukrTopluAktarDiv"></div>

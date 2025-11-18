@@ -1,0 +1,91 @@
+﻿,@using System.Web.UI.WebControls
+@using Bps.Core.Web.Model
+@using Bps.Core.Web.Session
+@model Bps.Core.Response.ListResponse<ProjeMenuListed>
+
+@functions{
+
+    void LoadTreeView(MVCxTreeViewNodeCollection nodes)
+    {
+        nodes.Clear();
+        var parents = Model.Items.Where(w => w.PARENT == 0).ToList();
+
+        var expandFirst = true;
+        foreach (var parent in parents)
+        {
+            var parentNode = nodes.Add(
+                parent.MNUNAM.ToString(),
+                string.Empty,
+                string.Empty,
+                string.Empty
+                );
+            parentNode.NodeStyle.CssClass += " group-node";
+            parentNode.Name = parent.MNUTAG.ToString();
+            parentNode.Visible = parent.GRNTLM;
+            parentNode.NodeStyle.Height = 1;
+            parentNode.Image.IconID = parent.GNICON;
+            if (expandFirst && (SessionHelper.MenuTag != null && SessionHelper.MenuTag == 0))
+            {
+                parentNode.Expanded = true;
+                parentNode.NodeStyle.CssClass += "demo-selected";
+            }
+
+            var childs = Model.Items.Where(w => w.PARENT == parent.MNUTAG).OrderBy(o => o.SIRASI).ToList();
+            foreach (var child in childs)
+            {
+                var childNode = parentNode.Nodes.Add(child.MNUNAM, string.Empty, string.Empty, (Url.Action(child.FUNCNM, child.CONTNM, new { area = child.GNAREA, menuTag = child.MNUTAG })));
+                childNode.NodeStyle.CssClass += " demo-node";
+                //childNode.Enabled = child.GRNTLM == 1;
+                childNode.Visible = child.GRNTLM;
+                childNode.Name = child.MNUTAG.ToString();
+                childNode.Image.IconID = child.GNICON;
+            }
+            expandFirst = false;
+        }
+    }
+}
+
+<nav>
+    <div id="NavControl" class="nav-control">
+        <div class="nav-tree-view">
+            <div id="breadCrumbs" class="breadCrumbs">@(ViewData["ProjeTanim"])</div>
+            @Html.DevExpress().TreeView(settings =>
+       {
+           settings.Name = "NavigationTreeView";
+           settings.EnableClientSideAPI = true;
+           settings.Width = Unit.Percentage(100);
+           settings.ShowTreeLines = false;
+           settings.ShowExpandButtons = true;
+           settings.EncodeHtml = false;
+           settings.Theme = "Metropolis";
+           settings.EnableTheming = false;
+           settings.EnableHotTrack = true;
+           settings.ClientSideEvents.NodeClick = "function(s, e) {e.node.SetExpanded(!e.node.GetExpanded());}";
+           //settings.ClientSideEvents.NodeClick = "function(s, e) {if(e.node.parent!=null){LoadingPanel.Show();}}";
+           settings.Images.ExpandButton.SpriteProperties.CssClass = "icon angle-right";
+           settings.Images.CollapseButton.SpriteProperties.CssClass = "icon angle-down";
+
+           LoadTreeView(settings.Nodes);
+
+           settings.PreRender = (s, e) =>
+           {
+               var treeView = s as MVCxTreeView;
+               if (SessionHelper.MenuTag != null)
+               {
+                   var node = treeView.Nodes.FindByName(SessionHelper.MenuTag.Value.ToString());
+                   treeView.SelectedNode = node;
+                   if (node != null)
+                   {
+                       treeView.ExpandToNode(node);
+                       node.Expanded = true;
+                       while (node != null)
+                       {
+                           node = node.Parent;
+                       }
+                   }
+               }
+           };
+       }).GetHtml()
+        </div>
+    </div>
+</nav>

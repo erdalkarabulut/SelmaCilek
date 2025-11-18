@@ -1,0 +1,110 @@
+﻿@using DevExpress.Data.Filtering
+@model int?
+@{
+    ViewBag.Title = "StokKartMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<string> columnNames = new List<string>();
+}
+@using (Html.BeginForm())
+{
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlStokKart";
+            PageControlHelper.Settings(settings, false);
+            settings.TabPages.Add("Ara", "stokKartTab1").SetContent(() =>
+            {
+                Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formStokKartTab1";
+                    formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.Off;
+                    formLayoutsettings.AlignItemCaptions = true;
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Detay";
+                        g.ColCount = 1;
+                        g.Paddings.Padding = Unit.Pixel(0);
+                        g.Paddings.PaddingTop = Unit.Pixel(10);
+                        g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                        g.GroupBoxStyle.Caption.Font.Bold = true;
+                        g.GroupBoxStyle.Caption.Font.Size = 16;
+                        g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+                        g.Items.Add(i =>
+                        {
+                            i.Caption = "Malzeme Türü";
+                            i.NestedExtension().ComboBox(s =>
+                            {
+                                s.Name = "cmb_StokKart_MalTur";
+                                s.Properties.NullText = "Malzeme Türü Seçiniz...";
+                                s.Properties.NullTextDisplayMode = NullTextDisplayMode.UnfocusedAndFocused;
+                                s.Properties.CallbackPageSize = 15;
+                                s.Properties.FilterMinLength = 0;
+                                s.Properties.TextField = "STMLNM";
+                                s.Properties.ValueField = "STMLTR";
+                                s.Properties.Columns.Add("STMLTR", "Tür", 70);
+                                s.Properties.Columns.Add("STMLNM", "Tanımı", 100);
+                                s.Properties.Columns.Add("STBKDR", "Durum", 80);
+                                s.Properties.DisplayFormatString = "{1}";
+                                s.Properties.DisplayFormatInEditMode = true;
+                                s.Properties.DataSource = ViewData["MalzemeTurListesi"];
+                                s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                                s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                                s.Properties.TextFormatString = ((Func<string>)(() =>
+                                {
+                                    string textFormatString = "";
+                                    for (int j = 0; j < s.Properties.Columns.Count; j++)
+                                    {
+                                        textFormatString += "{" + j + "}";
+                                        //columnNames.Add(s.Properties.Columns[j].FieldName);
+                                    }
+                                    return textFormatString;
+                                }))();
+
+                                //s.Properties.ClientSideEvents.CloseUp = "function(s,e){ BpsAlert.warning(s.TextFormatString); }";
+                                //s.Properties.TextFormatString = "{0}";
+                                //s.CustomFiltering += (o, e) =>
+                                //{
+                                //    string[] words = e.Filter.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                //    string[] columns = { "STMLTR", "STMLNM", "STBKDR" };
+                                //    e.FilterExpression = GroupOperator.And(words.Select(w =>
+                                //        GroupOperator.Or(
+                                //            columns.Select(c =>
+                                //                new FunctionOperator(FunctionOperatorType.Contains, new OperandProperty(c), w)
+                                //                )
+                                //            )
+                                //        )).ToString();
+                                //    e.CustomHighlighting = columns.ToDictionary(c => c, c => words);
+                                //};
+                            });
+                        });
+
+                        g.Items.Add(i =>
+                        {
+                            i.ShowCaption = DefaultBoolean.False;
+                            i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                        }).SetNestedContent(() =>
+                        {
+                            Html.DevExpress().Button(s =>
+                            {
+                                s.Name = "btnStokKart_Ara";
+                                s.Text = "Ara";
+                                s.ControlStyle.CssClass = "buttonAlign";
+                                s.Styles.Style.HorizontalAlign = HorizontalAlign.Right;
+                                s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                s.ClientSideEvents.Click = @"function(s,e) {stokKart.StokKartAra(" + Model + ")}";
+                            }).Render();
+                        });
+                    });
+                }).Render();
+            });
+            settings.TabPages.Add("Liste", "stokKartTab2").SetContent(() =>
+            {
+                Html.RenderAction("StokKartGridPartial", "Tanim", new { area = "ST", kulKod = "" });
+            });
+            settings.TabPages.Add("İşlemler", "stokKartTab3").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+}

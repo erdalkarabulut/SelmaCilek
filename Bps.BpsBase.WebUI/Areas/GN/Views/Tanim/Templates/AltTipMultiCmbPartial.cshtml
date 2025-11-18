@@ -1,0 +1,28 @@
+﻿@model Bps.BpsBase.Entities.Models.GN.Single.CmbComboModel
+@{
+    var childName = ViewData["ChildName"] == null ? "" : ViewData["ChildName"].ToString();
+}
+@Html.DevExpress().ComboBoxFor(m => m.HARKOD, settings =>
+{
+    settings.Name = ViewData["ComboboxName"].ToString();
+    settings.Properties.ValueType = typeof(string);
+    settings.Properties.TextField = "TANIMI";
+    settings.Properties.ValueField = "HARKOD";
+    settings.Width = Unit.Percentage(100);
+    settings.Properties.TextFormatString = "{0}";
+    settings.SelectedIndex = 0;
+    settings.Properties.Columns.Add("TANIMI", "Tanımı", 100);
+    settings.Properties.Columns.Add("TIPKOD", "Tip Kod", 100);
+    settings.Properties.Columns.Add("HARKOD", "Hareket Kodu", 80);
+    settings.Properties.Columns.Add("Id", "Id", 50);
+    settings.Properties.CallbackPageSize = 15;
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+    if (!string.IsNullOrEmpty(childName))
+    {
+        settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) {console.log('gg'); " + childName + ".PerformCallback({ustTipKod:s.GetItem(s.GetSelectedIndex()).texts[1], " +
+                                                                    "cmbName:'" + childName + "'," +
+                                                                    "parentId: s.GetItem(s.GetSelectedIndex()).texts[3]});}";
+    }
+    settings.CallbackRouteValues = new { Controller = "Tanim", Action = "AltTipMultiCmbPartial", area = "GN", ustTipKod = ViewData["ustTipKod"], harKod = ViewData["harKod"], tipkod = ViewData["tipkod"], cmbName = ViewData["ComboboxName"], parentId = ViewData["parentId"], childName = ViewData["childName"], ustHarKod = ViewData["ustHarKod"], };
+
+}).BindList(Model.TipHareketList).Bind(Model.HARKOD).GetHtml()

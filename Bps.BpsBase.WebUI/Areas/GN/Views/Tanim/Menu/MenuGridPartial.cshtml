@@ -1,0 +1,48 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@using Bps.Core.Web.Model
+@model List<GNMENU>
+
+@{
+    Html.DevExpress().GridView<GNMENU>(settings =>
+    {
+        settings.Name = "gridMenu";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "Tanim", Action = "MenuGridPartial", menuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG};
+
+     
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed) ViewData["YetkiModel"],
+            toolParam = new DevToolBarParam()
+            {
+                Grid = settings.Name,
+                EkleUrl = Url.Action("MenuEkleWindow", "Tanim", new {area = "GN"}),
+                DegistirUrl = Url.Action("MenuEkleWindow", "Tanim", new {area = "GN"}),
+                SilUrl = Url.Action("MenuSil", "Tanim", new {area = "GN"}),
+                EklePopup = "ppMenuEkle",
+                DegistirPopup = "ppMenuEkle",
+                EkleDiv = "menuEkleDiv",
+                DegistirDiv = "menuEkleDiv",
+                BelgeAkisDiv = "menuBelgeAkisDiv",
+                YerlesimDiv = "menuLayoutDiv",
+                TopluAktarDiv = "menuTopluAktDiv",
+                MenuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG,
+                Type = "GNMENU"
+            }
+        });
+
+
+        List<string> excludeList = new List<string>();
+        GridViewHelper<GNMENU>.Settings(settings, new GNMENU(),excludeList);
+    }).Bind(Model).Render();
+}
+<div id="menuEkleDiv">
+</div>
+<div id="menuLayoutDiv">
+</div>
+<div id="menuBelgeAkisDiv">
+</div>
+<div id="menuTopluAktDiv">
+</div>

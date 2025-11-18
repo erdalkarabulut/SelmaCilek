@@ -1,0 +1,46 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@using Bps.Core.Web.Model
+@model List<GNDPTN>
+@{
+    Html.DevExpress().GridView<GNDPTN>(settings =>
+    {
+        settings.Name = "gridDepo";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new { Controller = "Tanim", Action = "DepoTanimGridPartial", menuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG };
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = new DevToolBarParam()
+            {
+                Grid = settings.Name,
+                EkleUrl = Url.Action("DepoTanimEkleWindow", "Tanim", new { area = "GN" }),
+                DegistirUrl = Url.Action("DepoTanimEkleWindow", "Tanim", new { area = "GN" }),
+                SilUrl = Url.Action("DepoTanimSil", "Tanim", new { area = "GN" }),
+                EklePopup = "ppDepoTanimEkle",
+                DegistirPopup = "ppDepoTanimEkle",
+                EkleDiv = "DepoTanimEkleDiv",
+                DegistirDiv = "DepoTanimEkleDiv",
+                YerlesimDiv = "DepoTanimLayoutDiv",
+                BelgeAkisDiv = "DepoTanimBelgeAkisDiv",
+                TopluAktarDiv = "DepoTanimTopluAktDiv",
+                MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+                Type = "GNDPTN",
+                SilMesajText = "Depo kaydını"
+            }
+        });
+
+        List<string> excludeList = new List<string>();
+        GridViewHelper<GNDPTN>.Settings(settings, new GNDPTN(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="DepoTanimEkleDiv">
+</div>
+<div id="DepoTanimLayoutDiv">
+</div>
+<div id="DepoTanimBelgeAkisDiv">
+</div>
+<div id="DepoTanimTopluAktDiv">
+</div>

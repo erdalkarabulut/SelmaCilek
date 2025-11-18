@@ -1,0 +1,88 @@
+﻿@using Bps.BpsBase.Entities.Concrete.ST
+@using Bps.Core.Web.Model
+@model List<STHRKT>
+
+@{
+    Html.DevExpress().GridView<STHRKT>(settings =>
+    {
+        settings.Name = "gridStokHareket";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new { Controller = "Islem", Action = "StokHareketGridPartial" };
+        settings.ClientSideEvents.BeginCallback = "function(s,e){" +
+                                                  "e.customArgs['menuTag'] =" + ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG + ";" +
+                                                  "e.customArgs['fisTipNo'] = cmb_StokKartHrk_FisTip.GetValue();" +
+                                                  "}";
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("StokHareketEkleWindow", "Islem", new { area = "ST" }),
+            DegistirUrl = Url.Action("StokKartEkleWindow", "Tanim", new { area = "ST" }),
+            SilUrl = Url.Action("StokKartSil", "Tanim", new { area = "ST" }),
+            EklePopup = "",
+            DegistirPopup = "",
+            EkleDiv = "",
+            DegistirDiv = "",
+            YerlesimDiv = "stokLayoutDiv",
+            BelgeAkisDiv = "stokBelgeAkisDiv",
+            TopluAktarDiv = "stokTopluAktDiv",
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "STKART",
+            ExcluldeList = new List<string>() { "tb_Add", "tb_Edit" },
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+        #region Toolbar
+
+        var addButton = new MVCxGridViewToolbarItem();
+        addButton.Text = "Ekle";
+        addButton.Name = "tb_Add";
+        addButton.Enabled = yetki.EKLEME;
+        addButton.Command = GridViewToolbarCommand.Custom;
+        addButton.NavigateUrl = @"javascript:stokHareket.Ekle(" + toolParam.MenuTag + ",'" + toolParam.EkleUrl + "')";
+        addButton.Image.IconID = IconID.ActionsNew16x16;
+
+        var editButton = new MVCxGridViewToolbarItem();
+        editButton.Text = "Değiştir";
+        editButton.Name = "tb_Edit";
+        editButton.Enabled = yetki.DEGIST;
+        editButton.Command = GridViewToolbarCommand.Custom;
+        editButton.NavigateUrl = @"javascript:stokKart.Degistir('" + toolParam.Grid + "', " + toolParam.MenuTag + ", '" + toolParam.DegistirUrl + "')";
+        editButton.Image.IconID = IconID.ActionsEdit16x16devav;
+
+        var backButton = new MVCxGridViewToolbarItem();
+        backButton.Text = "Geri";
+        backButton.Name = "tb_Back";
+        backButton.Command = GridViewToolbarCommand.Custom;
+        backButton.NavigateUrl = @"javascript:pageControlStokHareket.SetActiveTabIndex(0);";
+        backButton.Image.IconID = IconID.NavigationBackward16x16;
+
+        toolParam.ItemList.Add(addButton);
+        toolParam.ItemList.Add(editButton);
+        toolParam.ItemList.Add(backButton);
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #endregion
+
+        #region Columns
+        
+
+        #endregion
+
+        List<string> excludeList = new List<string>();
+        GridViewHelper<STHRKT>.Settings(settings, new STHRKT(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="stokLayoutDiv">
+</div>
+<div id="stokBelgeAkisDiv">
+</div>
+<div id="stokTopluAktDiv">
+</div>

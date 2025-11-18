@@ -1,0 +1,93 @@
+﻿@model List<Bps.BpsBase.Entities.Concrete.IK.IKPERS>
+@{
+    var name = ViewData["Name"].ToString();
+    var enable = (bool)ViewData["Enable"];
+    var isMulti = (bool)ViewData["IsMulti"];
+    var datas = ViewData["Datas"].ToString();
+    var isRequired =(bool) ViewData["IsRequired"];
+}
+@Html.DevExpress().GridLookup(settings =>
+{
+    //settings.Properties.Caption = "Select tags:";
+    settings.Name = name;
+    settings.Width=Unit.Percentage(100);
+    settings.GridViewProperties.CallbackRouteValues =
+        new {Controller = "Personel", Action = "PersonelSecimGlPartial", area = "IK", cmbName = name, enable, isMulti, isRequired};
+
+    settings.KeyFieldName = "Id";
+    if (isMulti)
+    {
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+    }
+    else
+    {
+        settings.CommandColumn.Visible = false;
+        settings.CommandColumn.ShowSelectCheckbox = false;
+    }
+    settings.Columns.Add("GNNAME");
+    settings.Columns.Add("GNSNAM");
+    settings.Columns.Add("SICILN");
+    settings.Enabled = enable;
+    if (isMulti)
+    {
+        settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+        settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+            Html.DevExpress().Button(btnSettings =>
+            {
+                btnSettings.Name = "btnClose";
+                btnSettings.UseSubmitBehavior = false;
+                btnSettings.Text = "Kapat";
+                btnSettings.ClientSideEvents.Click = "function(s, e) {" + name + ".ConfirmCurrentSelection();" + name + ".HideDropDown();}";
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+        });
+    }
+    else
+    {
+        settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Single;
+    }
+    settings.Properties.TextFormatString = "{0} {1}";
+    settings.Properties.MultiTextSeparator = ", ";
+    settings.Properties.Width = Unit.Percentage(100);
+
+    settings.GridViewProperties.Settings.ShowFilterRow = true;
+    settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+    settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+    settings.GridViewProperties.SettingsPager.PageSize = 7;
+    settings.Properties.ValidationSettings.RequiredField.IsRequired = isRequired;
+    settings.Properties.ValidationSettings.ErrorDisplayMode=ErrorDisplayMode.None;
+    settings.Properties.ValidationSettings.Display = Display.Dynamic;
+
+    settings.DataBound = (sender, e) =>
+    {
+        var gridLookup = (MVCxGridLookup)sender;
+        gridLookup.GridView.Width = Unit.Percentage(100);
+    };
+
+    //settings.PreRender = (sender, e) =>
+    //{
+    //    ASPxGridLookup l = (ASPxGridLookup)sender;
+    //    if (!string.IsNullOrEmpty(datas))
+    //    {
+    //        var splitedData = datas.Split(',');
+    //        foreach (var data in splitedData)
+    //        {
+    //            l.GridView.Selection.SetSelectionByKey(data, true);
+    //        }
+    //    }
+    //};
+
+    settings.PreRender = (sender, e) =>
+    {
+        ASPxGridLookup l = (ASPxGridLookup)sender;
+
+        l.GridView.Selection.UnselectAll();
+        if (!string.IsNullOrEmpty(datas))
+        {
+            l.GridView.Selection.SetSelectionByKey(datas, true);
+        }
+    };
+}).BindList(Model).GetHtml()

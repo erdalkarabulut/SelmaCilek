@@ -1,0 +1,178 @@
+@using Bps.BpsBase.Entities.Concrete.GN;
+@using Bps.Core.Web.Model
+@model List<GNFILE>
+
+@{
+    Html.DevExpress().GridView<GNFILE>(settings =>
+    {
+        settings.Name = "gridGnfile";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "---", Action ="GnfileGp", area = "GN"};
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("GnfilePartial", "---", new { area = "GN" }),
+            DegistirUrl = Url.Action("GnfilePartial", "---", new { area = "GN" }),
+            SilUrl = Url.Action("GnfileSil", "---", new { area = "GN" }),
+            EklePopup = "ppGnfileEkle", 
+            DegistirPopup = "ppGnfileDegistir", 
+            EkleDiv = "gnfileEkleDiv", 
+            DegistirDiv = "gnfileEkleDiv", 
+            BelgeAkisDiv = "gnfileBelgeAkisDiv", 
+            YerlesimDiv = "gnfileLayoutDiv", 
+            TopluAktarDiv = "gnfileTopluAktarDiv", 
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "GNFILE", 
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "", 
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #region Columns
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Id";
+            column.Visible = false;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "TABLNM";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "TABLID";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FLNAME";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "GNDOSY";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "GNPATH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FLTYPE";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEFAUL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EKKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ETARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DTARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CHKCTR";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        #endregion Columns
+
+        GridViewHelper<GNFILE>.SettingsWihoutColumns(settings, new GNFILE());
+    }).Bind(Model).Render();
+}
+
+<div id="gnfileEkleDiv"></div>
+<div id="gnfileLayoutDiv"></div>
+<div id="gnfileBelgeAkisDiv"></div>
+<div id="gnfileTopluAktarDiv"></div>

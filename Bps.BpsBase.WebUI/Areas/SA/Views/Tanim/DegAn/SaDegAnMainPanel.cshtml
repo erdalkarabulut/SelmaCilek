@@ -1,0 +1,127 @@
+﻿@using System.Web.UI.WebControls
+@using DevExpress.Web
+@using DevExpress.Web.Mvc.UI
+@model int?
+
+@{
+    ViewBag.Title = "SaDegAnMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <script>
+        var saDegAnScript = {
+            Ekle :function(menuTag,url) {
+                console.log('e');
+                LoadingPanel.Show();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { menuTag: menuTag},
+                    success: function(response) {
+                        pageControlSaDegAn.GetTabByName('Tab1').SetVisible(0);
+                        pageControlSaDegAn.GetTabByName('Tab2').SetVisible(1);
+                        pageControlSaDegAn.SetActiveTab(pageControlSaDegAn.GetTabByName('Tab2'));
+                        $("#editableContainer").html(response);
+                    }
+                });
+                LoadingPanel.Hide();
+            },
+            Degistir: function(gridName, menuTag, url) {
+                var grid = ASPxClientControl.GetControlCollection().GetByName(gridName);
+                var selectedRow = grid.GetSelectedKeysOnPage();
+                if (selectedRow.length > 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            Id: selectedRow[0],
+                            menuTag: menuTag
+                        },
+                        success: function(response) {
+                            pageControlSaDegAn.GetTabByName('Tab1').SetVisible(0);
+                            pageControlSaDegAn.GetTabByName('Tab2').SetVisible(1);
+                            pageControlSaDegAn.SetActiveTab(pageControlSaDegAn.GetTabByName('Tab2'));
+                            $("#editableContainer").html(response);
+                        }
+                    });
+                } else {
+                    BpsAlert.warning('Lütfen kayıt seçiniz !');
+                    return;
+                }
+            },
+            FormSaDegAnKaydet: function () {
+                var formList = [];
+                formList.push("formSaDegAnEkle");
+                var menuTag=@Model;
+                var model = {};
+                var grid = ASPxClientControl.GetControlCollection().GetByName('gridSaDegAn');
+                formList.forEach(function(formName) {
+                    var form = ASPxClientControl.GetControlCollection().GetByName(formName);
+                    form.rootItem.items.forEach(function (item) {
+                        if (item.name != "") {
+                            model[item.name] = name;
+                        } else {
+                            item.items.forEach(function (data) {
+                                console.log(data.name);
+                                if (data.name != null && data.name != "") {
+                                    var control = ASPxClientControl.GetControlCollection().GetByName(data.name);
+                                    model[data.name] = control.GetValueString();
+                                }
+                            });
+                        }
+                    });
+                });
+                $.ajax({
+                    url: '@Html.Raw(Url.Action("SaDegAnKaydet", "Tanim", new {area="SA"}))',
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        model: model,
+                        menuTag: menuTag
+                    },
+                    success: function(response, result) {
+
+                        BpsAlert.alertResponse(response);
+                        if (response.Status === 0) {
+                            grid.Refresh();
+                            pageControlSaDegAn.GetTabByName('Tab1').SetVisible(1);
+                            pageControlSaDegAn.GetTabByName('Tab2').SetVisible(0);
+                        }
+                        return;
+                    }
+                });
+            },
+            FormSaDegAnIptal: function () {
+                pageControlSaDegAn.GetTabByName('Tab1').SetVisible(1);
+                pageControlSaDegAn.GetTabByName('Tab2').SetVisible(0);
+            }
+        }
+
+    </script>
+
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlSaDegAn";
+            settings.Width = Unit.Percentage(100);
+            settings.ControlStyle.CssClass = "dxtcFixed";
+            settings.EnableTabScrolling = true;
+            settings.TabAlign = TabAlign.Justify;
+            settings.ClientSideEvents.Init = @"function(s,e) { pageControlSaDegAn.GetTabByName('Tab2').SetVisible(0);}";
+            settings.ActiveTabIndex = 0;
+
+            settings.TabPages.Add("Satınalma Değer Anahtar Listesi", "Tab1").SetContent(() =>
+            {
+                Html.RenderAction("SaDegAnGridPartial", "Tanim",new {area = "SA"});
+            });
+
+            settings.TabPages.Add("Satınalma Değer Anahtar İşlemleri", "Tab2").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                @Html.RenderAction("SaDegAnEkleWindow", "Tanim", new {menuTag = Model});
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+}

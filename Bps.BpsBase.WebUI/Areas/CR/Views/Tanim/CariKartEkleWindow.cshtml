@@ -1,0 +1,312 @@
+﻿@using System.Web.UI.WebControls
+@using Bps.BpsBase.Entities.Models.CR.Single
+@{
+    Layout = null;
+    var menuTag = (int)ViewData["MenuTag"];
+}
+@model Bps.BpsBase.Entities.Models.CR.Single.GenelCariKartModel
+@Html.DevExpress().PageControl(
+    settings =>
+    {
+        settings.Name = "pageControlCariKartForm";
+        settings.Width = Unit.Percentage(100);
+        settings.ControlStyle.CssClass = "dxtcFixed";
+        settings.EnableTabScrolling = true;
+        settings.TabAlign = TabAlign.Justify;
+        settings.ActiveTabIndex = 0;
+
+        settings.TabPages.Add("Temel Veriler", "CariKartForm_Tab1").SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formCariKart";
+                formLayoutsettings.AlignItemCaptionsInAllGroups = true;
+                formLayoutsettings.UseDefaultPaddings = false;
+                formLayoutsettings.ColumnCount = 2;
+                formLayoutsettings.Width = Unit.Percentage(100);
+                formLayoutsettings.SettingsAdaptivity.GridSettings.Breakpoints.Add(new LayoutBreakpoint { ColumnCount = 1, MaxWidth = 790, Name = "S" });
+
+                formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                formLayoutsettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 800;
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Temel Veriler";
+                    g.GridSettings.WrapCaptionAtWidth = 400;
+                    g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+
+                    g.Items.Add(m => m.CariKart.Id, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "Id";
+                        });
+                        i.ClientVisible = false;
+                    });
+                    g.Items.Add(m => m.CariKart.SIRKID, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "SIRKID";
+                        });
+                        i.ClientVisible = false;
+                    });
+                    g.Items.Add(m => m.CariKart.EKKULL, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "EKKULL";
+                        });
+                        i.ClientVisible = false;
+                    });
+                    g.Items.Add(m => m.CariKart.ETARIH, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "ETARIH";
+                        });
+                        i.ClientVisible = false;
+                    });
+                    g.Items.Add(m => m.CariKart.CRHRKD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "CRHRKD";
+                        });
+                        i.ClientVisible = false;
+                    });
+                    g.Items.Add(m => m.CariKart.CRKODU, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "CRKODU";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRAKOD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "CRAKOD";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRUNV1, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "CRUNV1";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRUNV2, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "CRUNV2";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRBGKD, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "CRBGKD";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "036", harKod = Model.CariKart.CRBGKD, cmbName = "CRBGKD" });
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRSACN, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "CRSACN";
+                            s.Properties.Items.Add("Toptan Ve Perakende", 0);
+                            s.Properties.Items.Add("Toptan", 1);
+                            s.Properties.Items.Add("Perakende", 2);
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRSSCN, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "CRSSCN";
+                            s.Properties.Items.Add("Toptan Ve Perakende", 0);
+                            s.Properties.Items.Add("Toptan", 1);
+                            s.Properties.Items.Add("Perakende", 2);
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRHSP1, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "CRHSP1";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("MultiMuhasebeSecimCmbPartial", "Tanim", new { area = "MH", muhaKod = Model.CariKart.CRHSP1, cmbName = "CRHSP1" });
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRHSP2, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "CRHSP2";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("MultiMuhasebeSecimCmbPartial", "Tanim", new { area = "MH", muhaKod = Model.CariKart.CRHSP2, cmbName = "CRHSP2" });
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRHSP3, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "CRHSP3";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("MultiMuhasebeSecimCmbPartial", "Tanim", new { area = "MH", muhaKod = Model.CariKart.CRHSP3, cmbName = "CRHSP3" });
+                        });
+                    });
+
+                    g.Items.Add(m => m.CariKart.CRDVCN, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "CRBGKD";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "031", harKod = Model.CariKart.CRDVCN, cmbName = "CRDVCN" });
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRDVC1, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "CRDVC1";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "031", harKod = Model.CariKart.CRDVC1, cmbName = "CRDVC1" });
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRDVC2, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "CRDVC2";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "031", harKod = Model.CariKart.CRDVC2, cmbName = "CRDVC2" });
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRVDYZ, i =>
+                    {
+                        i.NestedExtension().SpinEdit(s =>
+                        {
+                            s.Name = "CRVDYZ";
+                            s.Properties.NumberType = SpinEditNumberType.Float;
+                            s.Properties.Increment = 0.1M;
+                            s.Properties.LargeIncrement = 1;
+                            s.Properties.SpinButtons.ShowLargeIncrementButtons = true;
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRVDY1, i =>
+                    {
+                        i.NestedExtension().SpinEdit(s =>
+                        {
+                            s.Name = "CRVDY1";
+                            s.Properties.NumberType = SpinEditNumberType.Float;
+                            s.Properties.Increment = 0.1M;
+                            s.Properties.LargeIncrement = 1;
+                            s.Properties.SpinButtons.ShowLargeIncrementButtons = true;
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRVDY2, i =>
+                    {
+                        i.NestedExtension().SpinEdit(s =>
+                        {
+                            s.Name = "CRVDY2";
+                            s.Properties.NumberType = SpinEditNumberType.Float;
+                            s.Properties.Increment = 0.1M;
+                            s.Properties.LargeIncrement = 1;
+                            s.Properties.SpinButtons.ShowLargeIncrementButtons = true;
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.KURHSK, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "KURHSK";
+                            s.Properties.Items.Add("Döviz Alış", 1);
+                            s.Properties.Items.Add("Döviz Satış", 2);
+                            s.Properties.Items.Add("Efektif Alış", 3);
+                            s.Properties.Items.Add("Efektif Satış", 4);
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.EFATUR, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "EFATUR";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                        });
+                    });
+                });
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Vergi Bilgileri";
+                    g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+                    g.GridSettings.WrapCaptionAtWidth = 400;
+
+                    g.Items.Add(m => m.CariKart.VERGDA, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "VERGDA";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.VERGNO, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "VERGNO";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.TSICNO, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TSICNO";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.VERKML, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "VERKML";
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.CRODCN, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "CRODCN";
+                            s.Properties.Items.Add("Serbest", 0);
+                            s.Properties.Items.Add("Haftalık", 1);
+                            s.Properties.Items.Add("Aylık", 2);
+                            s.Properties.Items.Add("15 Günlük", 3);
+                        });
+                    });
+
+                    g.Items.Add(m => m.CariKart.FTADNO, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "FTADNO";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("AdresSecimCmbPartial", "Tanim", new { area = "CR", adresNo = Model.CariKart.FTADNO, cariKartKod = Model.CariKart.CRKODU, cmbName = "FTADNO" });
+                        });
+                    });
+                    g.Items.Add(m => m.CariKart.SVADNO, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "SVADNO";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("AdresSecimCmbPartial", "Tanim", new { area = "CR", adresNo = Model.CariKart.SVADNO, cariKartKod = Model.CariKart.CRKODU, cmbName = "SVADNO" });
+                        });
+                    });
+                });
+                FormLayoutHelperC<GenelCariKartModel>.Settings(formLayoutsettings);
+            }).Bind(Model).Render();
+        });
+    }).GetHtml()
+
+@{
+    Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "cariKart.FormCariKartKaydet(" + menuTag + ", '" + Url.Action("CariKartKaydet", "Tanim", new { area = "CR" }) + "');", iptalJs = "scriptToolbarDev.FormIptalWithTab('pageControlCariKart',1);" });
+}

@@ -1,0 +1,46 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@using Bps.Core.Web.Model
+@model List<GNEVRK>
+@{
+    Html.DevExpress().GridView<GNEVRK>(settings =>
+    {
+        settings.Name = "gridEvrak";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "Tanim", Action = "EvrakGridPartial", menuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG};
+        
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed) ViewData["YetkiModel"],
+            toolParam = new DevToolBarParam()
+            {
+                Grid = settings.Name,
+                EkleUrl = Url.Action("EvrakEkleWindow", "Tanim", new {area = "GN"}),
+                DegistirUrl = Url.Action("EvrakEkleWindow", "Tanim", new {area = "GN"}),
+                SilUrl = Url.Action("EvrakSil", "Tanim", new {area = "GN"}),
+                EklePopup = "ppEvrakEkle",
+                DegistirPopup = "ppEvrakEkle",
+                EkleDiv = "evrakEkleDiv",
+                DegistirDiv = "evrakEkleDiv",
+                YerlesimDiv = "evrakLayoutDiv",
+                BelgeAkisDiv = "evrakBelgeAkisDiv",
+                TopluAktarDiv = "evrakTopluAktDiv",
+                MenuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG,
+                Type = "GNEVRK",
+                SilMesajText = "Evrak kaydını"
+            }
+        });
+
+        List<string> excludeList = new List<string>();
+        GridViewHelper<GNEVRK>.Settings(settings,new GNEVRK(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="evrakEkleDiv">
+</div>
+<div id="evrakLayoutDiv">
+</div>
+<div id="evrakBelgeAkisDiv">
+</div>
+<div id="evrakTopluAktDiv">
+</div>

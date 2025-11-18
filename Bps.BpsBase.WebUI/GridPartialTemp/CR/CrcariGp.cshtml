@@ -1,0 +1,326 @@
+@using Bps.BpsBase.Entities.Concrete.CR;
+@using Bps.Core.Web.Model
+@model List<CRCARI>
+
+@{
+    Html.DevExpress().GridView<CRCARI>(settings =>
+    {
+        settings.Name = "gridCrcari";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "---", Action ="CrcariGp", area = "CR"};
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("CrcariPartial", "---", new { area = "CR" }),
+            DegistirUrl = Url.Action("CrcariPartial", "---", new { area = "CR" }),
+            SilUrl = Url.Action("CrcariSil", "---", new { area = "CR" }),
+            EklePopup = "ppCrcariEkle", 
+            DegistirPopup = "ppCrcariDegistir", 
+            EkleDiv = "crcariEkleDiv", 
+            DegistirDiv = "crcariEkleDiv", 
+            BelgeAkisDiv = "crcariBelgeAkisDiv", 
+            YerlesimDiv = "crcariLayoutDiv", 
+            TopluAktarDiv = "crcariTopluAktarDiv", 
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "CRCARI", 
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "", 
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #region Columns
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Id";
+            column.Visible = false;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRKODU";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRUNV1";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRUNV2";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRHRKD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRBGKD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRSACN";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRSSCN";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRHSP1";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRHSP2";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRHSP3";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRDVCN";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRDVC1";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRDVC2";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRVDYZ";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRVDY1";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRVDY2";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "KURHSK";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "VERGDA";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "VERGNO";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "TSICNO";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "VERKML";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRODCN";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FTADNO";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "SVADNO";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CRAKOD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EFATUR";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EKKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ETARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DTARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CHKCTR";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        #endregion Columns
+
+        GridViewHelper<CRCARI>.SettingsWihoutColumns(settings, new CRCARI());
+    }).Bind(Model).Render();
+}
+
+<div id="crcariEkleDiv"></div>
+<div id="crcariLayoutDiv"></div>
+<div id="crcariBelgeAkisDiv"></div>
+<div id="crcariTopluAktarDiv"></div>

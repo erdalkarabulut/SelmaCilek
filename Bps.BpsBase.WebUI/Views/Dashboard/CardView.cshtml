@@ -1,0 +1,48 @@
+﻿@model List<Bps.BpsBase.Entities.Models.GN.Listed.CardModel>
+@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<button id="btnCardUpdate" onclick="updateCard()"> Güncelle</button>
+<section class="content">
+    <div class="container-fluid">
+        
+        @{
+            var cardCount = Model.Count;
+            for (int i = 0; i <= cardCount; )
+            {
+                <div class="row">
+                    @{
+                        if (i<cardCount)
+                        {
+                            <section class="col-lg-6 connectedSortable ui-sortable">
+                                @Html.Action("CartPartial", "Dashboard", new { partialName = Model[i].CardName })
+                            </section>
+                        }
+
+                        if (i+1<cardCount)
+                        {
+                            <section class="col-lg-6 connectedSortable ui-sortable">
+                                @Html.Action("CartPartial", "Dashboard", new { partialName = Model[i].CardName })
+                            </section>
+                        }
+                        i = i + 2;
+                    }
+                </div>
+            }
+        }
+    </div>
+</section>
+
+
+<script>
+    function updateCard() {
+        var model = @Html.Raw(Json.Encode(Model));
+        model.forEach(function(item) {
+            item.ACTIVE = ($('input[name=' + item.CardName + 'Options]:checked').val() == "1" ? true : false);
+            console.log(item);
+        });
+        $('input[name=card1Options]:checked').val();
+    }
+
+</script>

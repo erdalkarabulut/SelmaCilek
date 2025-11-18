@@ -1,0 +1,28 @@
+﻿@model Bps.BpsBase.Entities.Models.GN.Single.CmbComboModel
+@{
+    var projeKod = ViewData["projeKod"] == null ? "" : ViewData["projeKod"].ToString();
+}
+@{
+
+    var cmb = Html.DevExpress().ComboBox(settings =>
+    {
+        settings.Name = "MNUTAG";
+        settings.Properties.TextField = "MNUNAM";
+        settings.Properties.ValueField = "MNUTAG";
+        settings.Width = Unit.Percentage(100);
+        settings.Properties.CallbackPageSize = 15;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+        settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+        settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+        settings.CallbackRouteValues = new { Controller = "Tanim", Action = "MenuByProjeCmbPartial", area = "GN", projeKod = ViewData["projeKod"] };
+        settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { MNUNAM.SetValue(MNUTAG.GetText());}";
+
+    }).BindList(Model.MenuList);
+
+
+    if (Model.MNUTAG != 0)
+    {
+        cmb.Bind(Model.MNUTAG);
+    }
+    cmb.Render();
+}

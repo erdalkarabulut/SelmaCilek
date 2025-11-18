@@ -1,0 +1,77 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@using Bps.Core.Web.Model
+@model List<GNKULL>
+
+@{Html.DevExpress().GridView<GNKULL>(settings =>
+    {
+        settings.Name = "gridKullanici";
+        settings.KeyFieldName = "Id";
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("KullaniciEkleWindow", "Tanim", new { area = "GN" }),
+            DegistirUrl = Url.Action("KullaniciEkleWindow", "Tanim", new { area = "GN" }),
+            SilUrl = Url.Action("KullaniciSil", "Tanim", new { area = "GN" }),
+            YerlesimDiv = "kullaniciLayoutDiv",
+            BelgeAkisDiv = "kullaniciBelgeAkisDiv",
+            TopluAktarDiv = "kullaniciTopluAktDiv",
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "GNKULL",
+            ExcluldeList = new List<string>() { "tb_Add", "tb_Edit" },
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+        settings.CallbackRouteValues = new { Controller = "Tanim", Action = "KullaniciGridPartial" };
+        settings.ClientSideEvents.BeginCallback = "function(s,e){ e.customArgs['menuTag'] =" + ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG + ";}";
+
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+
+        #region Toolbar
+
+        var addButton = new MVCxGridViewToolbarItem();
+        addButton.Text = "Ekle";
+        addButton.Name = "tb_Add";
+        addButton.Enabled = yetki.EKLEME == 1;
+        addButton.Command = GridViewToolbarCommand.Custom;
+        addButton.NavigateUrl = @"javascript:kullanici.Ekle(" + toolParam.MenuTag + ",'" + toolParam.EkleUrl + "')";
+        addButton.Image.IconID = IconID.ActionsNew16x16;
+
+        var editButton = new MVCxGridViewToolbarItem();
+        editButton.Text = "Değiştir";
+        editButton.Name = "tb_Edit";
+        editButton.Enabled = yetki.DEGIST == 1;
+        editButton.Command = GridViewToolbarCommand.Custom;
+        editButton.NavigateUrl = @"javascript:kullanici.Degistir('" + toolParam.Grid + "', " + toolParam.MenuTag + ", '" + toolParam.DegistirUrl + "')";
+        editButton.Image.IconID = IconID.ActionsEdit16x16devav;
+
+        var backButton = new MVCxGridViewToolbarItem();
+        backButton.Text = "Geri";
+        backButton.Name = "tb_Back";
+        backButton.Command = GridViewToolbarCommand.Custom;
+        backButton.NavigateUrl = @"javascript:pageControlKullanici.SetActiveTabIndex(0);";
+        backButton.Image.IconID = IconID.NavigationBackward16x16;
+
+        toolParam.ItemList.Add(addButton);
+        toolParam.ItemList.Add(editButton);
+        toolParam.ItemList.Add(backButton);
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #endregion
+
+        List<string> excludeList = new List<string>();
+        GridViewHelper<GNKULL>.Settings(settings, new GNKULL(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="kullaniciLayoutDiv">
+</div>
+<div id="kullaniciBelgeAkisDiv">
+</div>
+<div id="kullaniciTopluAktDiv">
+</div>

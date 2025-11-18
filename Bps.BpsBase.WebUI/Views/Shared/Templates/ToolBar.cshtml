@@ -1,0 +1,246 @@
+﻿@using Bps.Core.Web.Model
+@model GridViewSettings
+@{
+
+    var prm = (DevToolBarParam)ViewData["ToolParam"];
+    var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+    var list = new List<string>()
+    {
+        "tb_Add","tb_Edit","tb_Delete","tb_Refresh","tb_Aktar",
+        "tb_Ortam","tb_Yerlesim","tb_Ozellestirme","tb_FiltreTemizle","tb_Ara"
+    };
+
+    if (prm.ExcluldeList != null && prm.ExcluldeList.Count > 0)
+    {
+        foreach (var exlude in prm.ExcluldeList)
+        {
+            var exist = list.FirstOrDefault(w => w == exlude) != null;
+            if (exist)
+            {
+                list.Remove(exlude);
+            }
+        }
+    }
+}
+@{
+    var settings = Model;
+    settings.Toolbars.Add(toolbar =>
+    {
+        toolbar.Name = "tmpToolBar";
+        toolbar.Enabled = true;
+        toolbar.Position = GridToolbarPosition.Top;
+        toolbar.ItemAlign = GridToolbarItemAlign.Left;
+        toolbar.EnableAdaptivity = true;
+
+        if (list.Contains("tb_Add"))
+        {
+            MVCxGridViewToolbarItem addButton = new MVCxGridViewToolbarItem();
+            addButton.Text = "Ekle";
+            addButton.Name = "tb_Add";
+            addButton.Enabled = yetki.EKLEME;
+            addButton.Command = GridViewToolbarCommand.Custom;
+            addButton.NavigateUrl = @"javascript:scriptToolbarDev.Ekle('" + prm.EkleDiv + "', '" + prm.EklePopup + "', " + "'" + prm.EkleUrl + "'," + prm.MenuTag + ")";
+            addButton.Image.IconID = IconID.ActionsNew16x16;
+            toolbar.Items.Add(addButton);
+        }
+        else if (prm.ItemList != null)
+        {
+            var tb_AddExist = prm.ItemList.FirstOrDefault(f => f.Name == "tb_Add");
+            if (tb_AddExist != null)
+                toolbar.Items.Add(tb_AddExist);
+        }
+
+        if (list.Contains("tb_Edit"))
+        {
+            MVCxGridViewToolbarItem editButton = new MVCxGridViewToolbarItem();
+            editButton.Text = "Değiştir";
+            editButton.Name = "tb_Edit";
+            editButton.Enabled = yetki.DEGIST;
+            editButton.Command = GridViewToolbarCommand.Custom;
+            editButton.NavigateUrl = @"javascript:scriptToolbarDev.Degistir('" + prm.DegistirDiv + "', '" + prm.Grid + "', '" + prm.DegistirPopup + "', " + "'" + prm.DegistirUrl + "'," + prm.MenuTag + ")";
+            editButton.Image.IconID = IconID.ActionsEdit16x16devav;
+            toolbar.Items.Add(editButton);
+        }
+        else if (prm.ItemList != null)
+        {
+            var tb_EditExist = prm.ItemList.FirstOrDefault(f => f.Name == "tb_Edit");
+            if (tb_EditExist != null)
+                toolbar.Items.Add(tb_EditExist);
+        }
+
+        if (list.Contains("tb_Delete"))
+        {
+            MVCxGridViewToolbarItem deleteButton = new MVCxGridViewToolbarItem();
+            deleteButton.Text = "Sil";
+            deleteButton.Name = "tb_Delete";
+            deleteButton.Enabled = yetki.SILMEK;
+            deleteButton.Command = GridViewToolbarCommand.Custom;
+            deleteButton.NavigateUrl = @"javascript:scriptToolbarDev.Sil('" + prm.Grid + "', '" + prm.SilUrl + "', " + prm.MenuTag + ", '" + prm.SilMesajText + "')";
+            deleteButton.Image.IconID = IconID.ActionsCancel16x16;
+            toolbar.Items.Add(deleteButton);
+        }
+
+        if (list.Contains("tb_Refresh"))
+        {
+            MVCxGridViewToolbarItem refreshButton = new MVCxGridViewToolbarItem();
+            refreshButton.Command = GridViewToolbarCommand.Refresh;
+            refreshButton.Name = "tb_Refresh";
+            refreshButton.Text = "Yenile";
+            toolbar.Items.Add(refreshButton);
+        }
+
+        if (list.Contains("tb_Aktar"))
+        {
+            toolbar.Items.Add(i =>
+            {
+                i.Name = "tb_Aktar";
+                i.Text = "Aktar";
+                i.Image.IconID = IconID.ActionsDownload16x16office2013;
+                i.BeginGroup = true;
+                i.Items.Add(GridViewToolbarCommand.ExportToPdf).Enabled = yetki.PDFGOS;
+                i.Items.Add(GridViewToolbarCommand.ExportToDocx).Enabled = yetki.DOCGOS;
+                i.Items.Add(GridViewToolbarCommand.ExportToRtf).Enabled = yetki.DOCGOS;
+                i.Items.Add(GridViewToolbarCommand.ExportToXls).Enabled = yetki.EXCGOS;
+                //i.Items.Add(exportitem =>
+                //{
+                //    exportitem.Name = "CustomExportToXLS";
+                //    exportitem.Text = "Export to XLS(WYSIWYG)";
+                //    exportitem.Image.IconID = DevExpress.Web.ASPxThemes.IconID.ExportExporttoxls16x16office2013;
+                //});
+                i.Items.Add(GridViewToolbarCommand.ExportToXlsx).Enabled = yetki.EXCGOS;
+                //i.Items.Add(exportitem =>
+                //{
+                //    exportitem.Name = "CustomExportToXLSX";
+                //    exportitem.Text = "Export to XLSX(WYSIWYG)";
+                //    exportitem.Image.IconID = DevExpress.Web.ASPxThemes.IconID.ExportExporttoxlsx16x16office2013;
+                //});
+            });
+        }
+
+        if (list.Contains("tb_Ortam"))
+        {
+            toolbar.Items.Add(i =>
+            {
+                i.Name = "tb_Ortam";
+                i.Text = "Ortam";
+                i.Image.IconID = IconID.NavigationHome16x16;
+                i.BeginGroup = true;
+                i.Items.Add(blg =>
+                {
+                    blg.Name = "btn_BelgeAkis";
+                    blg.Text = "Belge Akışı";
+                    blg.Image.IconID = IconID.LayoutFlowlayout16x16;
+                    blg.NavigateUrl = @"javascript:scriptToolbarDev.BelgeAkisi('" + prm.Grid + "', '" + prm.BelgeAkisDiv + "', '" + prm.Type + "', " + prm.MenuTag + ", " + "'" + Html.Raw(Url.Action("BelgeAkisiWindow", "Main", new { area = "" })) + "')";
+                });
+                i.Items.Add(blg =>
+                {
+                    blg.Name = "btn_TopluAktarim";
+                    blg.Text = "Toplu Aktarım";
+                    blg.Image.IconID = IconID.ActionsFill16x16;
+                    blg.NavigateUrl = @"javascript:scriptToolbarDev.GridTopluAktarim('" + prm.Grid + "', '" + prm.Type + "', " + "'" + Html.Raw(Url.Action("TopluAktarWindow", "Upload", new { area = "" })) + "', '" + prm.TopluAktarDiv + "')";
+                });
+                i.Items.Add(blg =>
+                {
+                    blg.Name = "btn_Ek";
+                    blg.Text = "Ekler";
+                    blg.Image.IconID = IconID.MailAttachment16x16;
+                    blg.NavigateUrl = @"javascript:scriptToolbarDev.EkWindow('" + prm.Grid + "', '" + prm.YerlesimDiv + "', '" + prm.Type + "', " + prm.MenuTag + ", " + "'" + Html.Raw(Url.Action("EkWindow", "Main", new { area = "" })) + "')";
+                });
+            });
+        }
+
+        if (list.Contains("tb_Yerlesim"))
+        {
+            MVCxGridViewToolbarItem yerlesimLayout = new MVCxGridViewToolbarItem();
+            yerlesimLayout.Text = "Yerleşim";
+            yerlesimLayout.Name = "tb_Yerlesim";
+            yerlesimLayout.Command = GridViewToolbarCommand.Custom;
+            yerlesimLayout.NavigateUrl = @"javascript:scriptToolbarDev.YerlesimWindow('" + prm.YerlesimDiv + "', '" + prm.Grid + "', 'ppYerlesimWindow', " + "'" + Html.Raw(Url.Action("YerlesimWindow", "Main", new { area = "" })) + "'" + "," + prm.MenuTag + ")";
+            yerlesimLayout.Image.IconID = IconID.AlignmentAlignverticalleft16x16;
+            toolbar.Items.Add(yerlesimLayout);
+        }
+
+        if (list.Contains("tb_Ozellestirme"))
+        {
+            MVCxGridViewToolbarItem customDialog = new MVCxGridViewToolbarItem();
+            customDialog.Command = GridViewToolbarCommand.ShowCustomizationDialog;
+            customDialog.Text = "Özelleştirme";
+            customDialog.Name = "tb_Ozellestirme";
+            toolbar.Items.Add(customDialog);
+        }
+
+        if (list.Contains("tb_FiltreTemizle"))
+        {
+            MVCxGridViewToolbarItem clearFilter = new MVCxGridViewToolbarItem();
+            clearFilter.Command = GridViewToolbarCommand.ClearFilter;
+            clearFilter.Text = "Filtre Temizle";
+            clearFilter.Name = "tb_FiltreTemizle";
+            toolbar.Items.Add(clearFilter);
+        }
+
+        if (list.Contains("tb_Ara"))
+        {
+            MVCxGridViewToolbarItem searchPanel = new MVCxGridViewToolbarItem();
+            searchPanel.Command = GridViewToolbarCommand.ShowSearchPanel;
+            searchPanel.Text = "Ara";
+            searchPanel.Name = "tb_Ara";
+            searchPanel.Alignment = MenuItemAlignment.Right;
+            toolbar.Items.Add(searchPanel);
+        }
+
+        //toolbar.Items.Add(i =>
+        //{
+        //    i.Alignment = MenuItemAlignment.Right;
+        //    i.SetSubMenuTemplateContent(c =>
+        //    {
+        //Html.DevExpress().ButtonEdit(s =>
+        //{
+        //    s.Name = "search";
+        //}).GetHtml();
+
+        //    });
+        //});
+
+        //toolbar.Items.Add(i =>
+        //{
+        //    i.Alignment = MenuItemAlignment.Right;
+        //});
+
+        //toolbar.Items.Add(b =>
+        //{
+        //    b.SetTemplateContent(c =>
+        //    {
+        //        Html.DevExpress().Button(btn =>
+        //        {
+        //            btn.Name = "btnEdit";
+        //            btn.Text = "Bewerk geselecteerde rijen";
+        //            btn.ClientSideEvents.Click = "btnEdit_Click";
+        //        }).GetHtml();
+        //    });
+        //});
+
+        //toolbar.Items.Add(i =>
+        //{
+        //    i.BeginGroup = true;
+        //    i.SetTemplateContent(c =>
+        //    {
+        //        Html.DevExpress().ButtonEdit(s =>
+        //        {
+        //            s.Name = "search";
+        //            s.Properties.NullText = "Search...";
+        //            s.Properties.Buttons
+        //                .Add()
+        //                .Image.IconID = DevExpress.Web.ASPxThemes.IconID.FindFind16x16gray;
+        //        }).Render();
+        //    });
+        //});
+
+        if (prm.ItemList != null && prm.ItemList.Count > 0)
+        {
+            foreach (var item in prm.ItemList.Where(w => w.Name != "tb_Add" && w.Name != "tb_Edit"))
+            {
+                toolbar.Items.Add(item);
+            }
+        }
+    });
+}

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "aracikan-cloud",
+  "private_key_id": "50da68c3c0a44c55e9c3ce04372001139edc9aa0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCjfKgSvVDusDNr\non6v12VIGDFGyYp0oiG3du5U3+t1PVjgPFEb/BTiNDmmQPsbHDNMNwLdBP5FdYky\n27tR5Ha1fZYkj33XTtonnar3emh2rQYG3S4XoyUDoj+W3J8fMd/gEBtNeo7/7rGJ\nPKieeHlTe/ufXmyVrqkO2HVM4RTsxENdd9fibFJDEwwPcoX73BK1OVMoNxzOG0uL\ngr67jlTpP5LRWxtyDhMeFY5y1SnGWrH8EtkVoiBn1lVCXXb5I5U7qqRHMi0CihXJ\nzoOKdG+nKlAdfY1BDB63rbOnWHks8ZtWqZNnP0zGowK5Y2zyobu/NdnuOqt+EwNS\n/EYgbIijAgMBAAECggEACSFREZrZBjt4463zfUZ+NYSEW/uta84SK/jMXpkSwT1n\n1T4JGZL+Z5ObFJnUbDMq+jqoQkehG6fwvZJf57bmmkQlOm15DaktrcC0Z5XCd745\n8/AuPsuxqX5KJtazXD6gzhaYL7+EdO6To6JrmE4KGIt4BfJ0Bff3IQkdo+l+Darh\nU+XbGCW3KG5a2sQlYwi+kNdiz9tnK/kuAGH8i1JMq2oEa47u62b1jXgKG8Uxv68J\n+wDdMn/WuYRNajY6kzScUZ1zkDQ2xGVeW7L16oLQWRmjWp8mSmTnmWHPkBoC15B1\nuqsnKQt/x+pND507fsVO9EfM9oWebl/mM1ytxPaOIQKBgQDhD0gL0OnoABM6aCxt\nFDovi+RxtnOimdA1s+BIRmN5vAMlNfkZ57JIocqZjS4nFN2/mjJSdryyTQZAGsFG\nrL8a37+YbJ4+B3fqqzlXhZX4X8GVQ1BQgNcU/vivgtXeZ4NObVH9Gl7sSztIy+VF\nH3ZY74rtgBx1aVZ+GuhcpzJtJQKBgQC59mR3by34PZPfkGbSLW28cNGv+dy5wh4u\nojJ8Pdn//Oz7WI9v5Al364jRYM4S2/WyK2aG8es4Srk3HLk7HAwZrcUxgi65f/Uo\nhtlTXYI3xkp7Ut3+z6bFA96jNFj9tCIcAr2UU/b7PfzIEAZ4rnY/KvaoR+McV3Dw\nbVCLocXIJwKBgQDazmSZOE9ww0HucwFeO2Amgbdj5qKd3zTSQUM4gVaNMAFO2B6K\n1Pw8KTA0AVJxpJPCiEOMcOwb3U7KXDi0YZaaphY8Nr3SSKiJelaRhMq9Yzttxrf6\nzIhPXWSiHm2XgMPkJ9yiWlUXHj1RFQqeHWyOIrXLGdaRQAxbJgXqrpMUEQKBgDrT\n0xxlM2mgMTM7/wrmDBzco7jDliu9WMbv0IC1IE12uZEZhuaigMxK2lFCCm603piq\nWhi+VubL3KOulno4eSt2aTcsM5PDAs77OazBm/wA4nb40/lTvzH782Y1nSFE5rVt\nuIM/vJXmGh0/1IxAxG9fLAA4HYRNtRCZxC0n0+VpAoGBAMVsXu+NaF/ZJO4ti8yp\na3nsQ3dedbuDPh/6Ctv39pvObQWUuI1zXVjyEWG6240/ZMspM7KI/f2LphhdG6Nb\nGvZ6R+BZ1OE/9mqbl5aGVE5G52pRuMa1t7AubfdapTfDmvRaNQOp6bBHj2XFGP5E\nTHYNrywobBxac6YdU6HYBglB\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-1m8tf@aracikan-cloud.iam.gserviceaccount.com",
+  "client_id": "117281824881657761872",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-1m8tf%40aracikan-cloud.iam.gserviceaccount.com"
+}

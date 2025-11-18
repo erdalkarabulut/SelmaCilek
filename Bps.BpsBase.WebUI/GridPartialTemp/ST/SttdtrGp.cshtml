@@ -1,0 +1,166 @@
+@using Bps.BpsBase.Entities.Concrete.ST;
+@using Bps.Core.Web.Model
+@model List<STTDTR>
+
+@{
+    Html.DevExpress().GridView<STTDTR>(settings =>
+    {
+        settings.Name = "gridSttdtr";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "---", Action ="SttdtrGp", area = "ST"};
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("SttdtrPartial", "---", new { area = "ST" }),
+            DegistirUrl = Url.Action("SttdtrPartial", "---", new { area = "ST" }),
+            SilUrl = Url.Action("SttdtrSil", "---", new { area = "ST" }),
+            EklePopup = "ppSttdtrEkle", 
+            DegistirPopup = "ppSttdtrDegistir", 
+            EkleDiv = "sttdtrEkleDiv", 
+            DegistirDiv = "sttdtrEkleDiv", 
+            BelgeAkisDiv = "sttdtrBelgeAkisDiv", 
+            YerlesimDiv = "sttdtrLayoutDiv", 
+            TopluAktarDiv = "sttdtrTopluAktarDiv", 
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "STTDTR", 
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "", 
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #region Columns
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Id";
+            column.Visible = false;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "TEDKOD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "URYRKD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "TEDTNM";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "YAPAYK";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "FASONK";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EKKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ETARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DEKULL";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "DTARIH";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CHKCTR";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        #endregion Columns
+
+        GridViewHelper<STTDTR>.SettingsWihoutColumns(settings, new STTDTR());
+    }).Bind(Model).Render();
+}
+
+<div id="sttdtrEkleDiv"></div>
+<div id="sttdtrLayoutDiv"></div>
+<div id="sttdtrBelgeAkisDiv"></div>
+<div id="sttdtrTopluAktarDiv"></div>

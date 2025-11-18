@@ -1,0 +1,18 @@
+﻿
+@model List<Bps.BpsBase.Entities.Concrete.ST.STTDTR>
+@{
+    var tedKod = (string) ViewData["TedKod"];
+    var cmbName = (string) ViewData["ComboboxName"];
+}
+@Html.DevExpress().ComboBox(settings =>
+{
+    settings.Name = ViewData["ComboboxName"].ToString();
+    settings.Properties.ValueType = typeof(string);
+    settings.Properties.TextField = "TEDTNM";
+    settings.Properties.ValueField = "TEDKOD";
+    settings.Width = Unit.Percentage(100);
+    settings.Properties.CallbackPageSize = 15;
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+    settings.CallbackRouteValues = new {Controller = "Tanim", Action = "TedTurSecimCp", area = "ST", cmbName = cmbName};
+
+}).BindList(Model).Bind(tedKod).GetHtml()

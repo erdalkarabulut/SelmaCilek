@@ -1,0 +1,151 @@
+﻿@using Bps.Core.Web.Session
+@model int?
+
+@{
+    ViewBag.Title = "TipHareketMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+@using (Html.BeginForm())
+{
+    <script type="text/javascript">
+
+        function TipHareketAra() {
+            var gridTipHareket = ASPxClientControl.GetControlCollection().GetByName('gridTipHareket');
+            var tipKod = cmb_TipHareket_Tip.GetValue();
+            if (tipKod == "" || tipKod == null) {
+                cilekAlert.warning('Lütfen tip seçiniz!');
+                return;
+            }
+            gridTipHareket.PerformCallback();
+            pageControlTipHareket.SetActiveTab(pageControlTipHareket.GetTabByName('tipHareketTab2'));
+        }
+
+        function FormTipHrkKaydet() {
+            bpsMain.submitForm('formTipHrkEkle',
+                'gridTipHareket',
+                'ppTipHrkEkle',
+                '@Html.Raw(Url.Action("TipHrkKaydet", "Tanim", new {area=SessionHelper.ProjeKod}))',
+                @Model);
+        }
+
+        var TipHrkScript = {
+            Ekle: function (divName, popupName, ekleUrl, menuTag) {
+                var cmbTip = ASPxClientControl.GetControlCollection().GetByName('cmb_TipHareket_Tip');
+                $("#" + divName).load(ekleUrl,
+                    {
+                        'menuTag': menuTag,
+                        'tipKod':cmbTip.GetValue(),
+                        'ustTipKod': cmbTip.GetItem(cmbTip.GetSelectedIndex()).texts[2]
+                    },
+                    function (response, status, xhr) {
+                        if (status == "success") {
+                            eval(popupName + '.Show()');
+                        }
+                        if (status == "error") {
+                            console.log(arguments);
+                            cilekAlert.evalScript(response);
+                        }
+                    });
+            },
+            Degistir: function (divName, gridName, popupName, degistirUrl, menuTag) {
+                var grid = ASPxClientControl.GetControlCollection().GetByName(gridName);
+                var cmbTip = ASPxClientControl.GetControlCollection().GetByName('cmb_TipHareket_Tip');
+                var selectedRow = grid.GetSelectedKeysOnPage();
+                if (selectedRow.length > 0) {
+                    $("#" + divName).load(degistirUrl,
+                        {
+                            'Id': selectedRow[0],
+                            'menuTag': menuTag,
+                            'ustTipKod': cmbTip.GetItem(cmbTip.GetSelectedIndex()).texts[2]
+                        },
+                        function (response, status, xhr) {
+                            if (status == "success") {
+                                eval(popupName + '.Show()');
+                            }
+                            if (status == "error") {
+                                cilekAlert.evalScript(response);
+                            }
+                        });
+                } else {
+                    cilekAlert.warning('Lütfen kayıt seçiniz !');
+                    return;
+                }
+            }
+        }
+
+    </script>
+
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlTipHareket";
+            PageControlHelper.Settings(settings, false);
+            settings.TabPages.Add("Ara", "tipHareketTab1").SetContent(() =>
+            {
+                Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formTipHareketTab1";
+                    formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.Off;
+                    formLayoutsettings.AlignItemCaptions = true;
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Detay";
+                        g.ColCount = 1;
+                        g.Paddings.Padding = Unit.Pixel(0);
+                        g.Paddings.PaddingTop = Unit.Pixel(10);
+                        g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                        g.GroupBoxStyle.Caption.Font.Bold = true;
+                        g.GroupBoxStyle.Caption.Font.Size = 16;
+                        g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+                        g.Items.Add(i =>
+                        {
+                            i.Caption = "Tip";
+                            i.NestedExtension().ComboBox(s =>
+                            {
+                                s.Name = "cmb_TipHareket_Tip";
+                                s.Properties.NullText = "Tip Seçiniz";
+                                s.Properties.NullTextDisplayMode = NullTextDisplayMode.UnfocusedAndFocused;
+                                s.Properties.CallbackPageSize = 15;
+                                s.Properties.FilterMinLength = 0;
+                                s.Properties.TextField = "TIPADI";
+                                s.Properties.ValueField = "TIPKOD";
+                                s.Properties.TextFormatString = "{1}";
+                                s.Properties.Columns.Add("TIPKOD", "Kod", 70);
+                                s.Properties.Columns.Add("TIPADI", "TIPADI", 140);
+                                s.Properties.Columns.Add("UTPKOD", "Üst Tip", 80);
+                                s.Properties.DataSource = ViewData["TipList"];
+                                s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            });
+                        });
+
+                       
+
+                        g.Items.Add(i =>
+                        {
+                            i.ShowCaption = DefaultBoolean.False;
+                            i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                        }).SetNestedContent(() =>
+                        {
+                            Html.DevExpress().Button(s =>
+                            {
+                                s.Name = "btnTipHareket_Ara";
+                                s.Text = "Ara";
+                                s.ControlStyle.CssClass = "buttonAlign";
+                                s.Styles.Style.HorizontalAlign = HorizontalAlign.Right;
+                                s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                s.ClientSideEvents.Click = "TipHareketAra";
+                            }).Render();
+                        });
+                    });
+                }).Render();
+            });
+            settings.TabPages.Add("Liste", "tipHareketTab2").SetContent(() =>
+            {
+                Html.RenderAction("TipHareketGridPartial", "Tanim", new { area = "GN", tipKod = "" });
+            });
+        }).GetHtml()
+}
+</body>

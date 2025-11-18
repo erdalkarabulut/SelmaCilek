@@ -1,0 +1,132 @@
+﻿@model Bps.BpsBase.Entities.Models.ST.Single.StokHareketModel
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    var menuTag = (int)ViewData["MenuTag"];
+}
+
+@using (Html.BeginForm())
+{
+    @Html.DevExpress().FormLayout(settings =>
+{
+    settings.Name = "StokHareketEkleForm";
+    settings.Width = Unit.Percentage(100);
+    settings.ColCount = 1;
+
+    settings.Items.AddGroupItem(g =>
+    {
+        g.ColSpan = 1;
+        g.Caption = "Başlık Detayı";
+        g.ColCount = 2;
+        g.Items.Add(m => m.Baslik.Id, i =>
+        {
+            i.NestedExtension().TextBox(s =>
+            {
+                s.Name = "Id";
+            });
+            i.ClientVisible = false;
+        });
+        g.Items.Add(m => m.Baslik.SIRKID, i =>
+        {
+            i.NestedExtension().TextBox(s =>
+            {
+                s.Name = "SIRKID";
+            });
+            i.ClientVisible = false;
+        });
+
+        g.Items.Add(m => m.Baslik.STFTNO, i =>
+        {
+            i.NestedExtension().TextBox(s =>
+            {
+                s.Name = "STFTNO";
+                s.ShowModelErrors = true;
+                s.Properties.ValidationSettings.Display = Display.Dynamic;
+                s.Width = Unit.Percentage(100);
+                s.ReadOnly = true;
+            });
+        });
+
+        g.Items.Add(m => m.Baslik.EVRSER, i =>
+        {
+            i.NestedExtension().TextBox(s =>
+            {
+                s.Name = "EVRSER";
+                s.ShowModelErrors = true;
+                s.Properties.ValidationSettings.Display = Display.Dynamic;
+                s.Width = Unit.Percentage(100);
+            });
+        });
+        g.Items.Add(m => m.Baslik.EVRSRN, i =>
+        {
+            i.NestedExtension().TextBox(s =>
+            {
+                s.Name = "EVRSRN";
+                s.ShowModelErrors = true;
+                s.Properties.ValidationSettings.Display = Display.Dynamic;
+                s.Width = Unit.Percentage(100);
+            });
+        });
+
+        g.Items.Add(m => m.Baslik.BELGEN, i =>
+        {
+            i.NestedExtension().TextBox(s =>
+            {
+                s.Name = "BELGEN";
+                s.ShowModelErrors = true;
+                s.Properties.ValidationSettings.Display = Display.Dynamic;
+                s.Width = Unit.Percentage(100);
+            });
+        });
+
+        g.Items.Add(m => m.Baslik.BELTRH, i =>
+        {
+            i.NestedExtension().DateEdit(s =>
+            {
+                s.Name = "BELTRH";
+                s.ShowModelErrors = true;
+                s.Properties.ValidationSettings.Display = Display.Dynamic;
+                s.Width = Unit.Percentage(100);
+            });
+        });
+
+        g.Items.Add(m => m.Baslik.GRDEPO, i =>
+        {
+            i.NestedExtension().ComboBox(s =>
+            {
+                s.Name = "GRDEPO";
+                s.Width = Unit.Percentage(100);
+                s.Properties.TextField = "DPTANM";
+                s.Properties.ValueField = "DPKODU";
+                s.Properties.DataSource = ViewData["DepoTanimList"];
+                s.Properties.CallbackPageSize = 15;
+                s.Properties.ValidationSettings.Display = Display.Dynamic;
+                s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                s.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+            });
+        });
+    });
+
+    settings.Items.Add(i =>
+    {
+        i.ColSpan = 1;
+        i.ShowCaption = DefaultBoolean.False;
+        i.SetNestedContent(() =>
+        {
+            if (Model.Baslik.STFTNO == 1)
+            {
+                Html.RenderAction("ShSayimGp", "Islem", new { area = "ST" });
+            }
+            else if (Model.Baslik.STFTNO == 2)
+            {
+
+            }
+        });
+    });
+
+    //FormLayoutHelper<GanttTaskListModel>.Settings(settings);
+}).GetHtml();
+
+    Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "", iptalJs = "stokHareket.FormStokHareketIptal();" });
+}

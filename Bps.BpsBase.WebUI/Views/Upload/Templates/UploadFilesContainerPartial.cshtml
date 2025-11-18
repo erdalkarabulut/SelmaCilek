@@ -1,0 +1,82 @@
+﻿@using System.Web.UI.WebControls
+@using Bps.BpsBase.Entities.Models.GN.Listed
+@model List<ImageGaleryModel>
+
+@{
+    var key = ViewData["Key"].ToString();
+}
+@{
+    Html.DevExpress().GridView<ImageGaleryModel>(settings =>
+    {
+        settings.Name = "gridUploadedFiles";
+        settings.KeyFieldName = "GNPATH";
+        settings.CallbackRouteValues = new { Controller = "Upload", Action = "UploadFilesContainerPartial", area="", key };
+        settings.Width=Unit.Percentage(100);
+
+        settings.Columns.Add(m => m.GNPATH, column =>
+        {
+            column.Visible = false;
+        });
+
+        settings.Columns.Add(m => m.FileName, column =>
+        {
+            column.Width = Unit.Percentage(60);
+            column.SetDataItemTemplateContent(container =>
+            {
+                Html.DevExpress().HyperLink(hyperlink =>
+                {
+                    var visibleIndex = container.VisibleIndex;
+                    var keyValue = container.KeyValue;
+                    var lastName = DataBinder.Eval(container.DataItem, "FileName");
+
+                    hyperlink.Name = "hl" + keyValue.ToString();
+                    hyperlink.Properties.Text = lastName.ToString();
+                    keyValue = keyValue.ToString().Replace("~", "..");
+                    keyValue = "../" + keyValue;
+                    //hyperlink.NavigateUrl = keyValue.ToString();
+                    hyperlink.NavigateUrl = @"javascript:DXDemo.ShowScreenshot('" + keyValue + "', false); console.log('" + keyValue + "');";
+
+                }).Render();
+            });
+        });
+
+        settings.Columns.Add(m => m.GNSIZE, column =>
+        {
+            column.Width = Unit.Percentage(40);
+        });
+
+        //settings.Columns.Add(column =>
+        //{
+        //    column.Caption = "View";
+        //    column.SetDataItemTemplateContent(container =>
+        //    {
+        //        Html.DevExpress().HyperLink(hyperlink =>
+        //        {
+        //            hyperlink.Name = "hl" + container.VisibleIndex;
+        //            hyperlink.Properties.Text = Convert.ToString(DataBinder.Eval(container.DataItem, "GNPATH"));
+        //            hyperlink.NavigateUrl = container.KeyValue.ToString();
+        //        }).Render();
+        //    });
+        //});
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.Width = 60;
+        settings.CommandColumn.CustomButtons.Add(new GridViewCommandColumnCustomButton() { ID = "btnUploadedDelete", Text = "Sil", Image = { IconID = IconID.ActionsDelete16x16gray} });
+        settings.ClientSideEvents.CustomButtonClick = "OnCustomButtonClick";
+
+        settings.SettingsBehavior.AllowSelectSingleRowOnly = true;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        settings.Settings.VerticalScrollBarStyle = GridViewVerticalScrollBarStyle.Standard;
+        settings.Settings.VerticalScrollableHeight = 250;
+
+        settings.SettingsBehavior.AllowGroup = false;
+        settings.SettingsBehavior.AllowSort = false;
+        settings.SettingsBehavior.AllowAutoFilter = false;
+        settings.Settings.ShowFilterRow = false;
+        settings.Settings.ShowHeaderFilterButton = false;
+
+
+    }).Bind(Model).Render();
+}

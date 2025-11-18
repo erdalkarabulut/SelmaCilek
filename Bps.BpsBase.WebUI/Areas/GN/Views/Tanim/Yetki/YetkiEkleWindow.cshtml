@@ -1,0 +1,208 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@model GNYETK
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+@{
+    Layout = null;
+}
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppYetkiEkle";
+        settings.Width = 600;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Tip " + (Model.Id > 0 ? "Düzenle" : "Ekle");
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.ShowFooter = true;
+
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formYetkiEkle";
+                formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                formLayoutsettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 576;
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Yeti Detayı";
+                    g.ColCount = 2;
+
+                    g.Items.Add(m => m.Id, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.SIRKID, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.EKKULL, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.ETARIH, i => { i.ClientVisible = false; });
+
+                    g.Items.Add(m => m.MNUNAM, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "MNUNAM";
+                        });
+                        i.ClientVisible = false;
+                    });
+                    g.Items.Add(m => m.KULKOD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "KULKOD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                            s.Enabled = false;
+                        });
+                    });
+                    g.Items.Add(m => m.PROKOD, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "PROKOD";
+                            settings.Width = Unit.Percentage(100);
+                            s.Properties.CallbackPageSize = 15;
+                            s.Properties.TextField = "TANIMI";
+                            s.Properties.ValueField = "HARKOD";
+                            s.Properties.TextFormatString = "{0}";
+                            s.Properties.Columns.Add("TANIMI", "Tanımı", 140);
+                            s.Properties.Columns.Add("HARKOD", "Hareket Kodu", 100);
+                            s.Properties.DataSource = ViewData["ProjeList"];
+                            s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                            s.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { MNUTAG.PerformCallback({ projeKod: s.GetValue()});}";
+                            s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                        });
+                    });
+                    g.Items.Add(m => m.MNUTAG, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "MNUTAG";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("MenuByProjeCmbPartial", "Tanim", new {area= "GN",projeKod = Model.PROKOD, menuTag = Model.MNUTAG });
+                        });
+                    });
+                    g.Items.Add(m => m.GRNTLM, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "GRNTLM";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.EKLEME, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "EKLEME";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.DEGIST, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "DEGIST";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.SILMEK, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "SILMEK";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.KAYDET, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "KAYDET";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.YAZDIR, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "YAZDIR";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.PDFGOS, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "PDFGOS";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.EXCGOS, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "EXCGOS";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.DOCGOS, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "DOCGOS";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.CSVGOS, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "CSVGOS";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.XMLGOS, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "XMLGOS";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                            s.Checked = true;
+                        });
+                    });
+                });
+                FormLayoutHelper<GNYETK>.Settings(formLayoutsettings);
+            }).Bind(Model).Render();
+        });
+
+        settings.SetFooterTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<div id='menuFormFooter'>");
+            Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "FormYetkiKaydet();", iptalJs = "ppYetkiEkle.Hide();" });
+            ViewContext.Writer.Write("</div>");
+        });
+    }).GetHtml()

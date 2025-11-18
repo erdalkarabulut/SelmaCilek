@@ -1,0 +1,96 @@
+﻿
+
+@using Bps.BpsBase.Entities.Concrete.MH
+@using Bps.Core.Web.Model
+@using DevExpress.Web.Mvc.UI
+@model List<Bps.BpsBase.Entities.Concrete.MH.MHHSPL>
+@{
+    Html.DevExpress().GridView<MHHSPL>(settings =>
+    {
+        settings.Name = "gridMuhHspPln";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new { Controller = "Tanim", Action = "MuhHspPlnGridPartial", menuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG };
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = new DevToolBarParam()
+            {
+                Grid = settings.Name,
+                EkleUrl = Url.Action("MuhHspPlnEkleWindow", "Tanim", new { area = "MH" }),
+                DegistirUrl = Url.Action("MuhHspPlnEkleWindow", "Tanim", new { area = "MH" }),
+                SilUrl = Url.Action("MuhHspPlnSil", "Tanim", new { area = "MH" }),
+                EklePopup = "ppmuhHspPlnEkle",
+                DegistirPopup = "ppmuhHspPlnEkle",
+                EkleDiv = "muhHspPlnEkleDiv",
+                DegistirDiv = "muhHspPlnEkleDiv",
+                YerlesimDiv = "muhHspPlnLayoutDiv",
+                BelgeAkisDiv = "muhHspPlnBelgeAkisDiv",
+                TopluAktarDiv = "muhHspPlnTopluAktDiv",
+                MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+                Type = "MHHSPL",
+                SilMesajText = "Hesap Planı kaydını"
+            }
+        });
+
+        #region Columns
+        settings.Columns.Add(m => m.HSPTKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["HSPTKDList"]);
+            });
+        });
+        settings.Columns.Add(m => m.DVCNKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["DVCNKDList"]);
+            });
+        });
+        settings.Columns.Add(m => m.DGSKKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["DGSKKDList"]);
+            });
+        });
+        settings.Columns.Add(m => m.KDVDKD, column =>
+        {
+            column.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["KDVDKDList"]);
+            });
+        });
+        #endregion Columns
+
+        List<string> excludeList = new List<string>();
+        excludeList.Add("HSPTKD");
+        excludeList.Add("DVCNKD");
+        excludeList.Add("DGSKKD");
+        excludeList.Add("KDVDKD");
+        GridViewHelper<MHHSPL>.Settings(settings, new MHHSPL(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="muhHspPlnEkleDiv">
+</div>
+<div id="muhHspPlnLayoutDiv">
+</div>
+<div id="muhHspPlnBelgeAkisDiv">
+</div>
+<div id="muhHspPlnTopluAktDiv">
+</div>

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "PersonelMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Bps.Core.Web.Session
+@model int?
+
+<script src="../../../../Areas/IK/Assets/Js/personel.js"></script>
+@using (Html.BeginForm())
+{
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlPersonel";
+            PageControlHelper.Settings(settings, false);
+            settings.TabPages.Add("Personel Listesi", "Tab1").SetContent(() =>
+            {
+                Html.RenderAction("PersonelGridPartial", "Personel", new { area = SessionHelper.ProjeKod });
+            });
+            settings.TabPages.Add("Personel Düzenleme", "Tab2").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+}

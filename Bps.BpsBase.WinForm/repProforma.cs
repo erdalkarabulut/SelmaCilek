@@ -1,0 +1,17 @@
+﻿using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using DevExpress.XtraReports.UI;
+
+namespace BPS.Windows.Forms
+{
+    public partial class repProforma : DevExpress.XtraReports.UI.XtraReport
+    {
+        public repProforma()
+        {
+            InitializeComponent();
+        }
+
+    }
+}

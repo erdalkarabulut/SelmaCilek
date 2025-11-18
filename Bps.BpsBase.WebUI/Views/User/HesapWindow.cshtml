@@ -1,0 +1,241 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@using AnimationType = DevExpress.Web.AnimationType
+@using CloseAction = DevExpress.Web.CloseAction
+
+@{
+    Layout = null;
+}
+
+@model Bps.BpsBase.Entities.Concrete.GN.GNKULL
+
+<style>
+    .txtYerlesimTextBox {
+        float: left;
+    }
+
+    .btnYerlesimSave {
+        float: right;
+    }
+</style>
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppAccount";
+        settings.Width = 850;
+        settings.Height = 640;
+        settings.AllowDragging = true;
+        settings.Images.Header.IconID = IconID.BusinessobjectsBoUserSvg16x16;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Hesap Ayarları";
+        settings.ShowOnPageLoad = true;
+        settings.ShowFooter = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.Styles.Content.Paddings.Padding = 0;
+        settings.Styles.Footer.BackColor = Color.AliceBlue;
+        settings.Styles.Footer.Paddings.Padding = 0;
+        settings.Maximized = false;
+        settings.ScrollBars = ScrollBars.Vertical;
+        settings.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.OnWindowInnerWidth;
+        settings.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formAccount";
+                formLayoutsettings.ControlStyle.CssClass = "";
+                formLayoutsettings.Width=Unit.Percentage(100);
+                formLayoutsettings.ColCount = 2;
+
+                formLayoutsettings.UseDefaultPaddings = false;
+
+                formLayoutsettings.Styles.LayoutItem.Paddings.PaddingLeft = Unit.Pixel(10);
+                formLayoutsettings.Styles.LayoutItem.Paddings.PaddingRight = Unit.Pixel(10);
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "";
+                    g.ColCount = 1;
+                    g.Items.Add(i =>
+                    {
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("UploadPartial", "Upload", new { area = "", tableName = "GNKULL", tableId = Model.Id, size = new Size(128, 128), isUpEnable = false });
+                        });
+                    });
+                });
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Kullanıcı Bilgileri";
+                    g.ShowCaption = DefaultBoolean.False;
+                    g.ColCount = 1;
+                    g.Items.Add(m => m.Id, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.SIRKID, i => { i.ClientVisible = false; });
+
+                    g.Items.AddGroupItem(g1 =>
+                    {
+                        g1.Caption = "Kullanıcı Bilgileri";
+                        g1.ShowCaption = DefaultBoolean.True;
+                        g1.Items.Add(m => m.KULKOD, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "KULKOD";
+                                s.ReadOnly = true;
+                            });
+                        });
+                        g1.Items.Add(m => m.GNNAME, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "GNNAME";
+                                s.ReadOnly = true;
+                            });
+                        });
+                        g1.Items.Add(m => m.GNSNAM, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "GNSNAM";
+                                s.ReadOnly = true;
+                            });
+                        });
+                        g1.Items.Add(m => m.GNMAIL, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "GNMAIL";
+                                s.ReadOnly = true;
+                            });
+                        });
+
+                        g1.Items.Add(m => m.ROLEKD, i =>
+                        {
+                            i.NestedExtension().ComboBox(s =>
+                            {
+                                s.Name = "ROLEKD";
+                                s.Properties.CallbackPageSize = 15;
+                                s.Properties.TextField = "TANIMI";
+                                s.Properties.ValueField = "HARKOD";
+                                s.Properties.DataSource = ViewData["RolList"];
+                                s.ReadOnly = true;
+                            });
+                        });
+
+                        g1.Items.Add(m => m.EKKULL, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "EKKULL";
+                                s.ReadOnly = true;
+                            });
+                        });
+                        g1.Items.Add(m => m.ETARIH, i =>
+                        {
+                            i.NestedExtension().DateEdit(s =>
+                            {
+                                s.Name = "ETARIH";
+                                s.ReadOnly = true;
+                            });
+                        });
+                    });
+
+                    g.Items.AddGroupItem(g2 =>
+                    {
+                        g2.Caption = "Şifre";
+                        g2.ColCount = 1;
+                        g2.Items.Add(i =>
+                        {
+                            i.Caption = "Mevcut Şifre";
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "MevcutSifre";
+                                s.Properties.Password = true;
+                                s.AutoCompleteType = AutoCompleteType.Disabled;
+                                s.Properties.MaxLength = 20;
+                            });
+                        });
+
+                        g2.Items.Add(i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                i.Caption = "Yeni Şifre";
+                                s.Name = "YeniSifre";
+                                s.Properties.Password = true;
+                                s.AutoCompleteType = AutoCompleteType.Disabled;
+                                s.Properties.MaxLength = 20;
+                            });
+                        });
+
+                        g2.Items.Add(i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                i.Caption = "Yeni Şifre (Tekrar)";
+                                s.Name = "YeniSifreTekrar";
+                                s.Properties.Password = true;
+                                s.AutoCompleteType = AutoCompleteType.Disabled;
+                                s.Properties.MaxLength = 20;
+                            });
+                        });
+
+                        g2.Items.Add(i => { i.ShowCaption = DefaultBoolean.False; }).SetNestedContent(() =>
+                        {
+                            g.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                            Html.DevExpress().Button(s =>
+                            {
+                                s.Name = "btnAccount_Sifre";
+                                s.Width = Unit.Pixel(100);
+                                s.ControlStyle.CssClass = "buttonAlign";
+                                s.Text = "Şifre Kaydet";
+                                s.Images.Image.IconID = IconID.ContentCheckboxSvg16x16;
+                                s.ClientSideEvents.Click = @"function (s, e) { cilekMain.SifreKaydet('" + Url.Action("SifreKaydet", "User", new { area = "" }) + "','" + Url.Action("CikisYap", "User", new { area = "" }) + "'); }";
+                                s.UseSubmitBehavior = false;
+                            }).Render();
+                        });
+                    });
+                });
+                formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                formLayoutsettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 700;
+            }).Bind(Model).Render();
+        });
+
+        settings.SetFooterTemplateContent(c =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "footerFlAccount";
+                formLayoutsettings.Width = Unit.Percentage(100);
+                formLayoutsettings.ControlStyle.CssClass = "clearPaddings";
+                formLayoutsettings.Styles.LayoutItem.CssClass = "clearPaddings";
+                formLayoutsettings.Styles.LayoutGroup.CssClass = "clearPaddings";
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.GroupBoxDecoration = GroupBoxDecoration.None;
+                    g.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                    g.Items.Add(i => { i.ShowCaption = DefaultBoolean.False; }).SetNestedContent(() =>
+                    {
+                        Html.DevExpress().Button(s =>
+                        {
+                            s.Name = "btnAccount_Ok";
+                            s.Width = Unit.Pixel(100);
+                            s.ControlStyle.CssClass = "buttonAlign";
+                            s.Text = "Kaydet";
+                            s.Images.Image.IconID = IconID.ContentCheckboxSvg16x16;
+                            //s.ClientSideEvents.Click = @"function (s, e) { orgScript.TodoApply('" + Url.Action("TodoApply", "Organizasyon", new { area = "GN" }) + "', " + Html.Raw(Json.Encode(Model)) + ", true) }";
+                            s.UseSubmitBehavior = false;
+                            s.Enabled = false;
+                        }).Render();
+                    });
+                });
+            }).Render();
+        });
+    }).GetHtml()

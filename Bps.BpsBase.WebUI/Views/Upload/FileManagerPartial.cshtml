@@ -1,0 +1,54 @@
+﻿@using System.Web.UI.WebControls
+@using Bps.BpsBase.WebUI.Helpers.Devexpress
+
+@{
+    var tableName = ViewData["TableName"].ToString();
+    var tableId = ViewData["TableId"].ToString();
+    var enable = (bool)ViewData["Enable"];
+}
+@{
+    Html.DevExpress().FileManager(
+        settings =>
+        {
+            settings.Name = "fileManager";
+            settings.CallbackRouteValues = new { Controller = "Upload", Action = "FileManagerPartial", area = "", tableName, tableId, enable };
+            settings.DownloadRouteValues = new { Controller = "Upload", Action = "DownloadFiles", area = "", tableName };
+            settings.CustomActionRouteValues = new { Controller = "Upload", Action = "FileManagerPartial", area = "", tableName, tableId, enable };
+            settings.Width = Unit.Percentage(100);
+
+            settings.ClientSideEvents.CustomCommand = @"function(s, e) {scriptToolbarDev.FileManagerKaydet(s,e, '" + Url.Action("FileManagerKaydet", "Upload", new { area = "" }) + "', '" + tableName + "', " + tableId + "); }";
+
+            settings.Settings.AllowedFileExtensions = FileManagerHelper.AllowedFileExtensions;
+                    //settings.Settings.InitialFolder = "Salvador Dali\\1936 - 1945";
+                    settings.Settings.ThumbnailFolder = Url.Content("~/Assets/UploadFolder/" + tableName);
+
+            settings.SettingsEditing.AllowCreate = false;
+            settings.SettingsEditing.AllowDownload = true;
+            settings.SettingsEditing.AllowMove = false;
+            settings.SettingsEditing.AllowCopy = false;
+            settings.SettingsEditing.AllowDelete = true;
+            settings.SettingsEditing.AllowRename = false;
+
+            settings.SettingsFolders.Visible = false;
+            settings.SettingsBreadcrumbs.Visible = false;
+
+            settings.SettingsUpload.UseAdvancedUploadMode = true;
+            settings.SettingsUpload.Enabled = true;
+            settings.SettingsUpload.AdvancedModeSettings.EnableMultiSelect = true;
+
+            settings.SettingsFileList.ThumbnailsViewSettings.ThumbnailWidth = 100;
+            settings.SettingsFileList.ThumbnailsViewSettings.ThumbnailHeight = 100;
+
+            settings.SettingsAdaptivity.Enabled = true;
+
+            settings.SettingsToolbar.Items.Add(new FileManagerToolbarDeleteButton());
+            settings.SettingsToolbar.Items.Add(new FileManagerToolbarRefreshButton());
+            settings.SettingsToolbar.Items.Add(new FileManagerToolbarDownloadButton());
+
+            if (!enable)
+            {
+                settings.SettingsUpload.Enabled = false;
+                settings.SettingsEditing.AllowDelete = false;
+            }
+        }).BindToFileSystemProvider(Model).GetHtml();
+}

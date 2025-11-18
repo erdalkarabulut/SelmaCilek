@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+
+@using System.Web.UI.WebControls
+@using AnimationType = DevExpress.Web.AnimationType
+@using CloseAction = DevExpress.Web.CloseAction
+@model Bps.Core.Web.Model.BatchEditParamModel
+
+@using (Html.BeginForm())
+{
+    @Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppEditWindow";
+        settings.Width = 900;
+        settings.Height = 560;
+        settings.AllowDragging = true;
+        settings.Images.Header.IconID = IconID.DashboardsEditfilterSvg16x16;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Edit Ekranı";
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.Styles.Content.Paddings.Padding = 0;
+        settings.ShowFooter = true;
+        //settings.ClientSideEvents.CloseButtonClick = "function(s, e) {console.log(arguments); }";
+        settings.SetContent(() =>
+        {
+            if (Model.EditFileds.Count > 0)
+            {
+                var data = Model.EditFileds[Model.SelectedIndex];
+                if (data != null)
+                {
+                    Html.RenderAction(data.Function, data.Controller, new { area = data.Area });
+                }
+            }
+        });
+        settings.SetFooterTemplateContent(c =>
+        {
+            Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "footerEditFormLayout";
+                formLayoutsettings.Width = Unit.Percentage(100);
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.GroupBoxDecoration = GroupBoxDecoration.None;
+                    g.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                    g.Items.Add(i => { i.ShowCaption = DefaultBoolean.False; }).SetNestedContent(() =>
+                    {
+                        Html.DevExpress().Button(s =>
+                        {
+                            s.Name = "submitEditFormSelect";
+                            s.Text = "Seç";
+                            s.Width = Unit.Pixel(100);
+                            s.ControlStyle.CssClass = "buttonAlign";
+                            s.Images.Image.IconID = IconID.ActionsSelectall16x16;
+                            s.ClientSideEvents.Click = @"function (s, e) {scriptToolbarBatch.SelectEditGrid(" + Html.Raw(Json.Encode(Model)) + ")}";
+                        }).Render();
+
+                        Html.DevExpress().Button(s =>
+                        {
+                            s.Name = "cancelGanttDetailWin";
+                            s.Text = "İptal";
+                            s.Width = Unit.Pixel(100);
+                            s.ControlStyle.CssClass = "cancelButton";
+                            s.Images.Image.IconID = IconID.ActionsCancel16x16;
+                            s.ClientSideEvents.Click = "function (s, e) { ppEditWindow.Hide(); }";
+                        }).Render();
+                    });
+                });
+            }).Render();
+        });
+    }).GetHtml()
+}

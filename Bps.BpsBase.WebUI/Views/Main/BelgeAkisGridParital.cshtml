@@ -1,0 +1,89 @@
+﻿@using System.Web.UI.WebControls
+@using Bps.BpsBase.Entities.Models.GN.Listed
+@model List<BelgeAkisModel>
+@{
+    var id = (int) ViewData["id"];
+    var type = (string) ViewData["type"];
+    var menuTag = (int) ViewData["menuTag"];
+}
+@{
+    Html.DevExpress().GridView<BelgeAkisModel>(settings =>
+    {
+        settings.Name = "gridBelgeAkis";
+        settings.CallbackRouteValues = new {Controller = "Main", Action = "BelgeAkisGridParital"};
+        settings.ClientSideEvents.BeginCallback = "function(s,e){" +
+                                                  "e.customArgs['id'] =" + id + ";" +
+                                                  "e.customArgs['type'] = '" + type + "';" +
+                                                  "e.customArgs['menuTag'] = " + menuTag + ";" +
+                                                  "}";
+
+        settings.KeyFieldName = "Id";
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UserKod";
+            column.Width = Unit.Percentage(10);
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "GNNAME";
+            column.Width = Unit.Percentage(15);
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "GNSNAM";
+            column.Width = Unit.Percentage(15);
+        });
+        settings.Columns.Add(column =>
+        {
+            column.Width = Unit.Percentage(10);
+            column.FieldName = "Date";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "New";
+            column.Width = Unit.Percentage(25);
+            column.PropertiesEdit.EncodeHtml = false;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Old";
+            column.Width = Unit.Percentage(25);
+            column.PropertiesEdit.EncodeHtml = false;
+        });
+
+        settings.Width = Unit.Percentage(100);
+        settings.EnablePagingGestures = AutoBoolean.False;
+        settings.Styles.Header.Wrap = DefaultBoolean.True;
+        settings.KeyboardSupport = true;
+
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.VerticalScrollableHeight = 506;
+
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = true;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        settings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 600;
+
+        settings.Settings.ShowGroupPanel = true;
+        settings.SettingsPager.PageSize = 50;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.FirstPageButton.Visible = true;
+        settings.SettingsPager.LastPageButton.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] {"50", "100", "10"};
+        settings.SettingsPager.Mode = GridViewPagerMode.ShowPager;
+        settings.SettingsPager.SEOFriendly = SEOFriendlyMode.Enabled;
+
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.Settings.ShowFilterRow = true;
+        settings.Settings.ShowFilterRowMenu = true;
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.Width = 30;
+        settings.SettingsBehavior.AllowSelectSingleRowOnly = true;
+    }).Bind(Model).Render();
+}

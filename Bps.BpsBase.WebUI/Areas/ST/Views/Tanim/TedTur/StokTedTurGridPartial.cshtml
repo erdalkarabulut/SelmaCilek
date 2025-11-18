@@ -1,0 +1,45 @@
+﻿@using Bps.BpsBase.Entities.Concrete.ST
+@using Bps.Core.Web.Model
+@model List<STTDTR>
+
+@{
+    Html.DevExpress().GridView<STTDTR>(settings =>
+    {
+        settings.Name = "gridStokTedTur";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "Tanim", Action = "StokTedTurGridPartial", area = "ST", menuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG};
+        
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed) ViewData["YetkiModel"],
+            toolParam = new DevToolBarParam()
+            {
+                Grid = settings.Name,
+                EkleUrl = Url.Action("StokTedTurEkleWindow", "Tanim", new {area = "ST"}),
+                DegistirUrl = Url.Action("StokTedTurEkleWindow", "Tanim", new {area = "ST"}),
+                SilUrl = Url.Action("StokTedTurSil", "Tanim", new {area = "ST"}),
+                EklePopup = "ppStokTedTurEkle",
+                DegistirPopup = "ppStokTedTurEkle",
+                EkleDiv = "stokTedTurEkleDiv",
+                DegistirDiv = "stokTedTurEkleDiv",
+                YerlesimDiv = "TedTurLayoutDiv",
+                BelgeAkisDiv = "TedTurBelgeAkisDiv",
+                TopluAktarDiv = "TedTurTopluAktDiv",
+                MenuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG,
+                Type = "STTDTR"
+            }
+        });
+
+        GridViewHelper<STTDTR>.Settings(settings, new STTDTR());
+    }).Bind(Model).Render();
+}
+<div id="stokTedTurEkleDiv">
+</div>
+<div id="TedTurLayoutDiv">
+</div>
+<div id="TedTurBelgeAkisDiv">
+</div>
+<div id="TedTurTopluAktDiv">
+</div>

@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4D1DD09-B78A-434A-8785-807B0F3634B8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bps.BpsBase.Entities</RootNamespace>
+    <AssemblyName>Bps.BpsBase.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Concrete\CM\CMAKSN.cs" />
+    <Compile Include="Concrete\CM\CMKART.cs" />
+    <Compile Include="Concrete\CR\CRADRS.cs" />
+    <Compile Include="Concrete\CR\CRBANK.cs" />
+    <Compile Include="Concrete\CR\CRCAFY.cs" />
+    <Compile Include="Concrete\CR\CRCARI.cs" />
+    <Compile Include="Concrete\CR\CRYTKL.cs" />
+    <Compile Include="Concrete\FY\FYShopifyImage.cs" />
+    <Compile Include="Concrete\FY\FYShopifyOption.cs" />
+    <Compile Include="Concrete\FY\FYShopifyOrder.cs" />
+    <Compile Include="Concrete\FY\FYShopifyProduct.cs" />
+    <Compile Include="Concrete\FY\FYShopifyVariant.cs" />
+    <Compile Include="Concrete\GN\GNBNHR.cs" />
+    <Compile Include="Concrete\GN\GNDPNO.cs" />
+    <Compile Include="Concrete\GN\GNDPTN.cs" />
+    <Compile Include="Concrete\GN\GNDPTP.cs" />
+    <Compile Include="Concrete\GN\GNDPZM.cs" />
+    <Compile Include="Concrete\GN\GNEVRK.cs" />
+    <Compile Include="Concrete\GN\GNFILE.cs" />
+    <Compile Include="Concrete\GN\GNKLOP.cs" />
+    <Compile Include="Concrete\GN\GNKOSL.cs" />
+    <Compile Include="Concrete\GN\GNKUKR.cs" />
+    <Compile Include="Concrete\GN\GNKULL.cs" />
+    <Compile Include="Concrete\GN\GNKXML.cs" />
+    <Compile Include="Concrete\GN\GNLKHR.cs" />
+    <Compile Include="Concrete\GN\GNMENU.cs" />
+    <Compile Include="Concrete\GN\GNMESJ.cs" />
+    <Compile Include="Concrete\GN\GNOPHR.cs" />
+    <Compile Include="Concrete\GN\GNOPTP.cs" />
+    <Compile Include="Concrete\GN\GNORGA.cs" />
+    <Compile Include="Concrete\GN\GNORHR.cs" />
+    <Compile Include="Concrete\GN\GNTHRK.cs" />
+    <Compile Include="Concrete\GN\GNTIPI.cs" />
+    <Compile Include="Concrete\GN\GNYETB.cs" />
+    <Compile Include="Concrete\GN\GNYETK.cs" />
+    <Compile Include="Concrete\IK\IKPERS.cs" />
+    <Compile Include="Concrete\IS\ISPLAN.cs" />
+    <Compile Include="Concrete\IS\ISPLST.cs" />
+    <Compile Include="Concrete\IS\ISREVZ.cs" />
+    <Compile Include="Concrete\IS\ISRVHR.cs" />
+    <Compile Include="Concrete\IS\ISURBG.cs" />
+    <Compile Include="Concrete\IS\ISYROP.cs" />
+    <Compile Include="Concrete\IS\ISYRTN.cs" />
+    <Compile Include="Concrete\KS\KSKASA.cs" />
+    <Compile Include="Concrete\MH\MHHSPL.cs" />
+    <Compile Include="Concrete\SA\SADEGA.cs" />
+    <Compile Include="Concrete\SH\SHSRVS.cs" />
+    <Compile Include="Concrete\SN\SNIFBA.cs" />
+    <Compile Include="Concrete\SN\SNKRTR.cs" />
+    <Compile Include="Concrete\SN\SNKRTY.cs" />
+    <Compile Include="Concrete\SN\SNSNKR.cs" />
+    <Compile Include="Concrete\SN\SNTYNN.cs" />
+    <Compile Include="Concrete\SP\SPDKDR.cs" />
+    <Compile Include="Concrete\SP\SPFBAS.cs" />
+    <Compile Include="Concrete\SP\SPFHAR.cs" />
+    <Compile Include="Concrete\SP\SPFTIP.cs" />
+    <Compile Include="Concrete\SP\SPFTOP.cs" />
+    <Compile Include="Concrete\SP\SPHRPL.cs" />
+    <Compile Include="Concrete\SP\SPKOSL.cs" />
+    <Compile Include="Concrete\SP\SPODTB.cs" />
+    <Compile Include="Concrete\SP\SPREZV.cs" />
+    <Compile Include="Concrete\SP\SPUROP.cs" />
+    <Compile Include="Concrete\ST\STALTG.cs" />
+    <Compile Include="Concrete\ST\STANAG.cs" />
+    <Compile Include="Concrete\ST\STBDRN.cs" />
+    <Compile Include="Concrete\ST\STCINS.cs" />
+    <Compile Include="Concrete\ST\STCRKD.cs" />
+    <Compile Include="Concrete\ST\STDEPO.cs" />
+    <Compile Include="Concrete\ST\STDEPV.cs" />
+    <Compile Include="Concrete\ST\STDPYN.cs" />
+    <Compile Include="Concrete\ST\STDURM.cs" />
+    <Compile Include="Concrete\ST\STFTIP.cs" />
+    <Compile Include="Concrete\ST\STHBAS.cs" />
+    <Compile Include="Concrete\ST\STHRKT.cs" />
+    <Compile Include="Concrete\ST\STKART.cs" />
+    <Compile Include="Concrete\ST\STKFIY.cs" />
+    <Compile Include="Concrete\ST\STKFYT.cs" />
+    <Compile Include="Concrete\ST\STKMIH.cs" />
+    <Compile Include="Concrete\ST\STKMIZ.cs" />
+    <Compile Include="Concrete\ST\STMALT.cs" />
+    <Compile Include="Concrete\ST\STMHSB.cs" />
+    <Compile Include="Concrete\ST\STNAME.cs" />
+    <Compile Include="Concrete\ST\STOLCU.cs" />
+    <Compile Include="Concrete\ST\STOPTM.cs" />
+    <Compile Include="Concrete\ST\STSALE.cs" />
+    <Compile Include="Concrete\ST\STSERI.cs" />
+    <Compile Include="Concrete\ST\STTDTR.cs" />
+    <Compile Include="Concrete\ST\STUROP.cs" />
+    <Compile Include="Concrete\ST\STURYR.cs" />
+    <Compile Include="Concrete\ST\STVMIH.cs" />
+    <Compile Include="Concrete\ST\STVMIZ.cs" />
+    <Compile Include="Concrete\ST\STVURY.cs" />
+    <Compile Include="Concrete\TS\TSFBAS.cs" />
+    <Compile Include="Concrete\TS\TSFHAR.cs" />
+    <Compile Include="Concrete\TS\TSFTIP.cs" />
+    <Compile Include="Concrete\UA\UAKLTN.cs" />
+    <Compile Include="Concrete\UA\UAKLTP.cs" />
+    <Compile Include="Concrete\UA\UAMLTY.cs" />
+    <Compile Include="Concrete\UA\UASTBG.cs" />
+    <Compile Include="Concrete\UA\UASTRT.cs" />
+    <Compile Include="Concrete\UR\URAGAC.cs" />
+    <Compile Include="Concrete\UR\URAGVR.cs" />
+    <Compile Include="Concrete\UR\URSURE.cs" />
+    <Compile Include="Concrete\WM\WMADRS.cs" />
+    <Compile Include="Concrete\WM\WMADRT.cs" />
+    <Compile Include="Concrete\WM\WMHRAT.cs" />
+    <Compile Include="Concrete\WM\WMHRKT.cs" />
+    <Compile Include="Concrete\WM\WMNKSB.cs" />
+    <Compile Include="Concrete\WM\WMSTHR.cs" />
+    <Compile Include="Concrete\\DOVKUR.cs" />
+    <Compile Include="Concrete\\LOCKED.cs" />
+    <Compile Include="Concrete\\Logs.cs" />
+    <Compile Include="Concrete\\SIRKET.cs" />
+    <Compile Include="Constants\StaticParams.cs" />
+    <Compile Include="Models\CM\Single\CrmKartParamModel.cs" />
+    <Compile Include="Models\CR\Enums\CariOdemeCinsEnum.cs" />
+    <Compile Include="Models\CR\Listed\CariYetkiliModel.cs" />
+    <Compile Include="Models\CR\Listed\CariKodAdModel.cs" />
+    <Compile Include="Models\CR\Listed\CariExternalSourceModel.cs" />
+    <Compile Include="Models\CR\Listed\CariEmailModel.cs" />
+    <Compile Include="Models\CR\Single\GenelCariKartModel.cs" />
+    <Compile Include="Models\EventData.cs" />
+    <Compile Include="Models\Firestore\Order.cs" />
+    <Compile Include="Models\Firestore\Product.cs" />
+    <Compile Include="Models\FY\Listed\FyProductListMatch.cs" />
+    <Compile Include="Models\FY\Listed\FYStBdrnListMatch.cs" />
+    <Compile Include="Models\FY\Listed\FYStKartListMatch.cs" />
+    <Compile Include="Models\FY\Listed\FYVariantListMatch.cs" />
+    <Compile Include="Models\GN\Enums\GunEnum.cs" />
+    <Compile Include="Models\GN\Enums\KurHesapEnum.cs" />
+    <Compile Include="Models\GN\Enums\MenuPlatform.cs" />
+    <Compile Include="Models\GN\Enums\OdemeTercihEnum.cs" />
+    <Compile Include="Models\GN\Listed\BelgeAkisModel.cs" />
+    <Compile Include="Models\GN\Listed\CardModel.cs" />
+    <Compile Include="Models\GN\Listed\ChildNameTipKod.cs" />
+    <Compile Include="Models\GN\Listed\DashboardModel.cs" />
+    <Compile Include="Models\GN\Listed\DbTablesModel.cs" />
+    <Compile Include="Models\GN\Listed\DepoWmModel.cs" />
+    <Compile Include="Models\GN\Listed\ImageGaleryModel.cs" />
+    <Compile Include="Models\GN\Listed\KullaniciKartModel.cs" />
+    <Compile Include="Models\GN\Listed\KullaniciModel.cs" />
+    <Compile Include="Models\GN\Listed\KullaniciYetkiModel.cs" />
+    <Compile Include="Models\GN\Listed\KullaniciMinModel.cs" />
+    <Compile Include="Models\GN\Listed\KullNameSurModel.cs" />
+    <Compile Include="Models\GN\Listed\OnayOrganizasyonTreeList.cs" />
+    <Compile Include="Models\GN\Listed\ProjelerYetkiModel.cs" />
+    <Compile Include="Models\GN\Listed\TipHareketListModel.cs" />
+    <Compile Include="Models\GN\Listed\TipHareketMinListModel.cs" />
+    <Compile Include="Models\GN\Listed\TipListModel.cs" />
+    <Compile Include="Models\GN\Listed\TopBarInfoModel.cs" />
+    <Compile Include="Models\GN\Listed\UploadedFilesModel.cs" />
+    <Compile Include="Models\GN\Params\GirisParam.cs" />
+    <Compile Include="Models\GN\Single\CmbComboModel.cs" />
+    <Compile Include="Models\GN\Single\EvrakNoUretParamModel.cs" />
+    <Compile Include="Models\GN\Single\GenelKayitModel.cs" />
+    <Compile Include="Models\GN\Single\HesapModel.cs" />
+    <Compile Include="Models\GN\Single\UserLayoutDatas.cs" />
+    <Compile Include="Models\IK\Listed\IkpersSicilAdPozModel.cs" />
+    <Compile Include="Models\IS\Listed\IsplanBaslikModel.cs" />
+    <Compile Include="Models\IS\Listed\IsplanOperasyonDurumModel.cs" />
+    <Compile Include="Models\IS\Listed\IsplanParcaOperasyonModel.cs" />
+    <Compile Include="Models\IS\Listed\IsplanUrunParcaModel.cs" />
+    <Compile Include="Models\IS\Listed\IsplanOperasyonModel.cs" />
+    <Compile Include="Models\IS\Single\IsPlaniParamModel.cs" />
+    <Compile Include="Models\ProfilKesimModel.cs" />
+    <Compile Include="Models\ProformaUrunModel.cs" />
+    <Compile Include="Models\IS\Listed\IsyeriOperasyonModel.cs" />
+    <Compile Include="Models\Shopify\Siparis\ShopifyOrder.cs" />
+    <Compile Include="Models\Shopify\Siparis\ShopifyOrderBaslikList.cs" />
+    <Compile Include="Models\Shopify\Stok\ShopifyProduct.cs" />
+    <Compile Include="Models\SH\Firestore\User.cs" />
+    <Compile Include="Models\SH\Firestore\WorkOrder.cs" />
+    <Compile Include="Models\SH\Single\SshParamModel.cs" />
+    <Compile Include="Models\SiparisUrunModel.cs" />
+    <Compile Include="Models\SP\Listed\SaAcikSiparisMiktar.cs" />
+    <Compile Include="Models\SP\Listed\SaKalemFiyat.cs" />
+    <Compile Include="Models\SP\Listed\SiparisPaketIhtiyac.cs" />
+    <Compile Include="Models\SP\Listed\SpBaslikAcikModel.cs" />
+    <Compile Include="Models\SP\Listed\SpRezervasyonPaket.cs" />
+    <Compile Include="Models\SP\Listed\SpStokAdresMiktar.cs" />
+    <Compile Include="Models\SP\Listed\SpRezervasyonOzet.cs" />
+    <Compile Include="Models\SP\Listed\SaRaporBaslik.cs" />
+    <Compile Include="Models\SP\Listed\SiparisStokModel.cs" />
+    <Compile Include="Models\SP\Listed\SaRaporKalem.cs" />
+    <Compile Include="Models\SP\Listed\SaRaporBaslikAyrinti.cs" />
+    <Compile Include="Models\SP\Listed\TeklifRaporBaslik.cs" />
+    <Compile Include="Models\SP\Listed\SiparisKosulModel.cs" />
+    <Compile Include="Models\SP\Single\SaSiparisEpostaModel.cs" />
+    <Compile Include="Models\SP\Single\SiparisKayitModel.cs" />
+    <Compile Include="Models\SP\Single\SiparisParamModel.cs" />
+    <Compile Include="Models\SP\Single\SiparisRaporModel.cs" />
+    <Compile Include="Models\ST\Api\StokKodAdModel.cs" />
+    <Compile Include="Models\ST\Api\StokMiktarModel.cs" />
+    <Compile Include="Models\ST\Enums\HareketTipEnum.cs" />
+    <Compile Include="Models\ST\Enums\MaliyetHesapTipEnum.cs" />
+    <Compile Include="Models\ST\Enums\StokAlimSatimEnum.cs" />
+    <Compile Include="Models\ST\Enums\TedarikTurEnum.cs" />
+    <Compile Include="Models\ST\Listed\Deneme.cs" />
+    <Compile Include="Models\ST\Listed\GridBatchListModel.cs" />
+    <Compile Include="Models\ST\Listed\StbdrnListModel.cs" />
+    <Compile Include="Models\ST\Listed\StdepoBatchModel.cs" />
+    <Compile Include="Models\ST\Listed\StdepoStokAdresModel.cs" />
+    <Compile Include="Models\ST\Listed\SthrktMiktarByPartiModel.cs" />
+    <Compile Include="Models\ST\Listed\SthrktStokHareketModel.cs" />
+    <Compile Include="Models\ST\Listed\StmhsbBatchModel.cs" />
+    <Compile Include="Models\ST\Listed\StdepoStokMiktarModel.cs" />
+    <Compile Include="Models\ST\Listed\StnameBatchModel.cs" />
+    <Compile Include="Models\ST\Listed\StokDurumModel.cs" />
+    <Compile Include="Models\ST\Listed\StokOlcuModel.cs" />
+    <Compile Include="Models\ST\Listed\StsaleBatchModel.cs" />
+    <Compile Include="Models\ST\Single\GenelStokKartModel.cs" />
+    <Compile Include="Models\ST\Single\StokHareketModel.cs" />
+    <Compile Include="Models\TS\TeslimatKayitModel.cs" />
+    <Compile Include="Models\TS\TeslimatParamModel.cs" />
+    <Compile Include="Models\UA\UrunAgaciKalemMalzemeJoin.cs" />
+    <Compile Include="Models\UA\UrunAgaciList.cs" />
+    <Compile Include="Models\UA\UrunAgaciModulPaketParca.cs" />
+    <Compile Include="Models\UA\UrunAgaciModulPaket.cs" />
+    <Compile Include="Models\UA\UrunAgaciRevizyonlar.cs" />
+    <Compile Include="Models\UA\UrunAgaciRevizyonList.cs" />
+    <Compile Include="Models\UA\UrunAgaciRota.cs" />
+    <Compile Include="Models\UA\UrunAgaciTreeList.cs" />
+    <Compile Include="Models\UA\UrunAgaciUst.cs" />
+    <Compile Include="Models\WM\Api\StokAdresTransferModel.cs" />
+    <Compile Include="Models\WM\Enums\NakilTurEnum.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\UrunOpsiyonModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\SA\" />
+    <Folder Include="Models\WM\Single\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bps.Core\Bps.Core.csproj">
+      <Project>{5ed0b4a6-e53f-46cf-a8f1-f7d8c8676cc1}</Project>
+      <Name>Bps.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

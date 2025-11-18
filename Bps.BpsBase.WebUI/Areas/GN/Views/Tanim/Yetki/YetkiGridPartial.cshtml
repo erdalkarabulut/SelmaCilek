@@ -1,0 +1,78 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@using Bps.Core.Web.Model
+@model List<GNYETK>
+
+@{
+    Html.DevExpress().GridView<GNYETK>(settings =>
+    {
+        settings.Name = "gridYetki";
+        settings.KeyFieldName = "Id";
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("YetkiEkleWindow", "Tanim", new { area = "GN" }),
+            DegistirUrl = Url.Action("YetkiEkleWindow", "Tanim", new { area = "GN" }),
+            SilUrl = Url.Action("YetkiSil", "Tanim", new { area = "GN" }),
+            EklePopup = "ppYetkiEkle",
+            DegistirPopup = "ppYetkiEkle",
+            EkleDiv = "yetkiEkleDiv",
+            DegistirDiv = "yetkiEkleDiv",
+            YerlesimDiv = "yetkiLayoutDiv",
+            BelgeAkisDiv = "yetkiBelgeAkisDiv",
+            TopluAktarDiv = "yetkiTopluAktDiv",
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "GNYETK",
+            ExcluldeList = new List<string>() { "tb_Add" },
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+        settings.CallbackRouteValues = new { Controller = "Tanim", Action = "YetkiGridPartial" };
+        settings.ClientSideEvents.BeginCallback = "function(s,e){" +
+                                                  "e.customArgs['menuTag'] =" + ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG + ";" +
+                                                  "e.customArgs['kulKod'] = cmb_Yetki_Kullanici.GetValue();" +
+                                                  "e.customArgs['projeKod'] = cmb_Yetki_Proje.GetValue();" +
+                                                  "}";
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+        #region Toolbar
+
+        var addButton = new MVCxGridViewToolbarItem();
+        addButton.Text = "Ekle";
+        addButton.Name = "tb_Add";
+        addButton.Enabled = yetki.EKLEME == 1;
+        addButton.Command = GridViewToolbarCommand.Custom;
+        addButton.NavigateUrl = @"javascript:yetkiScript.Ekle('" + toolParam.EkleDiv + "', '" + toolParam.EklePopup + "', " + "'" + toolParam.EkleUrl + "'," + toolParam.MenuTag + ",cmb_Yetki_Kullanici.GetValue(),cmb_Yetki_Proje.GetValue())";
+        addButton.Image.IconID = IconID.ActionsNew16x16;
+
+        var backButton = new MVCxGridViewToolbarItem();
+        backButton.Text = "Geri";
+        backButton.Name = "tb_Back";
+        backButton.Command = GridViewToolbarCommand.Custom;
+        backButton.NavigateUrl = @"javascript:pageControlYetki.SetActiveTabIndex(0);";
+        backButton.Image.IconID = IconID.NavigationBackward16x16;
+
+        toolParam.ItemList.Add(addButton);
+        toolParam.ItemList.Add(backButton);
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #endregion
+
+        List<string> excludeList = new List<string>();
+        GridViewHelper<GNYETK>.Settings(settings, new GNYETK(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="yetkiEkleDiv">
+</div>
+
+<div id="yetkiLayoutDiv">
+</div>
+<div id="yetkiBelgeAkisDiv">
+</div>
+<div id="yetkiTopluAktDiv">
+</div>

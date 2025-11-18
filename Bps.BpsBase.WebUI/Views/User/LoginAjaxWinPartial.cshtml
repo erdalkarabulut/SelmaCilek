@@ -1,0 +1,97 @@
+﻿@using Bps.BpsBase.Entities.Concrete
+@using Bps.BpsBase.Entities.Concrete.GN
+@using DevExtreme.AspNet.Mvc
+@{
+    var sirkets = new List<SIRKET>()
+    {
+        new SIRKET()
+        {
+            KISAAD = "BALA",
+            Id = 1
+        }
+    };
+}
+
+@(Html.DevExtreme().Popup()
+    .ID("ppLoginAjax")
+    .Width(470)
+    .Height(290)
+    .ShowTitle(true)
+    .Title("Sisteme Giriş Yap")
+    .Visible(false)
+    .DragEnabled(true)
+    .ShowCloseButton(false)
+    .CloseOnOutsideClick(false)
+    //.OnContentReady("onContentReady")
+    )
+
+@using (Html.DevExtreme().NamedTemplate("popup-template-LoginAjax"))
+{
+    <div class="widget-container" style="padding-top: 0">
+        @(Html.DevExtreme().Form<GNKULL>()
+            .ID("forLoginAjax")
+            .Width(400)
+            .ShowValidationSummary(true)
+            .ColCount(1)
+            .Items(items =>
+            {
+                items.AddGroup()
+                    .Items(groupItems =>
+                    {
+                        groupItems.AddSimpleFor(m => m.Id).IsRequired(false).Visible(false).Editor(e => e.TextBox());
+
+                        groupItems.AddSimpleFor(m => m.SIRKID).Editor(e => e
+                            .SelectBox()
+                            .Value(1)
+                            .ValueExpr("Id")
+                            .DisplayExpr("KISAAD")
+                            .ShowClearButton(true)
+                            .DataSource(sirkets)
+                            ).IsRequired(true).ValidationRules(vr => vr.AddRequired());
+
+                        groupItems.AddSimpleFor(m => m.KULKOD).Editor(e=> e
+                            .TextBox()
+                            .Placeholder("kullanıcı kodu")
+                            );
+                        groupItems.AddSimpleFor(m => m.PASSWD).Editor(e => e
+                            .TextBox()
+                            .ID("loginAjax_password")
+                            .Mode(TextBoxMode.Password)
+                            .Name("loginAjax_password")
+                            .StylingMode(EditorStylingMode.Filled)
+                            .Placeholder("şifre")
+                            .Buttons(buttons =>
+                            {
+                                buttons.Add()
+                                    .Name("loginAjax_password")
+                                    .Location(TextEditorButtonLocation.After)
+                                    .Widget(w => w.Button()
+                                        .Type(ButtonType.Default)
+                                        .Icon(Url.Content("~/Assets/Images/eye.png"))
+                                        .OnClick(@<text>function (e) {
+                                                     cilekMain.ChangePasswordMode('loginAjax_password');
+                                                     }
+                                                  </text>)
+                                    );
+                            })
+                            );
+
+                        groupItems.AddGroup().Items(k =>
+                        {
+                            k.AddButton()
+                                .HorizontalAlignment(HorizontalAlignment.Right)
+                                .ButtonOptions(b =>
+                                    b.Icon("export")
+                                        .Type(ButtonType.Success)
+                                        .Text("Giriş Yap")
+                                        .UseSubmitBehavior(true)
+                                        .OnClick(@<text>function (e) {
+                                                     cilekMain.loginAjax('@Url.Action("GirisYap", "User", new { area = "" })');
+                                                     }
+                                                  </text>)
+                                );
+                        });
+                    });
+            }))
+    </div>
+}

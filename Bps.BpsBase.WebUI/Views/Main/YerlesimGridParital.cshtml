@@ -1,0 +1,62 @@
+﻿@{
+Layout = null;
+}
+@model List<Bps.Core.Web.Model.Devexpress.GridLayoutModel>
+
+@Html.DevExpress().GridView(settingsGrid =>
+{
+    settingsGrid.Name = "gridLayout";
+    settingsGrid.CallbackRouteValues = new { Controller = "Main", Action = "YerlesimGridParital", menuTag = ViewData["menuTag"], gridName = ViewData["gridName"] };
+
+    settingsGrid.SettingsEditing.Mode = GridViewEditingMode.Batch;
+    settingsGrid.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
+    settingsGrid.Settings.ShowStatusBar = GridViewStatusBarMode.Hidden;
+    settingsGrid.KeyFieldName = "Name";
+    settingsGrid.CommandColumn.Visible = false;
+
+    GridViewCommandColumnCustomButton deleteButton = new GridViewCommandColumnCustomButton() { ID = "btnDeleteLayout", Text = "Sil"};
+    deleteButton.Image.IconID = IconID.ActionsDeletelist16x16;
+
+    GridViewCommandColumnCustomButton defaultButton = new GridViewCommandColumnCustomButton() { ID = "btnDefaultLayout", Text = "Varsayılan" };
+    defaultButton.Image.IconID = IconID.PrintDefaultprinternetwork16x16;
+
+    settingsGrid.Columns.Add(column =>
+    {
+        column.Caption = "Adı";
+        column.FieldName = "Name";
+        column.EditFormSettings.Visible = DefaultBoolean.False;
+    });
+    settingsGrid.Columns.Add(column =>
+    {
+        column.Caption = "Aktif";
+        column.FieldName = "Active";
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+    });
+
+    GridViewCommandColumn Column1 = new GridViewCommandColumn();
+    Column1.Caption = "";
+    Column1.ToolTip = "Sil";
+    Column1.Width = 50;
+    Column1.CustomButtons.Add(deleteButton);
+    settingsGrid.Columns.Add(Column1);
+
+    GridViewCommandColumn Column2 = new GridViewCommandColumn();
+    Column2.Caption = "";
+    Column2.Width = 100;
+    Column2.ToolTip = "Varsayılan";
+    Column2.CustomButtons.Add(defaultButton);
+
+    settingsGrid.Columns.Add(Column2);
+    settingsGrid.ClientSideEvents.CustomButtonClick =
+        "function(s, e) {if(e.buttonID == 'btnDeleteLayout'){scriptToolbarDev.LayoutProcess('" + ViewData["gridName"] + "', s.keys[e.visibleIndex],'" + Html.Raw(Url.Action("LayoutProcess", "Main", new { area = "" })) + "',0)}" +
+        "else if(e.buttonID == 'btnDefaultLayout'){scriptToolbarDev.LayoutProcess('" + ViewData["gridName"] + "', s.keys[e.visibleIndex],'" + Html.Raw(Url.Action("LayoutProcess", "Main", new { area = "" })) + "',1)}}";
+
+    //settingsGrid.SettingsBehavior.AllowSelectByRowClick = true;  
+
+    settingsGrid.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsGrid.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settingsGrid.Settings.VerticalScrollableHeight = 400;
+    settingsGrid.SettingsBehavior.AllowFocusedRow = true;
+    settingsGrid.KeyboardSupport = true;
+    settingsGrid.ClientSideEvents.RowDblClick = "function(s, e) {txtYerlesimTextBox.SetValue(ASPxClientControl.GetControlCollection().GetByName('gridLayout').GetDataCell(e.visibleIndex,0).innerText);}";
+}).Bind(Model).GetHtml()

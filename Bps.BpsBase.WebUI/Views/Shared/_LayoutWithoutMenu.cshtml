@@ -1,0 +1,324 @@
+﻿@using System.Web.UI.WebControls
+@using DevExpress.Web.Demos
+@using DevExpress.Web.Demos.Models
+@using AnimationType = DevExpress.Web.AnimationType
+
+@{
+    Layout = null;
+    string url = "~/Assets/Images/Loaders/Preloader_" + ((new Random((int)DateTime.Now.Ticks)).Next(1, 13)) + ".gif";
+}
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>BPS Portal</title>
+    @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/ionicons.css" rel="stylesheet" />
+    <link href="~/Content/languages.css" rel="stylesheet" />
+    <link href="~/Content/pe-icon-7-stroke/pe-icon-7-stroke.css" rel="stylesheet" />
+    <link href="~/Assets/Css/main.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Assets/Css/DragAndDrop.css" rel="stylesheet" />
+    <link href="~/Assets/Css/SweetAlert/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <style>
+        body, form {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            min-height: 200px;
+            min-width: 400px;
+        }
+
+        .grid {
+            margin: 0 auto;
+        }
+    </style>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    @RenderSection("AdditionalResources", false)
+    @Html.Partial("Templates/HeadPartial")
+    <link href="~/Assets/Css/ResponsiveLayout.css" rel="stylesheet" />
+    <link href="~/Content/devexpress/Site.css" rel="stylesheet" />
+    <link href="~/Content/devexpress/sprite.css" rel="stylesheet" />
+    <link href="~/Content/devexpress/Components.css" rel="stylesheet" />
+    <link href="~/Content/devexpress/Platform.css" rel="stylesheet" />
+    <script src="~/Scripts/bpsmain.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/toolbar.js"></script>
+    <script src="~/Assets/Js/Demo.js"></script>
+    <script src="~/Assets/Js/SweetAlert/sweetalert.min.js"></script>
+</head>
+
+@Html.DevExpress().LoadingPanel(
+    settings =>
+    {
+        settings.Name = "LoadingPanel";
+        settings.Modal = true;
+        settings.ShowImage = true;
+        settings.Text = "Yükleniyor...";
+        settings.EnableTheming = true;
+        //settings.Images.ImageFolder=
+        settings.Images.LoadingPanel.Url = Url.Content(url);
+        settings.Images.LoadingPanel.Height = 30;
+        settings.ContainerElementID = "Panel";
+    }).GetHtml()
+
+<body class="defaultFont">
+    <header>
+        @Html.DevExpress().Panel(settings =>
+    {
+        settings.Name = "TopPanel";
+        settings.FixedPosition = PanelFixedPosition.WindowTop;
+        settings.ControlStyle.CssClass = "header-panel";
+        settings.EnableTheming = false;
+        settings.FixedPositionOverlap = true;
+        settings.SetContent(GetHeaderPanelContent().ToHtmlString());
+    }).GetHtml()
+    </header>
+    <div class="main-content-wrapper">
+        <section class="top-panel clearfix top-panel-dark">
+            @if (Utils.CanChangeTheme)
+            {
+                @Html.DevExpress().Button(settings =>
+           {
+               settings.Name = "ChangeThemeSettignsButton";
+               settings.Text = "Tema Ayarları";
+               settings.UseSubmitBehavior = false;
+               settings.ControlStyle.CssClass = "theme-settings-menu-button adaptive";
+               settings.Images.Image.SpriteProperties.CssClass = "icon angle-down theme-settings-menu-button-image";
+               settings.Height = 28;
+               settings.EnableTheming = false;
+               settings.ImagePosition = ImagePosition.Right;
+               settings.Styles.FocusRectStyle.Border.BorderWidth = 0;
+               settings.ClientSideEvents.Click = "DXDemo.toggleThemeSettingsPanel";
+           }).GetHtml()
+            }
+            <ul class="breadcrumbs clearfix">
+                <li>
+                    <a id="parentNd" @*href=""*@></a>
+                    <span class="icon angle-right"></span>
+                </li>
+                <li><span id="childNd" class="last-breadcrumbs-item"></span></li>
+            </ul>
+            @Html.DevExpress().Panel(settings =>
+            {
+                settings.Name = "ThemeSettingsPanel";
+                settings.ControlStyle.CssClass = "theme-settings-panel";
+                settings.FixedPosition = PanelFixedPosition.WindowRight;
+                settings.Collapsible = true;
+                settings.EnableTheming = false;
+                settings.ScrollBars = ScrollBars.Auto;
+                settings.FixedPositionOverlap = true;
+                settings.SettingsCollapsing.AnimationType = AnimationType.Slide;
+                settings.SettingsCollapsing.ExpandEffect = PanelExpandEffect.PopupToLeft;
+                settings.SettingsCollapsing.ExpandButton.Visible = false;
+                settings.SettingsCollapsing.Modal = true;
+                settings.Styles.ExpandBar.Width = 0;
+                settings.Styles.ExpandedPanel.CssClass = "theme-settings-panel-expanded";
+                settings.Styles.ModalBackground.CssClass = "dx-modal-background";
+                settings.SetContent(GetThemeSettingsPanelContent().ToHtmlString());
+                settings.ClientSideEvents.Collapsed = "DXDemo.onVerticalPanelCollapsed";
+            }).GetHtml()
+        </section>
+    </div>
+    @Html.DevExpress().Splitter(
+    settingsSplit =>
+    {
+        settingsSplit.Name = "rightPanel";
+        settingsSplit.Width = Unit.Percentage(100);
+        settingsSplit.Height = Unit.Percentage(100);
+        settingsSplit.FullscreenMode = true;
+        settingsSplit.EnableTheming = false;
+        settingsSplit.ControlStyle.Paddings.Padding = 0;
+        settingsSplit.Styles.Pane.Paddings.PaddingTop = 0;
+        settingsSplit.Styles.Pane.Paddings.PaddingBottom = 0;
+        settingsSplit.Styles.Pane.Paddings.PaddingLeft = 2;
+        settingsSplit.Styles.Pane.Paddings.PaddingRight = 2;
+        settingsSplit.Panes.Add(pane =>
+        {
+            pane.PaneStyle.Border.BorderStyle = BorderStyle.None;
+            pane.Size = Unit.Percentage(100);
+            pane.AutoHeight = false;
+            pane.ScrollBars = ScrollBars.Auto;
+            pane.SetContent(() =>
+            {
+                ViewContext.Writer.Write(RenderBody().ToHtmlString());
+            });
+        });
+    }).GetHtml()
+
+</body>
+</html>
+
+@helper GetHeaderPanelContent()
+{
+var settings = new ButtonSettings();
+settings.Name = "MenuButton";
+settings.Text = "";
+settings.ControlStyle.CssClass = "menu-button";
+settings.ClientSideEvents.Click = "DXDemo.toggleNavigationPanel";
+settings.Styles.FocusRectStyle.Border.BorderWidth = 0;
+settings.Images.Image.SpriteProperties.CssClass = "icon menu";
+settings.EnableTheming = false;
+settings.Width = Unit.Pixel(60);
+settings.Height = Unit.Pixel(60);
+var outputStringBuilder = new System.Text.StringBuilder();
+
+using (var writer = new StringWriter(outputStringBuilder))
+{
+    var viewContext = new ViewContext { Writer = writer };
+    new ButtonExtension(settings, viewContext).Render();
+        @(new MvcHtmlString(outputStringBuilder.ToString()));
+    }
+    @Html.Action("TopBar", "User", new { area = "" })
+}
+
+@helper GetThemeSettingsPanelContent()
+{
+    <div class="top-panel top-panel-dark clearfix">
+        @{
+            var settings = new ButtonSettings();
+            settings.Name = "InnerChangeThemeSettignsButton";
+            settings.Text = "Tema Ayarları";
+            settings.UseSubmitBehavior = false;
+            settings.ControlStyle.CssClass = "theme-settings-menu-button";
+            settings.EnableTheming = false;
+            settings.ImagePosition = ImagePosition.Right;
+            settings.ControlStyle.HorizontalAlign = HorizontalAlign.Left;
+            settings.Images.Image.SpriteProperties.CssClass = "icon angle-down theme-settings-menu-button-image";
+            settings.Styles.FocusRectStyle.Border.BorderWidth = 0;
+            settings.ClientSideEvents.Click = "DXDemo.toggleThemeSettingsPanel";
+
+            var outputStringBuilder = new System.Text.StringBuilder();
+            using (var writer = new StringWriter(outputStringBuilder))
+            {
+                var viewContext = new ViewContext { Writer = writer };
+                new ButtonExtension(settings, viewContext).Render();
+                @(new MvcHtmlString(outputStringBuilder.ToString()))
+            }
+        }
+    </div>
+    <div class="theme-settings-panel-content">
+        @Html.Partial("ThemeSelectorPartial")
+        @Html.Partial("ThemeParametersSelectorPartial")
+    </div>
+}
+<script type="text/javascript">
+
+    var extraHeightGrids = [];
+    extraHeightGrids.push({
+        'gridName': "gridTipHareket",
+        'Value': 0
+    });
+    extraHeightGrids.push({
+        'gridName': "gridFikirDegerMaster",
+        'Value': 190
+    });
+    extraHeightGrids.push({
+        'gridName': "gridYetki",
+        'Value': 0
+    });
+
+    var gridHeightExpect = ["gridLayout", "gridBelgeAkis", "gridTakvimFiili"];
+
+    $(document).ready(function () {
+        bpsMain.loadUserInfos();
+    });
+
+    function searchToggle(obj, evt) {
+        var container = $(obj).closest('.search-wrapper');
+        if (!container.hasClass('active')) {
+            container.addClass('active');
+            evt.preventDefault();
+        }
+        else if (container.hasClass('active') && $(obj).closest('.input-holder').length == 0) {
+            container.removeClass('active');
+            // clear input
+            container.find('.search-input').val('');
+            // clear and hide result container when we press close
+            container.find('.result-container').fadeOut(100, function () { $(this).empty(); });
+        }
+    }
+
+    function onFileUploadComplete(e) {
+        if (e.callbackData) {
+            var fileData = e.callbackData.split('|');
+            var fileName = fileData[0],
+                fileUrl = fileData[1],
+                fileSize = fileData[2];
+            DXUploadedFilesContainer.AddFile(fileName, fileUrl, fileSize);
+        }
+    }
+
+    ASPxClientControl.GetControlCollection().ControlsInitialized.AddHandler(function (s, e) {
+
+        var grids = ASPxClientControl.GetControlCollection().GetControlsByType(ASPxClientGridBase);
+        var height = 0;
+         grids.forEach(function (grid) {
+            var gridName = grid.name;
+            var extraHeight = 92;
+            if (gridName != null) {
+                if (gridHeightExpect.find(f=>f == grid.name) == undefined) {
+                    grid.SetHeight(0);
+                    if (grid.editMode == 4) {
+                        height = UpdateGridHeight(gridName, extraHeight);
+                    }
+                    else {
+                        var result = extraHeightGrids.find(r => r.gridName == gridName);
+                        if (result != undefined) {
+                            extraHeight = result.Value;
+                            height = UpdateGridHeight(gridName, extraHeight);
+
+                        } else {
+                            height = UpdateGridHeight(gridName);
+                        }
+                    }
+                    grid.SetHeight(height-1);
+                }
+            }
+        });
+        var projeGantt = ASPxClientControl.GetControlCollection().GetByName('gantt');
+        if (projeGantt != null) {
+            projeGantt.SetHeight(height - (90));
+        }
+    });
+    ASPxClientControl.GetControlCollection().BrowserWindowResized.AddHandler(function (s, e) {
+        var grids = ASPxClientControl.GetControlCollection().GetControlsByType(ASPxClientGridBase);
+        var height = 0;
+        grids.forEach(function (grid) {
+            var gridName = grid.name;
+            var extraHeight = 92;
+            if (gridName != null) {
+                if (gridHeightExpect.find(f=>f == grid.name) == undefined) {
+                    grid.SetHeight(0);
+                    if (grid.editMode == 4) {
+                        height = UpdateGridHeight(gridName, extraHeight);
+                    }
+                    else {
+                        var result = extraHeightGrids.find(r => r.gridName == gridName);
+                        if (result != undefined) {
+                            extraHeight = result.Value;
+                            height = UpdateGridHeight(gridName, extraHeight);
+
+                        } else {
+                            height = UpdateGridHeight(gridName);
+                        }
+                    }
+                    grid.SetHeight(height);
+                }
+            }
+        });
+        var projeGantt = ASPxClientControl.GetControlCollection().GetByName('gantt');
+        if (projeGantt != null) {
+            projeGantt.SetHeight(height - (90));
+        }
+    });
+</script>

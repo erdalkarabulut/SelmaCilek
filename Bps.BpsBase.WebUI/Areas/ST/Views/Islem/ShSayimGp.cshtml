@@ -1,0 +1,124 @@
+﻿@using Bps.BpsBase.Entities.Concrete.ST
+@using Bps.BpsBase.Entities.Models.ST.Listed
+@using Bps.Core.Web.Model
+@using DevExpress.Data.Filtering
+@using GridLines = System.Web.UI.WebControls.GridLines
+@model List<STHRKT>
+
+@{
+    Html.DevExpress().GridView<STHRKT>(settings =>
+    {
+        //settings.SettingsDataSecurity.AllowEdit = true;
+        settings.Name = "gridStokHrktKalem";
+        settings.CallbackRouteValues = new { Controller = "Islem", Action = "StokHrkEkleKalemGp", area = "ST" };
+        settings.KeyFieldName = "Id";
+        settings.SettingsText.Title = "Kalemler";
+
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name
+        };
+
+        @Html.Action("ToolBarBatch", "Main", new
+        {
+            area = "",
+            settings,
+            toolParam
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.FieldName = "Id";
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+            c.Visible = false;
+        });
+
+        settings.Columns.Add(c =>
+        {
+            c.Width = Unit.Percentage(40);
+            c.FieldName = "STKODU";
+            c.EditorProperties().ComboBox(p =>
+            {
+                //p.ClientInstanceName = "lookUpStok";
+                //p.TextField = "STKNAM";
+                p.ValueField = "STKODU";
+                p.ValueType = typeof(string);
+                p.CallbackPageSize = 15;
+                p.TextFormatString = "{0}";
+                p.Columns.Add("STKODU", "Kod", 100);
+                p.Columns.Add("STKNAM", "Ad", 100);
+                p.Columns.Add("OLCUKD", "Ölçü Birimi", 90);
+                p.BindList(ViewData["STKARTList"]);
+                p.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+                p.ClientSideEvents.ValueChanged = "function(s, e) {" +
+                  "gridStokHrktKalem.batchEditApi.SetCellValue(FocusedCellRowIndex,2,s.GetItem(s.GetSelectedIndex()).texts[1],s.GetItem(s.GetSelectedIndex()).texts[1]);" +
+                  "gridStokHrktKalem.batchEditApi.SetCellValue(FocusedCellRowIndex,5,s.GetItem(s.GetSelectedIndex()).texts[2]);" +
+                  "}";
+            });
+        });
+
+        settings.Columns.Add(m => m.STKNAM, c =>
+        {
+            c.FieldName = "STKNAM";
+            c.Width = Unit.Percentage(30);
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+        });
+
+        settings.Columns.Add(m => m.GRDEPO, c =>
+        {
+            c.Width = Unit.Percentage(40);
+            c.FieldName = "GRDEPO";
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.ValueField = "DPKODU";
+                p.ValueType = typeof(string);
+                p.CallbackPageSize = 15;
+                p.TextFormatString = "{0}";
+                p.Columns.Add("DPKODU", "Depo Kod", 100);
+                p.Columns.Add("DPTANM", "Tanım", 100);
+                p.BindList(ViewData["DepoTanimList"]);
+                p.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+            });
+        });
+        settings.Columns.Add(m => m.GRMKTR, c =>
+        {
+            c.FieldName = "GRMKTR";
+            c.Width = Unit.Percentage(30);
+            c.ColumnType = MVCxGridViewColumnType.TextBox;
+        });
+        settings.Columns.Add(m => m.GROLBR, c =>
+        {
+            c.Width = Unit.Percentage(30);
+            c.EditorProperties().ComboBox(p =>
+            {
+                p.TextField = "TANIMI";
+                p.ValueField = "HARKOD";
+                p.ValueType = typeof(string);
+                p.BindList(ViewData["OlcuList"]);
+            });
+        });
+        settings.Columns.Add(m => m.STDFYT, c =>
+        {
+            c.FieldName = "STDFYT";
+            c.Width = Unit.Percentage(30);
+            c.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        });
+        settings.Columns.Add(m => m.GNTUTR, c =>
+        {
+            c.FieldName = "GNTUTR";
+            c.Width = Unit.Percentage(30);
+            c.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        });
+
+
+        //settings.InitNewRow = (s, e) =>
+        //{
+        //    //MVCxGridView g = s as MVCxGridView;  
+        //    //e.NewValues["Order"] = (int)g.GetTotalSummaryValue(g.TotalSummary[0]) + 1;
+        //    MVCxFormLayoutItem a = new MVCxFormLayoutItem("GRDEPO");
+        //    //e.NewValues["GBATAR"] = planlananBaslangic;
+        //};
+
+        GridViewHelper<STHRKT>.SettingsBatch(settings);
+    }).Bind(Model).Render();
+}

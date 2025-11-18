@@ -1,0 +1,50 @@
+﻿@using Bps.BpsBase.Entities.Models.GN.Listed
+@using Bps.Core.Web.Model
+@model List<TipListModel>
+
+@{
+    Html.DevExpress().GridView<TipListModel>(settings =>
+    {
+        settings.Name = "gridTipi";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "Tanim", Action = "TipGridPartial", menuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG};
+
+     
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed) ViewData["YetkiModel"],
+            toolParam = new DevToolBarParam()
+            {
+                Grid = settings.Name,
+                EkleUrl = Url.Action("TipEkleWindow", "Tanim", new {area = "GN"}),
+                DegistirUrl = Url.Action("TipEkleWindow", "Tanim", new {area = "GN"}),
+                SilUrl = Url.Action("TipSil", "Tanim", new {area = "GN"}),
+                EklePopup = "ppTipEkle",
+                DegistirPopup = "ppTipEkle",
+                EkleDiv = "tipEkleDiv",
+                DegistirDiv = "tipEkleDiv",
+                YerlesimDiv = "tipLayoutDiv",
+                BelgeAkisDiv = "tipBelgeAkisDiv",
+                TopluAktarDiv = "tipTopluAktDiv",
+                MenuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG,
+                Type = "GNTIPI"
+            }
+        });
+
+
+
+        List<string> excludeList = new List<string>();
+        GridViewHelper<TipListModel>.Settings(settings,new TipListModel(), excludeList);
+    }).Bind(Model).Render();
+}
+<div id="tipEkleDiv">
+</div>
+
+<div id="tipLayoutDiv">
+</div>
+<div id="tipBelgeAkisDiv">
+</div>
+<div id="tipTopluAktDiv">
+</div>

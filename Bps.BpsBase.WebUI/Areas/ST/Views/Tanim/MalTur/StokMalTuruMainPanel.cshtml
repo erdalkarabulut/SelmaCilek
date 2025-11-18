@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "StokMalTuruMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model int?
+
+<body>
+
+    @using (Html.BeginForm())
+    {
+        @Html.Action("StokMalTuruGridPartial", "Tanim", new { area = "ST", menuTag=Model })
+    }
+</body>

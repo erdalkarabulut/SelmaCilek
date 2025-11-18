@@ -1,0 +1,262 @@
+﻿@using Bps.BpsBase.WebUI.Resources
+@model Bps.BpsBase.Entities.Models.GN.Params.GirisParam
+@{
+    Layout = null;
+    string url = "~/Assets/Images/Loaders/Preloader_" + ((new Random()).Next(1, 13)) + ".gif";
+}
+
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%;">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Login</title>
+    <link href="~/Assets/Css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Areas/GN/Assets/Css/Login/styles.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Content/ionicons.css" rel="stylesheet" />
+    <link href="~/Content/languages.css" rel="stylesheet" />
+    <link href="~/Assets/Css/main.css" rel="stylesheet" />
+</head>
+<body id="mainbody">
+    <div class="row">
+        <div id="soldiv" class="col-md-6 col-sm-6">
+            <div class="carousel slide" data-ride="carousel" id="carousel-1">
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active"></div>
+                    @{
+                        for (int i = 1; i <1; i++)
+                        {
+                            string a = "item" + i.ToString();
+                            <div class="carousel-item" id=@a></div>
+                        }
+                    }
+                </div>
+                <div>
+                    <a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                    @{
+                        for (int i = 1; i < 1; i++)
+                        {
+                            <li data-target="#carousel-1" data-slide-to=@i></li>
+                        }
+                    }
+                </ol>
+            </div>
+        </div>
+        <div id="sagdiv" class="col-md-6 col-sm-11">
+            <div class="header-dots" style="margin-top: 10px; float: right;">
+                <div class="dropdown" style="margin-left: auto;">
+                    <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="p-0 mr-2 btn btn-link">
+                        <span class="icon-wrapper icon-wrapper-alt rounded-circle">
+                            <span class="icon-wrapper-bg bg-primary"></span>
+                            <span id="sirket" class="language-icon opacity-8 flag large Bps"></span>
+                        </span>
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-menu-header">
+                            <div class="dropdown-menu-header-inner bg-plum-plate bg-focus">
+                                <div class="menu-header-image" style="background-image: url('../../Assets/Images/city2.jpg');"></div>
+                                <div class="menu-header-content text-center text-white">
+                                    <h6 class="menu-header-subtitle mt-0">
+                                        @Resourcesui.sirketSeciniz
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <h6 tabindex="-1" class="dropdown-header">
+                            @Resourcesui.sirketler
+                        </h6>
+                        <div id="divSirkets">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown" style="margin-left: auto;">
+                    <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="p-0 mr-2 btn btn-link">
+                        <span class="icon-wrapper icon-wrapper-alt rounded-circle">
+                            <span class="icon-wrapper-bg bg-primary"></span>
+                            <span id="dilKod" class="language-icon opacity-8 flag large tr-TR"></span>
+                        </span>
+                    </button>
+                    <div tabindex="-1" role="menu" aria-hidden="true" class="rm-pointers dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-menu-header">
+                            <div class="dropdown-menu-header-inner bg-plum-plate bg-focus">
+                                <div class="menu-header-image" style="background-image: url('../../Assets/Images/city2.jpg');"></div>
+                                <div class="menu-header-content text-center text-white">
+                                    <h6 class="menu-header-subtitle mt-0">
+                                        @Resourcesui.dilSeciniz
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <h6 tabindex="-1" class="dropdown-header">
+                            @Resourcesui.populerDiller
+                        </h6>
+                        <button type="button" onclick="dilSec('tr-TR')" tabindex="0" class="dropdown-item">
+                            <span class="mr-3 opacity-8 flag large tr-TR"></span>
+                            TR
+                        </button>
+                        <button type="button" onclick="dilSec('en-GB')" tabindex="0" class="dropdown-item">
+                            <span class="mr-3 opacity-8 flag large en-GB"></span>
+                            ENG
+                        </button>
+                        <button type="button" onclick="dilSec('ar-SA')" tabindex="0" class="dropdown-item">
+                            <span class="mr-3 opacity-8 flag large ar-SA"></span>
+                            SA
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="h-100 d-flex bg-white justify-content-center align-items-center col-md-12 col-sm-12 col-lg-11 ml-3" style="height: 90% !important;">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <img id="logo" src="~/Assets/Images/sirket/logo.png" />
+                    <h4 class="mb-0">
+                        <span class="d-block">@Resourcesui.hoşgeldiniz</span>
+                        <span>@Resourcesui.lutfenGirisyapiniz</span>
+                    </h4>
+                    <div class="mb-4"></div>
+                    <hr />
+                    <div>
+                        <form data-id="formLogin">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label class="">@Resourcesui.kullaniciKod</label>
+                                        @Html.TextBoxFor(m => m.KULKOD, new { @class = "form-control", @placeholder = @Resourcesui.kulkodgiriniz })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group">
+                                        <label class="">@Resourcesui.sifre</label>
+                                        @Html.TextBoxFor(m => m.PASSWD, new { @class = "form-control", @placeholder = @Resourcesui.sifreGiriniz, @type = "password" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-relative form-check">
+                                
+                                @Html.CheckBoxFor(m => m.RememberMe, new {@class = "form-check-input", @type = "checkbox"})
+                                <label class="form-check-label">@Resourcesui.beniHatirla</label>
+                                @*@Html.LabelFor(m => m.RememberMe, new { @for = "RememberMe" })*@
+                            </div>
+                            <hr />
+                            <div class="mb-4"></div>
+                            <div class="d-flex align-items-center">
+                                <div class="ml-auto">
+                                    <a href="javascript:void(0);" class="btn-sm btn btn-link">@Resourcesui.sifremiUnuttum!</a>
+                                    @*<button type="submit" class="btn btn-danger btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;Giriş&nbsp;&nbsp;&nbsp;&nbsp;</button>*@
+                                    @*<button type="button" onclick="girisYap()" class="btn btn-danger btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;@Resourcesui.giris;&&nbsp;&nbsp;&nbsp;&nbsp;</button>*@
+                                    <button type="button" onclick="girisYap()" class="btn btn-danger btn-lg">@Resourcesui.giris</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Assets/Js/jquery.min.js"></script>
+    <script src="~/Assets/Js/bootstrap.min.js"></script>
+    <script src="~/Scripts/bpsmain.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Assets/Js/Demo.js"></script>
+    <script type="text/javascript">
+        var id = 0;
+        $(document).ready(function () {
+            sirketYukle();
+            var seciliDil = document.getElementById("dilKod").classList[4];
+            document.getElementById("dilKod").classList.remove(seciliDil);
+            document.getElementById("dilKod").classList.add('@Model.DilKod');
+
+            var txtPassWord = document.getElementById('PASSWD');
+            var txtUserCode = document.getElementById('KULKOD');
+            txtUserCode.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    if (txtPassWord.value.length > 0 && txtUserCode.value.length > 0) {
+                        girisYap();
+                    }
+                }
+            });
+
+            txtPassWord.addEventListener("keyup", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    if (txtPassWord.value.length > 0 && txtUserCode.value.length > 0) {
+                        girisYap();
+                    }
+                }
+            });
+        });
+
+        function girisYap() {
+            var model = formGetModel($('[data-id=\'formLogin\']')[0].dataset);
+            model.DilKod = document.getElementById("dilKod").classList[4];
+            model.SIRKID = id;
+            $.ajax({
+                url: '@(Html.Raw(Url.Action("GirisYap", "User")))',
+                type: 'POST',
+                dataType: 'JSON',
+                data: model,
+                success: function (response, result) {
+                    BpsAlert.alertResponse(response);
+                    if (response.Status === 0) {
+                        window.location = '@Url.Action("Index","Dashboard",new {area=""})';
+                    }
+                    return;
+                }
+            });
+        }
+
+        function sirketYukle() {
+            $.ajax({
+                url: '@Url.Action("GetSirketList","User", new {area=""})',
+                type: 'POST',
+                dataType: 'JSON',
+                success: function (response, result) {
+                    BpsAlert.alertResponse(response);
+                    if (response.Status === 0) {
+                        var icerik = "";
+                        var list = response.Items;
+                        for (var n = 0; n < list.length; n++) {
+                            icerik += "<button type='button' onclick='sirketSec('" + list[n].KISAAD + "'," + list[n].Id + ")' tabindex='0' class='dropdown-item'>";
+                            icerik += "<span class='mr-3 opacity-8 flag large " + list[n].KISAAD + "'></span>";
+                            icerik += list[n].KISAAD;
+                            icerik += "</button>";
+                        }
+
+                        $("#divSirkets").html(icerik);
+                        sirketSec(list[0].KISAAD);
+                        id = list[0].Id;
+                    }
+                    return;
+                }
+            });
+        }
+
+        function dilSec(dilKodu) {
+            var seciliDil = document.getElementById("dilKod").classList[4];
+            document.getElementById("dilKod").classList.remove(seciliDil);
+            document.getElementById("dilKod").classList.add(dilKodu);
+            window.location = "../User/ChangeLanguage?langkd=" + dilKodu + "&login=true";
+        }
+
+        function sirketSec(sirket, _id) {
+            var seciliSirket = document.getElementById("sirket").classList[4];
+            document.getElementById("sirket").classList.remove(seciliSirket);
+            document.getElementById("sirket").classList.add(sirket);
+            id = _id;
+        }
+    </script>
+</body>
+</html>

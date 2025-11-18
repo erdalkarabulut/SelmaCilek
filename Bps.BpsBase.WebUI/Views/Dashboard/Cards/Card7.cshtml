@@ -1,0 +1,24 @@
+﻿@model string
+<div id="@Model" class="card">
+    <div class="card-header ui-sortable-handle" style="cursor: move;">
+        <h3 class="card-title">
+            <i class="fas fa-chart-pie mr-1"></i>
+            Sales
+        </h3>
+        <div class="card-tools">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary  active">
+                    <input type="radio" name="Card7Options" id="Card7Option1" value="1" autocomplete="off" checked> Aktif
+                </label>
+                <label class="btn btn-primary ">
+                    <input type="radio" name="Card7Options" id="Card7Option2" value="0" autocomplete="off"> Pasif
+                </label>
+            </div>
+            <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+    </div>
+</div>

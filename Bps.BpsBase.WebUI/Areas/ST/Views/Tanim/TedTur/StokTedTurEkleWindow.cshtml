@@ -1,0 +1,180 @@
+﻿@model Bps.BpsBase.Entities.Concrete.ST.STTDTR
+
+@{
+    Layout = null;
+    var menuTag = (int)ViewData["MenuTag"];
+}
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppStokTedTurEkle";
+        settings.Width = 500;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Tedarik Türü " + (Model.Id > 0 ? "Düzenle" : "Ekle");
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.ShowFooter = true;
+
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formStokTedTurEkle";
+                formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                formLayoutsettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 576;
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Tedarik Tür Detayı";
+                    g.ColCount = 2;
+                    g.Paddings.Padding = Unit.Pixel(0);
+                    g.Paddings.PaddingTop = Unit.Pixel(10);
+                    g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                    g.GroupBoxStyle.Caption.Font.Bold = true;
+                    g.GroupBoxStyle.Caption.Font.Size = 16;
+                    g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+
+                    g.Items.Add(m => m.Id, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "Id";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.SIRKID, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "SIRKID";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.EKKULL, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "EKKULL";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.ETARIH, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "ETARIH";
+                        });
+                        i.ClientVisible = false;
+                    });
+
+                    g.Items.Add(m => m.URYRKD, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "URYRKD";
+                            s.Properties.CallbackPageSize = 15;
+                            s.Properties.TextField = "TANIMI";
+                            s.Properties.ValueField = "HARKOD";
+                            s.Properties.DataSource = ViewData["ÜretimYeriList"];
+                            s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                            s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                        });
+                    });
+
+                    g.Items.Add(m => m.TEDKOD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TEDKOD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.TEDTNM, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TEDTNM";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+
+                    g.Items.Add(m => m.YAPAYK, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "YAPAYK";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+
+                    g.Items.Add(m => m.FASONK, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "FASONK";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+
+                    g.Items.Add(m => m.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                            s.Checked = true;
+                        });
+                    });
+                });
+            }).Bind(Model).Render();
+        });
+
+        settings.SetFooterTemplateContent(c =>
+        {
+            Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "footerFormLayout";
+                formLayoutsettings.Width = Unit.Percentage(100);
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.GroupBoxDecoration = GroupBoxDecoration.None;
+                    g.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                    g.Items.Add(i => { i.ShowCaption = DefaultBoolean.False; }).SetNestedContent(() =>
+                    {
+                        Html.DevExpress().Button(s =>
+                        {
+                            s.Name = "submitEvrakKaydet";
+                            s.Width = Unit.Pixel(100);
+                            s.ControlStyle.CssClass = "buttonAlign";
+                            s.Text = "Kaydet";
+                            s.Images.Image.IconID = IconID.SaveSave16x16;
+                            s.ClientSideEvents.Click = @"function(s,e) {tedTur.tedTurKaydet(" + menuTag + ",'" + Html.Raw(Url.Action("StokTedTurKaydet", "Tanim", new { area = "ST" })) + "')}";
+                        }).Render();
+
+                        Html.DevExpress().Button(s =>
+                        {
+                            s.Name = "cancel";
+                            s.Width = Unit.Pixel(100);
+                            s.ControlStyle.CssClass = "cancelButton";
+                            s.Text = "İptal";
+                            s.UseSubmitBehavior = true;
+                            s.Images.Image.IconID = IconID.ActionsCancel16x16;
+                        }).Render();
+                    });
+                });
+            }).Render();
+        });
+    }).GetHtml()

@@ -1,0 +1,198 @@
+﻿@using System.Web.UI.WebControls
+@{
+    Layout = null;
+    string url = "~/Assets/Images/Loaders/Preloader_" + ((new Random((int)DateTime.Now.Ticks)).Next(1, 13)) + ".gif";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPS - Dashboard</title>
+    @Scripts.Render("~/bundles/jquery")
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/search-wrapper.css" rel="stylesheet" />
+    <link href="~/Content/ionicons.css" rel="stylesheet" />
+    <link href="~/Content/languages.css" rel="stylesheet" />
+    <link href="~/Content/pe-icon-7-stroke/pe-icon-7-stroke.css" rel="stylesheet" />
+    <link href="~/Assets/Css/main.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+    <link href="~/Assets/Css/dashboard.css" rel="stylesheet" />
+    <style>
+        .fixed-footer .app-footer .app-footer__inner {
+            box-shadow: 0.3rem -0.46875rem 2.1875rem rgba(4,9,20,0.02),0.3rem -0.9375rem 1.40625rem rgba(4,9,20,0.02),0.3rem -0.25rem 0.53125rem rgba(4,9,20,0.04),0.3rem -0.125rem 0.1875rem rgba(4,9,20,0.02);
+        }
+
+        .body {
+            font-size: 12px;
+        }
+    </style>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    @Html.Partial("Templates/HeadPartial")
+    <script src="~/Scripts/bpsmain.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/CardWidget.js"></script>
+    <script src="~/Scripts/CardRefresh.js"></script>
+    <script src="~/Scripts/dashboard.js"></script>
+</head>
+@Html.DevExpress().LoadingPanel(
+    settings =>
+    {
+        settings.Name = "LoadingPanel";
+        settings.Modal = true;
+        settings.ShowImage = true;
+        settings.Text = "Yükleniyor...";
+        settings.EnableTheming = true;
+        //settings.Images.ImageFolder=
+        //settings.Images.LoadingPanel.Url = "~/Assets/Images/cilekLogo.png";
+        settings.Images.LoadingPanel.Url = Url.Content(url);
+        settings.Images.LoadingPanel.Height = 30;
+        settings.ContainerElementID = "Panel";
+    }).GetHtml()
+<body>
+    <div id="app-container" class="app-container app-theme-white body-tabs-shadow fixed-header fixed-footer">
+
+        @Html.Action("TopBar", "User")
+        <div class="ui-theme-settings"></div>
+        <div class="app-main">
+            <div class="app-main__outer">
+                <div class="app-main__inner">
+                    @RenderBody()
+                </div>
+                <div class="app-wrapper-footer">
+                    <div class="app-footer">
+                        <div class="app-footer__inner">
+                            <div class="app-footer-left">
+                                <div class="footer-dots">
+                                </div>
+                            </div>
+                            <div class="app-footer-right">
+                                <strong>Copyright &copy; 2020-2021 <a href="https://www.Bps.com/">Kırcalı A.Ş.</a></strong>
+                                &nbsp;All rights reserved.
+                                <div class="float-right d-none d-sm-inline-block">
+                                    <b>Version</b> 1.0.0
+                                </div>
+                                <div class="dots-separator"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @{
+        Html.DevExpress().PopupControl(
+            settings =>
+            {
+                settings.Name = "ppLoginAjax";
+                settings.Width = Unit.Percentage(100);
+                settings.AllowDragging = true;
+                settings.CloseAction = CloseAction.CloseButton;
+                settings.CloseOnEscape = true;
+                settings.PopupAnimationType = AnimationType.None;
+                settings.HeaderText = "Sisteme Giriş Yap";
+                settings.ShowOnPageLoad = false;
+                settings.Modal = true;
+                settings.AutoUpdatePosition = true;
+                settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+                settings.ShowFooter = true;
+                settings.ShowCloseButton = false;
+
+                settings.SetContent(() =>
+                {
+                    @Html.DevExpress().FormLayout(formLayoutsettings =>
+                    {
+                        formLayoutsettings.Name = "formLoginAjax";
+                        formLayoutsettings.Items.AddGroupItem(g =>
+                        {
+                            g.ShowCaption = DefaultBoolean.False;
+                            g.ColCount = 1;
+
+                            g.Items.Add(i =>
+                            {
+                                i.Caption = "Şirket";
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "winLoginAjax_Sirket";
+                                    s.Properties.Items.Add("Çilek", 1);
+                                    s.SelectedIndex = 0;
+                                });
+                            });
+                            g.Items.Add(i =>
+                            {
+                                i.Caption = "Kullanıcı Kodu";
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "winLoginAjax_Kulkod";
+                                    s.ShowModelErrors = true;
+                                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                                });
+                            });
+                            g.Items.Add(i =>
+                            {
+                                i.Caption = "Şifre";
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "winLoginAjax_Password";
+                                    s.ShowModelErrors = true;
+                                    s.AutoCompleteType = AutoCompleteType.None;
+                                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                                    s.ShowModelErrors = true;
+                                    s.ControlStyle.CssClass = "maxWidth";
+                                    s.Properties.Password = true;
+                                    s.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.Text;
+                                    s.Properties.ValidationSettings.ErrorTextPosition = ErrorTextPosition.Bottom;
+                                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                                    s.Properties.ValidationSettings.ErrorFrameStyle.Wrap = DefaultBoolean.True;
+                                });
+                            });
+                        });
+                    }).Bind(Model).Render();
+                });
+
+                settings.SetFooterTemplateContent(c =>
+                {
+                    Html.DevExpress().FormLayout(formLayoutsettings =>
+                    {
+                        formLayoutsettings.Name = "footerwinLoginAjaxLogin";
+                        formLayoutsettings.Width = Unit.Percentage(100);
+                        formLayoutsettings.Items.AddGroupItem(g =>
+                        {
+                            g.GroupBoxDecoration = GroupBoxDecoration.None;
+                            g.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                            g.Items.Add(i => { i.ShowCaption = DefaultBoolean.False; }).SetNestedContent(() =>
+                            {
+                                Html.DevExpress().Button(s =>
+                                {
+                                    s.Name = "winLoginAjaxLogin";
+                                    s.Text = "Sisteme Giriş Yap";
+                                    s.Styles.Style.Font.Bold = true;
+                                    s.Width = Unit.Pixel(100);
+                                    s.ControlStyle.CssClass = "buttonAlign";
+                                    s.Images.Image.IconID = IconID.SchedulingGototodaySvg16x16;
+                                    s.ClientSideEvents.Click = "function (s, e) { cilekMain.loginAjax('" + Url.Action("GirisYap", "User", new { area = "" }) + "'); }";
+                                }).Render();
+                            });
+                        });
+                    }).Render();
+                });
+            }).Render();
+    }
+
+    <div id="hizliErisimDiv">
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            bpsMain.loadUserInfos();
+        });
+
+    </script>
+</body>
+</html>

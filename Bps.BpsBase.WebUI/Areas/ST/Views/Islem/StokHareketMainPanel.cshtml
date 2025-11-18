@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "StokHareketMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Areas/ST/Assets/Js/stokHareket.js"></script>
+@using (Html.BeginForm())
+{
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlStokHareket";
+            PageControlHelper.Settings(settings, false);
+            settings.TabPages.Add("Ara", "stokHrkTab1").SetContent(() =>
+            {
+                Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formStokKartHrkTab1";
+                    formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.Off;
+                    formLayoutsettings.AlignItemCaptions = true;
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Detay";
+                        g.ColCount = 1;
+                        g.Paddings.Padding = Unit.Pixel(0);
+                        g.Paddings.PaddingTop = Unit.Pixel(10);
+                        g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                        g.GroupBoxStyle.Caption.Font.Bold = true;
+                        g.GroupBoxStyle.Caption.Font.Size = 16;
+                        g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+                        g.Items.Add(i =>
+                        {
+                            i.Caption = "Fiş Tipi";
+                            i.NestedExtension().ComboBox(s =>
+                            {
+                                s.Name = "cmb_StokKartHrk_FisTip";
+                                s.Properties.NullText = "Fiş Tipi Seçiniz...";
+                                s.Properties.NullTextDisplayMode = NullTextDisplayMode.UnfocusedAndFocused;
+                                s.Properties.CallbackPageSize = 15;
+                                s.Properties.FilterMinLength = 0;
+                                s.Properties.TextField = "TANIMI";
+                                s.Properties.ValueField = "STFTNO";
+                                s.Properties.DataSource = ViewData["FisTipList"];
+                                s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            });
+                        });
+
+                        g.Items.Add(i =>
+                        {
+                            i.ShowCaption = DefaultBoolean.False;
+                            i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                        }).SetNestedContent(() =>
+                        {
+                            Html.DevExpress().Button(s =>
+                            {
+                                s.Name = "btnStokKartHrk_Ara";
+                                s.Text = "Ara";
+                                s.ControlStyle.CssClass = "buttonAlign";
+                                s.Styles.Style.HorizontalAlign = HorizontalAlign.Right;
+                                s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                s.ClientSideEvents.Click = @"function(s,e) {stokHareket.StokHareketAra(" + Model + ")}";
+                            }).Render();
+                        });
+                    });
+                }).Render();
+            });
+            settings.TabPages.Add("Liste", "stokHrkTab2").SetContent(() =>
+            {
+                Html.RenderAction("StokHareketGridPartial", "Islem", new { area = "ST", fisTipNo = "" });
+            });
+            settings.TabPages.Add("İşlemler", "stokHrkTab3").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+}

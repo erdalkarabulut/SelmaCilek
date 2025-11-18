@@ -1,0 +1,46 @@
+var formList = [];
+                formList.push({
+                    'formName':"formGv",
+                    'Sekme':'A'
+                });
+                formList.push({
+                    'formName':"formStokDepo",
+                    'Sekme':'H'
+                });
+                var genelModel = {};
+                var model = {};
+                
+                genelModel.StokKart={};
+                genelModel.SatinAlmaDegerAnahtar={};
+                genelModel.Stname="";
+                genelModel.StokDepo={};
+                var grid = ASPxClientControl.GetControlCollection().GetByName('gridStokKart');
+                formList.forEach(function(formId) {
+                    var formName=formId.formName;
+                    var sekme = formId.Sekme;
+                    var modelName = "";
+                    var form = ASPxClientControl.GetControlCollection().GetByName(formName);
+                    form.rootItem.items.forEach(function (item) {
+                        item.items.forEach(function (data) {
+                                
+                                if (data.name != null && data.name != "") {
+                                    var splitedData = data.name.split('.');
+                                    modelName = splitedData[0];
+                                    var fieldName = splitedData[1];
+                                    var fieldNameWithSekme=fieldName+"_"+sekme;
+                                    var control = ASPxClientControl.GetControlCollection().GetByName(fieldNameWithSekme);
+                                    
+                                    if(control instanceof ASPxClientDateEdit){
+                                    if (control.GetValue() == null) {
+                                    eval("genelModel." + modelName + "['" + fieldName +"'] = null;");
+                                    }else{
+                                    eval("genelModel." + modelName + "['" + fieldName +"'] = control.GetValue().toLocaleDateString();");
+                                    }
+                                }else{
+                                    eval("genelModel." + modelName + "['" + fieldName +"'] = control.GetValueString();");
+                                }
+                                   
+                                }
+                            });
+                    });
+                });

@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "MuhHspPlnMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Bps.Core.Web.Session
+@model int?
+
+<body>
+
+@using (Html.BeginForm())
+{
+    @Html.Action("MuhHspPlnGridPartial", "Tanim", new { area = "MH" })
+
+    <script type="text/javascript">
+        function FormMuhHspPlnKaydet() {
+            bpsMain.submitForm('formMuhHspPlnEkle',
+                gridName,
+                'ppmuhHspPlnEkle',
+                '@Html.Raw(Url.Action("MuhHspPlnKaydet", "Tanim", new {area=SessionHelper.ProjeKod}))',
+                @Model);
+        }
+    </script>
+}
+</body>

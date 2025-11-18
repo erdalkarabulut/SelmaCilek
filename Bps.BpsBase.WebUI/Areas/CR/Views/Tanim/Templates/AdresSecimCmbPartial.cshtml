@@ -1,0 +1,24 @@
+﻿
+@model List<Bps.BpsBase.Entities.Concrete.CR.CRADRS>
+@{
+    var cmbName = ViewData["ComboboxName"].ToString();
+    var cariKartKod = ViewData["CariKartKod"].ToString();
+    var adresNo = (int) ViewData["AdresNo"];
+}
+@Html.DevExpress().ComboBox(settings =>
+{
+    settings.Name = cmbName;
+    settings.Width = Unit.Percentage(100);
+    settings.Properties.ValueType = typeof(int);
+    settings.Properties.TextField = "Id";
+    settings.Properties.ValueField = "TANIMI";
+    settings.Properties.CallbackPageSize = 15;
+    settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.OnHover;
+    settings.Properties.TextFormatString = "{0}";
+    settings.Properties.Columns.Add("Id", "Adres No", 80);
+    settings.Properties.Columns.Add("TANIMI", "TANIMI", 100);
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+    settings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+    settings.CallbackRouteValues = new { Controller = "Tanim", Action = "AdresSecimCmbPartial", area = "CR", cariKartKod = cariKartKod, cmbName = cmbName };
+
+}).BindList(Model).Bind(adresNo).GetHtml()

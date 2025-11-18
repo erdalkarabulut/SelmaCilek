@@ -1,0 +1,106 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@model GNTHRK
+
+@{
+    Layout = null;
+}
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppTipHrkEkle";
+        settings.Width = 600;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Tip " + (Model.Id > 0 ? "Düzenle" : "Ekle");
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.ShowFooter = true;
+
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formTipHrkEkle";
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Tip Hareket Detayı";
+                    g.ColCount = 2;
+
+                    g.Items.Add(m => m.Id, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.SIRKID, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.EKKULL, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.ETARIH, i => { i.ClientVisible = false; });
+
+                    g.Items.Add(m => m.TIPKOD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TIPKOD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                            s.Enabled = false;
+
+                        });
+                    });
+                    g.Items.Add(m => m.HARKOD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "HARKOD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.PARENT, i =>
+                    {
+                        i.CaptionSettings.AssociatedNestedExtensionName = "PARENT";
+                        i.SetNestedContent(() =>
+                        {
+                            Html.RenderAction("TipHrkParentCmbPartial", "Tanim", new { ustTipKod = ViewData["ustTipKod"], parent = Model.PARENT});
+                        });
+                    });
+                    g.Items.Add(m => m.TANIMI, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "TANIMI";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.SIRASI, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "SIRASI";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                            s.Checked = true;
+                        });
+                    });
+                });
+                FormLayoutHelper<GNTHRK>.Settings(formLayoutsettings);
+            }).Bind(Model).Render();
+        });
+
+        settings.SetFooterTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<div id='menuFormFooter'>");
+            Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "FormTipHrkKaydet();", iptalJs = "ppTipHrkEkle.Hide();" });
+            ViewContext.Writer.Write("</div>");
+        });
+    }).GetHtml()

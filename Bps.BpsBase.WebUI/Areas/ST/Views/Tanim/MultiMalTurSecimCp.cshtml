@@ -1,0 +1,59 @@
+﻿@model List<Bps.BpsBase.Entities.Concrete.GN.GNTHRK>
+@{
+    var name = ViewData["Name"].ToString();
+    var sekmeler = ViewData["Sekmeler"].ToString();
+}
+@Html.DevExpress().GridLookup(settings =>
+{
+    //settings.Properties.Caption = "Select tags:";
+    settings.Name = name;
+    settings.GridViewProperties.CallbackRouteValues = new { Controller = "Tanim", Action = "MultiMalTurSecimCp", area = "ST", sekmeler = sekmeler, cmbName = name };
+
+    settings.Properties.Width = Unit.Percentage(100);
+    settings.KeyFieldName = "HARKOD";
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.Columns.Add("TANIMI");
+    settings.Columns.Add("TIPKOD");
+    settings.Columns.Add("HARKOD");
+
+    settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+    settings.Properties.TextFormatString = "{0}";
+    settings.Properties.MultiTextSeparator = ", ";
+
+    settings.GridViewProperties.Settings.ShowFilterRow = true;
+    settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+    settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+    settings.GridViewProperties.SettingsPager.PageSize = 7;
+    settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+        Html.DevExpress().Button(btnSettings =>
+        {
+            btnSettings.Name = "btnClose";
+            btnSettings.UseSubmitBehavior = false;
+            btnSettings.Text = "Close";
+            btnSettings.ClientSideEvents.Click = "function(s, e) {" + name + ".ConfirmCurrentSelection();" + name + ".HideDropDown();}";
+        }).Render();
+        ViewContext.Writer.Write("</div>");
+    });
+
+    settings.DataBound = (sender, e) =>
+    {
+        var gridLookup = (MVCxGridLookup)sender;
+        gridLookup.GridView.Width = Unit.Percentage(100);
+    };
+
+    settings.PreRender = (sender, e) =>
+    {
+        ASPxGridLookup l = (ASPxGridLookup)sender;
+        if (!string.IsNullOrEmpty(sekmeler))
+        {
+            var splitedData = sekmeler.Split(',');
+            foreach (var data in splitedData)
+            {
+                l.GridView.Selection.SetSelectionByKey(data, true);
+            }
+        }
+    };
+}).BindList(Model).GetHtml()

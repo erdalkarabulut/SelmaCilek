@@ -1,0 +1,34 @@
+﻿@using AnimationType = DevExpress.Web.AnimationType
+@using CloseAction = DevExpress.Web.CloseAction
+@model Bps.BpsBase.Entities.Concrete.GN.GNEVRK
+
+@{
+    Layout = null;
+}
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppBelgeAkis";
+        settings.Width = 1100;
+        settings.Height = 650;
+        settings.AllowDragging = true;
+        settings.Images.Header.IconID = IconID.LayoutFlowlayout16x16;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Belge Akışı";
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.Styles.Style.Paddings.Padding = 0;
+        settings.ControlStyle.Paddings.Padding = 0;
+        settings.Styles.Content.Paddings.Padding = 0;
+        settings.SetContent(() =>
+        {
+            Html.RenderAction("BelgeAkisGridParital", "Main", new { id = ViewData["id"], type = ViewData["type"] });
+        });
+
+    }).GetHtml()

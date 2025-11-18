@@ -1,0 +1,378 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@using Bps.BpsBase.Entities.Concrete.ST
+@using Bps.BpsBase.Entities.Models.ST.Single
+@model Bps.BpsBase.Entities.Models.ST.Single.GenelStokKartModel
+@{
+    Layout = null;
+    var menuTag = (int)ViewData["MenuTag"];
+}
+@{
+    var sekmeList = ViewData["SekmeKodList"] as List<GNTHRK>;
+}
+
+@Html.DevExpress().PageControl(
+    settings =>
+    {
+        settings.Name = "pageControlStokKartForm";
+        settings.Width = Unit.Percentage(100);
+        settings.ControlStyle.CssClass = "dxtcFixed";
+        settings.EnableTabScrolling = true;
+        settings.TabAlign = TabAlign.Justify;
+        settings.ActiveTabIndex = 0;
+
+        foreach (var sekme in sekmeList)
+        {
+            if (sekme.HARKOD == "A")
+            {
+                settings.TabPages.Add(sekme.TANIMI, sekme.HARKOD).SetContent(() =>
+                {
+                    @Html.DevExpress().FormLayout(formLayoutsettings =>
+                    {
+                        formLayoutsettings.Name = "formGv";
+                        formLayoutsettings.AlignItemCaptionsInAllGroups = true;
+                        formLayoutsettings.UseDefaultPaddings = false;
+                        formLayoutsettings.ColumnCount = 2;
+                        formLayoutsettings.Width = Unit.Percentage(100);
+                        formLayoutsettings.SettingsAdaptivity.GridSettings.Breakpoints.Add(new LayoutBreakpoint { ColumnCount = 1, MaxWidth = 790, Name = "S" });
+
+                        formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+                        formLayoutsettings.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 800;
+                        formLayoutsettings.Items.AddGroupItem(g =>
+                        {
+                            g.Caption = "Stok Kart";
+                            g.GridSettings.WrapCaptionAtWidth = 400;
+                            g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+
+                            g.Items.Add(m => m.StokKart.Id, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "Id_A";
+                                });
+                                i.ClientVisible = false;
+                            });
+
+                            g.Items.Add(m => m.StokKart.SIRKID, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "SIRKID_A";
+                                });
+                                i.ClientVisible = false;
+                            });
+
+                            g.Items.Add(m => m.StokKart.EKKULL, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "EKKULL_A";
+                                });
+                                i.ClientVisible = false;
+                            });
+
+                            g.Items.Add(m => m.StokKart.ETARIH, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "ETARIH_A";
+                                });
+                                i.ClientVisible = false;
+                            });
+
+                            g.Items.Add(m => m.StokKart.STKODU, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "STKODU_A";
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.STKNAM, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "STKNAM_A";
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.STMLTR, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "STMLTR_A";
+                                    s.ReadOnly = true;
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.STANKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "STANKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("UstTipCmbPartial", "Tanim", new { area = "GN", tipKod = "026", harKod = Model.StokKart.STANKD, cmbName = "STANKD_A", childName = "STALKD_A" });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.STALKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "STALKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("AltTipCmbPartial", "Tanim", new { area = "GN", ustTipKod = "026", harKod = Model.StokKart.STALKD, cmbName = "STALKD_A", ustHarKod = Model.StokKart.STANKD });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.STEKOD, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "STEKOD_A";
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.OLCUKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "OLCUKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "022", harKod = Model.StokKart.OLCUKD, cmbName = "OLCUKD_A" });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.SAOLKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "SAOLKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "022", harKod = Model.StokKart.SAOLKD, cmbName = "SAOLKD_A" });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.MALGKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "MALGKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "021", harKod = Model.StokKart.MALGKD, cmbName = "MALGKD_A" });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.BRTAGR, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "BRTAGR_A";
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.NETAGR, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "NETAGR_A";
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.AGOLKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "AGOLKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "022", harKod = Model.StokKart.AGOLKD, cmbName = "AGOLKD_A" });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.GNHACM, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "GNHACM_A";
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.HCOLKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "HCOLKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "022", harKod = Model.StokKart.HCOLKD, cmbName = "HCOLKD_A" });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.EANTKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "EANTKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "029", harKod = Model.StokKart.EANTKD, cmbName = "EANTKD_A" });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.EANKOD, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "EANKOD_A";
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.UZUNLK, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "UZUNLK_A";
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.GENSLK, i =>
+                            {
+                                i.NestedExtension().SpinEdit(s =>
+                                {
+                                    s.Name = "GENSLK_A";
+                                    s.Properties.MinValue = 0;
+                                    s.Properties.MaxValue = 9999999;
+                                    s.Properties.NumberType = SpinEditNumberType.Integer;
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.YUKSLK, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "YUKSLK_A";
+                                });
+                            });
+
+
+                            g.Items.Add(m => m.StokKart.UGYBKD, i =>
+                            {
+                                i.CaptionSettings.AssociatedNestedExtensionName = "UGYBKD_A";
+                                i.SetNestedContent(() =>
+                                {
+                                    Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "022", harKod = Model.StokKart.UGYBKD, cmbName = "UGYBKD_A" });
+                                });
+                            });
+
+                            g.Items.Add(m => m.StokKart.KDVORN, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "KDVORN_A";
+                                });
+                            });
+                        });
+
+                        formLayoutsettings.Items.AddGroupItem(g =>
+                        {
+                            g.Caption = "Satın Alma Değer Anahtarı";
+                            g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+                            g.GridSettings.WrapCaptionAtWidth = 400;
+
+
+                            g.Items.Add(m => m.StokKart.SADEGK, i =>
+                            {
+                                i.NestedExtension().ComboBox(s =>
+                                {
+                                    s.Name = "SADEGK_A";
+                                    s.Properties.CallbackPageSize = 15;
+                                    s.Properties.FilterMinLength = 0;
+                                    s.SelectedIndex = 0;
+                                    s.Properties.TextField = "SADEGK";
+                                    s.Properties.ValueField = "SADEGK";
+                                    s.Properties.TextFormatString = "{0}";
+                                    s.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) {TESFZT_A.SetValue(s.GetItem(s.GetSelectedIndex()).texts[2]); " +
+                                                                                         "TESACT_A.SetValue(s.GetItem(s.GetSelectedIndex()).texts[1]);" +
+                                                                                         "GNIHT1_A.SetValue(s.GetItem(s.GetSelectedIndex()).texts[3]);" +
+                                                                                         "GNIHT2_A.SetValue(s.GetItem(s.GetSelectedIndex()).texts[4]);" +
+                                                                                         "GNIHT3_A.SetValue(s.GetItem(s.GetSelectedIndex()).texts[5]);" +
+                                                                                         " }";
+                                    s.Properties.Columns.Add("SADEGK", "Anahtar Kodu", 80);
+                                    s.Properties.Columns.Add("TESACT", "Teslimat Açık Tolerans", 130);
+                                    s.Properties.Columns.Add("TESFZT", "Teslimat Fazla Tolerans", 130);
+                                    s.Properties.Columns.Add("GNIHT1", "İhtar Gün 1", 90);
+                                    s.Properties.Columns.Add("GNIHT2", "İhtar Gün 2", 90);
+                                    s.Properties.Columns.Add("GNIHT3", "İhtar Gün 3", 90);
+                                    s.Properties.DataSource = ViewData["SatinAlmaDegerList"];
+                                    s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                    s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                                });
+                            });
+                            g.Items.Add(m => m.SatinAlmaDegerAnahtar.TESACT, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "TESACT_A";
+                                    s.ReadOnly = true;
+                                });
+                            });
+                            g.Items.Add(m => m.SatinAlmaDegerAnahtar.TESFZT, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "TESFZT_A";
+                                    s.ReadOnly = true;
+                                });
+                            });
+                            g.Items.Add(m => m.SatinAlmaDegerAnahtar.GNIHT1, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "GNIHT1_A";
+                                    s.ReadOnly = true;
+                                });
+                            });
+                            g.Items.Add(m => m.SatinAlmaDegerAnahtar.GNIHT2, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "GNIHT2_A";
+                                    s.ReadOnly = true;
+                                });
+                            });
+                            g.Items.Add(m => m.SatinAlmaDegerAnahtar.GNIHT3, i =>
+                            {
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.Name = "GNIHT3_A";
+                                    s.ReadOnly = true;
+                                });
+                            });
+                        });
+                        FormLayoutHelper<GenelStokKartModel>.Settings(formLayoutsettings);
+                    }).Bind(Model).Render();
+                });
+            }
+            else if (sekme.HARKOD == "B")
+            {
+                settings.TabPages.Add(sekme.TANIMI, sekme.HARKOD).SetContent(() =>
+                {
+                    Html.RenderAction("StokMuhasebeGp", "Tanim", new { area = "ST", stokKodu = Model.StokKart.STKODU });
+                });
+            }
+            else if (sekme.HARKOD == "H")
+            {
+                settings.TabPages.Add(sekme.TANIMI, sekme.HARKOD).SetContent(() =>
+                {
+                    Html.RenderAction("StokDepoGp", "Tanim", new { area = "ST", stokKodu = Model.StokKart.STKODU });
+                });
+            }
+            else if (sekme.HARKOD == "J")
+            {
+                settings.TabPages.Add(sekme.TANIMI, sekme.HARKOD).SetContent(() =>
+                {
+                    Html.RenderAction("StokDilTanimGp", "Tanim", new { area = "ST", stokKodu = Model.StokKart.STKODU});
+                });
+            }
+            else if (sekme.HARKOD == "I")
+            {
+                settings.TabPages.Add(sekme.TANIMI, sekme.HARKOD).SetContent(() =>
+                {
+                    Html.RenderAction("StokSatisGp", "Tanim", new { area = "ST", stokKodu = Model.StokKart.STKODU});
+                });
+            }
+        }
+    }).GetHtml()
+
+@{
+    Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "stokKart.FormStokKartKaydet(" + menuTag + ", '" + Url.Action("StokKartKaydet", "Tanim", new { area = "ST" }) + "');", iptalJs = "stokKart.FormStokKartIptal();" });
+}

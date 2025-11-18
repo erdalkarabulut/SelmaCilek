@@ -1,0 +1,20 @@
+﻿@model List<Bps.BpsBase.Entities.Concrete.IK.IKPERS>
+
+@Html.DevExpress().ComboBox(settings =>
+{
+    settings.Name = "PERSID";
+    settings.SelectedIndex = 0;
+    settings.Properties.ValueType = typeof(int);
+    settings.Properties.TextField = "GNNAME";
+    settings.Properties.ValueField = "ID";
+    settings.Width = Unit.Percentage(100);
+    settings.Properties.TextFormatString = "{1} {2}";
+    settings.Properties.Columns.Add("SICILN", "Sicil No", 80);
+    settings.Properties.Columns.Add("GNNAME", "Adı", 100);
+    settings.Properties.Columns.Add("GNSNAM", "Soyadı", 100);
+    settings.Properties.CallbackPageSize = 15;
+    settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { GNPRNT.PerformCallback(); }";
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+    settings.CallbackRouteValues = new { Controller = "Personel", Action = "PersonelListPartial", area = "IK" };
+
+}).BindList(Model).GetHtml()

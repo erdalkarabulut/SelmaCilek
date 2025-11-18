@@ -1,0 +1,41 @@
+﻿@using Bps.Core.Web.Model
+@model GridViewSettings
+@{
+    var prm = (DevToolBarParam)ViewData["ToolParam"];
+}
+
+@{
+    var settings = Model;
+    settings.Toolbars.Add(toolbar =>
+    {
+        toolbar.Name = "tmpBatchToolBar";
+        toolbar.Enabled = true;
+        toolbar.Position = GridToolbarPosition.Top;
+        toolbar.ItemAlign = GridToolbarItemAlign.Left;
+        toolbar.EnableAdaptivity = true;
+
+        MVCxGridViewToolbarItem addButton = new MVCxGridViewToolbarItem();
+        addButton.Text = "Ekle";
+        addButton.Name = "tbBtch_Add";
+        addButton.Command = GridViewToolbarCommand.Custom;
+        addButton.Image.IconID = IconID.ActionsNew16x16;
+        addButton.NavigateUrl = @"javascript:scriptToolbarBatch.Ekle('" + prm.Grid + "')";
+        toolbar.Items.Add(addButton);
+
+        //MVCxGridViewToolbarItem editButton = new MVCxGridViewToolbarItem();
+        //editButton.Text = "Değiştir";
+        //editButton.Name = "tbBtch_Edit";
+        //editButton.Command = GridViewToolbarCommand.Custom;
+        //editButton.NavigateUrl = @"javascript:scriptToolbarDev.Degistir('" + prm.DegistirDiv + "', '" + prm.Grid + "', '" + prm.DegistirPopup + "', " + "'" + prm.DegistirUrl + "'," + prm.MenuTag + ")";
+        //editButton.Image.IconID = IconID.ActionsEdit16x16devav;
+        //toolbar.Items.Add(editButton);
+
+        MVCxGridViewToolbarItem deleteButton = new MVCxGridViewToolbarItem();
+        deleteButton.Text = "Sil";
+        deleteButton.Name = "tbBtch_Delete";
+        deleteButton.Command = GridViewToolbarCommand.Custom;
+        deleteButton.NavigateUrl = @"javascript:scriptToolbarBatch.Sil('" + prm.Grid + "')";
+        deleteButton.Image.IconID = IconID.ActionsCancel16x16;
+        toolbar.Items.Add(deleteButton);
+    });
+}

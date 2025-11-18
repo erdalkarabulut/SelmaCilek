@@ -1,0 +1,18 @@
+﻿@Html.DevExpress().GetStyleSheets(
+    new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new StyleSheet { ExtensionType = ExtensionType.FormLayout },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.GridView, AccessibilityCompliant = true },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Icons },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Editors},
+    new StyleSheet { ExtensionType = ExtensionType.Splitter },
+    new StyleSheet { ExtensionType = ExtensionType.Panel }
+    )
+
+@Html.DevExpress().GetScripts(
+    new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.GridView },
+    new Script { ExtensionType = ExtensionType.FormLayout },
+    new Script { ExtensionType = ExtensionType.Splitter },
+    new Script { ExtensionType = ExtensionType.Panel }
+    )

@@ -1,0 +1,163 @@
+﻿@model List<Bps.BpsBase.Entities.Models.GN.Listed.KullaniciKartModel>
+@{
+    ViewBag.Title = "Çilek | Dashboard";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<div class="content-wrapper" style="min-height: 412px;">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <section class="col-lg-3 connectedSortable ui-sortable"></section>
+                <section class="col-lg-3 connectedSortable ui-sortable"></section>
+                <section class="col-lg-3 connectedSortable ui-sortable"></section>
+                <section class="col-lg-3 connectedSortable ui-sortable"></section>
+
+                <!-- small box -->
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>150</h3>
+
+                            <p>New Orders</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                            <p>Bounce Rate</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>44</h3>
+
+                            <p>User Registrations</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>65</h3>
+
+                            <p>Unique Visitors</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pie-graph"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+
+            <div class="row">
+                <section id="sectionLeft" class="col-lg-7 connectedSortable ui-sortable">
+                    @{
+                        if (Model.Count > 0)
+                        {
+                            var leftSide = Model.Where(w => w.ACTIVE && w.GNPOSI == 0).OrderBy(o => o.SIRASI).ToList();
+                            if (leftSide.Count > 0)
+                            {
+                                foreach (var card in leftSide)
+                                {
+                                    @Html.Action("CartPartial", "Dashboard", new{partialName = card.KARTKD})
+                                }
+                            }
+                        }
+                    }
+                </section>
+                <section id="sectionRight" class="col-lg-5 connectedSortable ui-sortable">
+                    @{
+                        if (Model.Count > 0)
+                        {
+                            var rightSide = Model.Where(w => w.ACTIVE && w.GNPOSI == 1).OrderBy(o => o.SIRASI).ToList();
+                            if (rightSide.Count > 0)
+                            {
+                                foreach (var card in rightSide)
+                                {
+                                    @Html.Action("CartPartial", "Dashboard", new{partialName = card.KARTKD})
+                                }
+                            }
+                        }
+                    }
+                </section>
+            </div>
+        </div>
+    </section>
+
+</div>
+<script type="text/javascript">
+    var scriptDashboard = {
+        updateDashboard: function() {
+            var model = @Html.Raw(Json.Encode(@Model));
+            var left_i = 1;
+            var leftSection = document.getElementById("sectionLeft").querySelectorAll(".card");
+            leftSection.forEach(function(item) {
+                var card = model.find(x => x.KARTKD === item.id);
+                if (card != undefined) {
+                    card.GNPOSI = 0;
+                    card.SIRASI = left_i;
+                    left_i = left_i + 1;
+                }
+            });
+
+            var rightSection = document.getElementById("sectionRight").querySelectorAll(".card");
+            var right_i = 1;
+            rightSection.forEach(function(item) {
+                var card = model.find(x => x.KARTKD === item.id);
+                if (card != undefined) {
+                    card.GNPOSI = 1;
+                    card.SIRASI = right_i;
+                    right_i = right_i + 1;
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("DashboardGuncelle", "Dashboard", new { area = "" })',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    model: model
+                },
+                success: function(response, result) {
+                    cilekAlert.alertResponse(response);
+                    return;
+                },
+                error: function (response, status) {
+                    if (response.status == 900) {
+                        ppLoginAjax.Show();
+                    } else {
+                        console.log(arguments);
+                        cilekAlert.error("Beklenmeyen hata oluştu!");
+                    }
+                }
+            });
+        }
+    }
+
+</script>

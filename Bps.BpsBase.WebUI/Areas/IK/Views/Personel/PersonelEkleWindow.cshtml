@@ -1,0 +1,286 @@
+﻿@using System.Drawing
+@using Bps.BpsBase.Entities.Concrete.IK
+@model IKPERS
+@{
+    Layout = null;
+    var menuTag = (int)ViewData["MenuTag"];
+}
+@{
+    Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlPersonelForm";
+            PageControlHelper.Settings(settings, true);
+            settings.TabPages.Add("Temel Veriler", "TabTemel").SetContent(() =>
+            {
+                @Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formPersonel_Temel";
+                    formLayoutsettings.ColumnCount = 2;
+                    formLayoutsettings.AlignItemCaptionsInAllGroups = true;
+                    formLayoutsettings.SettingsAdaptivity.GridSettings.Breakpoints.Add(new LayoutBreakpoint { ColumnCount = 1, MaxWidth = 600, Name = "S" });
+
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Detaylar";
+                        g.GridSettings.WrapCaptionAtWidth = 400;
+                        g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+
+                        g.Items.Add(m => m.Id, i => { i.ClientVisible = false; });
+                        g.Items.Add(m => m.SIRKID, i => { i.ClientVisible = false; });
+                        g.Items.Add(m => m.EKKULL, i => { i.ClientVisible = false; });
+                        g.Items.Add(m => m.ETARIH, i => { i.ClientVisible = false; });
+
+                        g.Items.Add(m => m.SICILN, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "SICILN";
+                            });
+                        });
+                        g.Items.Add(m => m.UYRKKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "UYRKKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "012", harKod = Model.UYRKKD, cmbName = "UYRKKD" });
+                            });
+                        });
+                        g.Items.Add(m => m.GNNAME, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "GNNAME";
+                            });
+                        });
+                        g.Items.Add(m => m.GNSNAM, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "GNSNAM";
+                            });
+                        });
+                        g.Items.Add(m => m.CINSKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "CINSKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "007", harKod = Model.CINSKD, cmbName = "CINSKD" });
+                            });
+                        });
+                        g.Items.Add(m => m.DOGTAR, i =>
+                        {
+                            i.NestedExtension().DateEdit(s =>
+                            {
+                                s.Name = "DOGTAR";
+                            });
+                        });
+                        g.Items.Add(m => m.DOGYER, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "DOGYER";
+                            });
+                        });
+                        g.Items.Add(m => m.DEPAKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "DEPAKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("UstTipCmbPartial", "Tanim", new { area = "GN", tipKod = "005", harKod = Model.DEPAKD, cmbName = "DEPAKD", childName = "POZSKD" });
+                            });
+                        });
+                        g.Items.Add(m => m.POZSKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "POZSKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("AltTipCmbPartial", "Tanim", new { area = "GN", ustTipKod = "005", harKod = Model.POZSKD, cmbName = "POZSKD", childName = "", ustHarKod = Model.DEPAKD });
+                            });
+                        });
+                        g.Items.Add(m => m.LOKAKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "LOKAKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "008", harKod = Model.LOKAKD, cmbName = "LOKAKD" });
+                            });
+                        });
+                        g.Items.Add(m => m.ACTIVE, i =>
+                        {
+                            i.NestedExtension().CheckBox(s =>
+                            {
+                                s.Name = "ACTIVE";
+                                s.Checked = true;
+                            });
+                        });
+                    });
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Personel Resmi";
+                        g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+                        g.GridSettings.WrapCaptionAtWidth = 400;
+                        g.Items.Add(i =>
+                        {
+                            i.ShowCaption = DefaultBoolean.False;
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("UploadPartial", "Upload", new { area = "", tableName = "IKPERS", tableId = Model.Id, size = new Size(350, 350) });
+                            });
+                        });
+                    });
+
+                    FormLayoutHelper<IKPERS>.Settings(formLayoutsettings);
+                }).Bind(Model).Render();
+            });
+
+            settings.TabPages.Add("Çalışma Durum", "TabCalismaDurum").SetContent(() =>
+            {
+                @Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formPersonel_CalismaDurum";
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Çalışma Durum Detayı";
+                        g.ColCount = 2;
+
+                        g.Items.Add(m => m.ISGRTR, i =>
+                        {
+                            i.NestedExtension().DateEdit(s =>
+                            {
+                                s.Name = "ISGRTR";
+                            });
+                        });
+                        g.Items.Add(m => m.ISCKTR, i =>
+                        {
+                            i.NestedExtension().DateEdit(s =>
+                            {
+                                s.Properties.UseMaskBehavior = true;
+                                s.Name = "ISCKTR";
+                            });
+                        });
+                        g.Items.Add(m => m.CNEDKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "CNEDKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "009", harKod = Model.CNEDKD, cmbName = "CNEDKD" });
+                            });
+                        });
+                        g.Items.Add(m => m.CLDRKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "CLDRKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "010", harKod = Model.CLDRKD, cmbName = "CLDRKD" });
+                            });
+                        });
+                        g.Items.Add(m => m.MSRFKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "MSRFKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "011", harKod = Model.MSRFKD, cmbName = "MSRFKD", });
+                            });
+                        });
+                    });
+
+                    FormLayoutHelper<IKPERS>.Settings(formLayoutsettings);
+                }).Bind(Model).Render();
+            });
+
+            settings.TabPages.Add("İletişim", "TabIletisim").SetContent(() =>
+            {
+                @Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formPersonel_Iletisim";
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Adres Bilgileri";
+                        g.ColCount = 2;
+
+                        g.Items.Add(m => m.ULKEKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "ULKEKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("UstTipCmbPartial", "Tanim", new { area = "GN", tipKod = "001", harKod = Model.ULKEKD, cmbName = "ULKEKD", childName = "SEHRKD" });
+                            });
+                        });
+                        g.Items.Add(m => m.SEHRKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "SEHRKD";
+                            i.SetNestedContent(() =>
+
+                            {
+                                Html.RenderAction("AltTipCmbPartial", "Tanim", new { area = "GN", ustTipKod = "001", harKod = Model.SEHRKD, cmbName = "SEHRKD", childName = "ILCEKD", ustHarKod = Model.ULKEKD });
+                            });
+                        });
+                        g.Items.Add(m => m.ILCEKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "ILCEKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("AltTipCmbPartial", "Tanim", new { area = "GN", ustTipKod = "002", harKod = Model.ILCEKD, cmbName = "ILCEKD", childName = "MAHAKD", ustHarKod = Model.SEHRKD });
+                            });
+                        });
+                        g.Items.Add(m => m.MAHAKD, i =>
+                        {
+                            i.CaptionSettings.AssociatedNestedExtensionName = "MAHAKD";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("AltTipCmbPartial", "Tanim", new { area = "GN", ustTipKod = "003", harKod = Model.MAHAKD, cmbName = "MAHAKD", ustHarKod = Model.ILCEKD });
+                            });
+                        });
+                    });
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "İletişim Bilgileri";
+                        g.ColCount = 2;
+
+                        g.Items.Add(m => m.GNMAIL, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "GNMAIL";
+                                s.Properties.ValidationSettings.RegularExpression.ValidationExpression = @"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*";
+                                s.Properties.ValidationSettings.RegularExpression.ErrorText = "Mail geçerli değil";
+                            });
+                        });
+                        g.Items.Add(m => m.ACLTEL, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "ACLTEL";
+                                s.Properties.MaskSettings.Mask = "+90 (999) 000-0000";
+                                s.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+                                s.Properties.MaskSettings.ErrorText = "Geçersiz telefon numarası";
+                            });
+                        });
+                        g.Items.Add(m => m.ACLCEP, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "ACLCEP";
+                                s.Properties.MaskSettings.Mask = "+90 (999) 000-0000";
+                                s.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+                                s.Properties.MaskSettings.ErrorText = "Geçersiz telefon numarası";
+                                s.Properties.ValidationSettings.Display = Display.Dynamic;
+                            });
+                        });
+                        g.Items.Add(m => m.ACLKIS, i =>
+                        {
+                            i.NestedExtension().TextBox(s =>
+                            {
+                                s.Name = "ACLKIS";
+                            });
+                        });
+                    });
+                    FormLayoutHelper<IKPERS>.Settings(formLayoutsettings);
+                }).Bind(Model).Render();
+            });
+        }).Render();
+
+    Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "personel.FormPersonelKaydet(" + menuTag + ", '" + Url.Action("PersonelKaydet", "Personel", new { area = "IK" }) + "');", iptalJs = "personel.FormPersonelIptal();" });
+
+}

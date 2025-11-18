@@ -1,0 +1,45 @@
+﻿@using Bps.Core.Web.Session
+@model List<Bps.Core.Web.Model.ProjeMenuListed>
+@Html.DevExpress().CallbackPanel(settings =>
+{
+    settings.Name = "searchResults";
+    settings.CallbackRouteValues = new { Controller = "Main", Action = "SearchListPartial", area = "" };
+    settings.ControlStyle.CssClass = "search-results";
+    settings.EnableTheming = false;
+    settings.SettingsLoadingPanel.Enabled = false;
+    settings.SetContent(GetPanelContent().ToHtmlString());
+    settings.ClientSideEvents.EndCallback = "DXDemo.Search.onEndCallback";
+}).GetHtml()
+
+@helper GetPanelContent()
+{
+    if (Model != null && Model.Any())
+    {
+            <div id="resultsContainer" class="search-results-container">
+                @{
+                    var index = 0;
+
+                }
+                @foreach (var sr in Model)
+                {
+                    var additionalInfoClass = "";
+                    var url = Url.Action(sr.FUNCNM, sr.CONTNM, new { area = SessionHelper.ProjeKod, menuTag = sr.MNUTAG });
+                    <a id="sr_@(index++)" href=@url class="search-result-item">
+                        <span class="demo-title @additionalInfoClass">@Html.Raw(sr.PARENTNAME)</span>
+                        <span class="additional-info @additionalInfoClass">
+                            <span>@Html.Raw(sr.MNUNAM)</span>@* spacing fix
+                            *@<span class="icon right-arrow arrow-right-long"></span>@*
+                            *@<span class="icon right-arrow arrow-right-long-selected"></span>@*
+                            *@<span>@Html.Raw(sr.MNUTAG)</span>
+                        </span>
+                    </a>
+                }
+            </div>
+    }
+    else
+    {
+        <div class="no-results-container">
+            No results found for <b>@ViewData["RequestText"]</b>.
+        </div>
+    }
+}

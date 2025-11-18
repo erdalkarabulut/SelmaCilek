@@ -1,0 +1,230 @@
+﻿@using System.Drawing
+@using System.Web.UI.WebControls
+@using Bps.BpsBase.WebUI.Helpers.Devexpress
+@model Bps.BpsBase.Entities.Concrete.GN.GNFILE
+@{
+    var urlImage = Model.FLTYPE == 0 ? Model.GNPATH : "#";
+    var uploadSize = (Size)ViewData["UploadSize"];
+    var key = (string)ViewData["Key"];
+    var firstAdd = (bool)ViewData["FirstAdd"];
+}
+
+<script type="text/javascript">
+    function yenile(e) {
+        LoadingPanel.Show();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("UploadFilesContainerPartial", "Upload", new {area = ""})',
+            data: {
+                key: '@key'
+            },
+            success: function (response) {
+                $("#divUploadImageGalery").html(response);
+            },
+            error: function (response, status) {
+                if (response.status == 900) {
+                    ppLoginAjax.Show();
+                } else {
+                    console.log(arguments);
+                    cilekAlert.error("Beklenmeyen hata oluştu!");
+                }
+            }
+        }).always(function () {
+            LoadingPanel.Hide();
+        });
+    }
+
+    function onFileUploadComplete(e) {
+        if (e.callbackData) {
+            //var fileData = e.callbackData.split('|');
+            //var fileName = fileData[0],
+            //    fileUrl = fileData[1],
+            //    fileSize = fileData[2];
+            //console.log(fileData);
+            //DXUploadedFilesContainer.AddFile(fileName, fileUrl, fileSize);
+
+            @*LoadingPanel.Show();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("ImageGaleryPartial","Upload")',
+                data: {
+                    key: '@key',
+                    firstAdd: '@firstAdd'
+                },
+                success: function (response) {
+                    $("#divUploadImageGalery").html(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            }).always(function () {
+                LoadingPanel.Hide();
+            });*@
+
+            yenile();
+        }
+    }
+
+    var currentlySelectedIndex = -1;
+    var selectedItemName = "";
+    function selectedIndexChanged(s, e, index, itemName) {
+        if (!s.GetChecked()) {
+            currentlySelectedIndex = -1;
+            selectedItemName = "";
+        }
+        else {
+            if (currentlySelectedIndex == -1) {
+                currentlySelectedIndex = index;
+                selectedItemName = itemName;
+            }
+            else {
+                ASPxClientControl.GetControlCollection().GetByName("checkBox" + currentlySelectedIndex).SetChecked(false);
+                currentlySelectedIndex = index;
+                selectedItemName = itemName;
+            }
+        }
+        console.log(selectedItemName);
+    }
+
+    function onEndCallback(s, e) {
+        currentlySelectedIndex = -1;
+        selectedItemName = "";
+    }
+
+    function onDeleteClick(s, e) {
+        if (selectedItemName == "")
+            cilekAlert.warning("Lütfen silmek istediğiniz resmi seçiniz!");
+        else {
+
+        }
+        alert("Edit the " + selectedItemName + " item");
+    }
+
+    function OnCustomButtonClick(s, e) {
+        if (e.buttonID == "btnUploadedDelete") {
+            var fileName = s.GetRowKey(e.visibleIndex);
+            LoadingPanel.Show();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("DeleteTempFile","Upload", new{area=""})',
+                data: {
+                    key: '@key',
+                    fileName:fileName
+                },
+                success: function (response) {
+                    cilekAlert.alertResponse(response);
+                    if (response.Status === 0) {
+                        yenile();
+                    }
+                },
+                error: function (response, status) {
+                    if (response.status == 900) {
+                        ppLoginAjax.Show();
+                    } else {
+                        console.log(arguments);
+                        cilekAlert.error("Beklenmeyen hata oluştu!");
+                    }
+                }
+            }).always(function () {
+                LoadingPanel.Hide();
+            });
+        }
+    }
+</script>
+@using (Html.BeginForm())
+{
+    Html.DevExpress().FormLayout(frmUpload =>
+    {
+        frmUpload.Name = "formUpload";
+        frmUpload.ColumnCount = 2;
+        frmUpload.UseDefaultPaddings = false;
+        frmUpload.Width = Unit.Percentage(100);
+
+        frmUpload.Items.AddGroupItem(g =>
+        {
+            g.Caption = "Yükleme";
+            g.ShowCaption = DefaultBoolean.False;
+            g.ColCount = 1;
+            g.Width = Unit.Percentage(30);
+            g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+
+            g.Items.Add(i =>
+            {
+                i.ShowCaption = DefaultBoolean.False;
+                i.SetNestedContent(() =>
+                {
+                    Html.DevExpress().UploadControl(
+                        upLoadsettings =>
+                        {
+                            upLoadsettings.Name = "ucMultiSelection";
+                            upLoadsettings.CallbackRouteValues = new
+                            {
+                                Controller = "Upload",
+                                Action = "MultiSelectionUpload",
+                                area = "",
+                                key = key
+                            };
+
+                            upLoadsettings.Width = Unit.Percentage(100);
+                            upLoadsettings.ShowProgressPanel = true;
+                            upLoadsettings.ShowUploadButton = true;
+                            upLoadsettings.AdvancedModeSettings.EnableMultiSelect = true;
+                            upLoadsettings.AdvancedModeSettings.EnableFileList = true;
+                            upLoadsettings.AdvancedModeSettings.EnableDragAndDrop = true;
+                            upLoadsettings.NullText = "Lütfen dosya seçiniz...";
+
+                            upLoadsettings.ValidationSettings.Assign(UploadControlHelper.UploadValidationSettings);
+
+                            upLoadsettings.ClientSideEvents.FileUploadComplete = "function(s,e) { onFileUploadComplete(e); }";
+                        }).Render();
+
+                    ViewContext.Writer.Write("</br>");
+                    Html.DevExpress().Label(
+                        lsettings =>
+                        {
+                            lsettings.Name = "AllowedFileExtensionsLabel";
+                            lsettings.Text = "İzin verilen dosya uzantıları: .jpg, .jpeg, .gif, .png.";
+                            lsettings.ControlStyle.Font.Size = FontUnit.Point(8);
+                        }).Render();
+
+                    ViewContext.Writer.Write("</br>");
+                    Html.DevExpress().Label(
+                        lsettings =>
+                        {
+                            lsettings.Name = "MaxFileSizeLabel";
+                            lsettings.Text = "Maksimum dosya boyutu: 4 MB.";
+                            lsettings.ControlStyle.Font.Size = FontUnit.Point(8);
+                        }).Render();
+                });
+            });
+        });
+
+        frmUpload.Items.AddGroupItem(g =>
+        {
+            g.Caption = "Galeri";
+            g.ShowCaption = DefaultBoolean.False;
+            g.Width = Unit.Percentage(70);
+            g.Items.Add(i =>
+            {
+                i.ShowCaption = DefaultBoolean.False;
+                i.SetNestedContent(() =>
+                {
+                    //Html.DevExpress().Button(settings =>
+                    //{
+                    //    settings.Name = "btn_UploadImageDelete";
+                    //    settings.Text = "Sil";
+                    //    settings.Images.Image.IconID = IconID.ActionsCancel16x16;
+                    //    settings.UseSubmitBehavior = false;
+                    //    settings.ClientSideEvents.Click = "onDeleteClick";
+                    //}).Render();
+
+                    ViewContext.Writer.Write("<div id='divUploadImageGalery'>");
+                    //Html.RenderAction("ImageGaleryPartial", "Upload", new { key, firstAdd });
+                    Html.RenderAction("UploadFilesContainerPartial", "Upload", new { key });
+                    ViewContext.Writer.Write("</div>");
+                });
+            });
+        });
+        frmUpload.Styles.Style.Paddings.Padding = Unit.Pixel(0);
+    }).Render();
+}

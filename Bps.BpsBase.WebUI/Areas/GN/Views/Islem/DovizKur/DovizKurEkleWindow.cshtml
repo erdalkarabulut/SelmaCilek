@@ -1,0 +1,143 @@
+﻿
+
+@using Bps.BpsBase.Entities.Concrete
+@model Bps.BpsBase.Entities.Concrete.DOVKUR
+
+@{
+    Layout = null;
+    var menuTag = (int)ViewData["MenuTag"];
+}
+
+@{
+    <script src="../../../../../Areas/GN/Assets/Js/doviz.js"></script>
+    Html.DevExpress().FormLayout(formLayoutsettings =>
+    {
+        formLayoutsettings.Name = "formDovizKuruEkle";
+        formLayoutsettings.AlignItemCaptionsInAllGroups = true;
+        formLayoutsettings.UseDefaultPaddings = false;
+        formLayoutsettings.ColumnCount = 2;
+        formLayoutsettings.SettingsAdaptivity.GridSettings.Breakpoints.Add(new LayoutBreakpoint { ColumnCount = 1, MaxWidth = 790, Name = "S" });
+
+        formLayoutsettings.Items.AddGroupItem(g =>
+        {
+            g.Caption = "Detaylar";
+            g.GridSettings.WrapCaptionAtWidth = 400;
+            g.SpanRules.Add(new SpanRule { BreakpointName = "S", ColumnSpan = 1, RowSpan = 1 });
+
+            g.Items.Add(m => m.Id, i =>
+            {
+                i.NestedExtension().TextBox(s =>
+                {
+                    s.Name = "Id";
+                });
+                i.ClientVisible = false;
+            });
+
+            g.Items.Add(m => m.EKKULL, i =>
+            {
+                i.NestedExtension().TextBox(s =>
+                {
+                    s.Name = "EKKULL";
+                });
+                i.ClientVisible = false;
+            });
+
+            g.Items.Add(m => m.ETARIH, i =>
+            {
+                i.NestedExtension().TextBox(s =>
+                {
+                    s.Name = "ETARIH";
+                });
+                i.ClientVisible = false;
+            });
+            g.Items.Add(m => m.DVCNKD, i =>
+            {
+                i.CaptionSettings.AssociatedNestedExtensionName = "DVCNKD";
+                i.SetNestedContent(() =>
+                {
+                    Html.RenderAction("TipHrkCmbPartial", "Tanim", new { area = "GN", tipKod = "031", harKod = Model.DVCNKD, cmbName = "DVCNKD" });
+                });
+            });
+
+            g.Items.Add(m => m.DOVTRH, i =>
+            {
+                i.NestedExtension().DateEdit(s =>
+                {
+                    s.Name = "DOVTRH";
+                    s.ShowModelErrors = true;
+                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                });
+            });
+
+            g.Items.Add(m => m.DVFYT1, i =>
+            {
+                i.NestedExtension().TextBox(s =>
+                {
+                    s.Name = "DVFYT1";
+                    s.ShowModelErrors = true;
+                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                });
+            });
+
+            g.Items.Add(m => m.DVFYT2, i =>
+            {
+                i.NestedExtension().TextBox(s =>
+                {
+                    s.Name = "DVFYT2";
+                    s.ShowModelErrors = true;
+                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                });
+            });
+            g.Items.Add(m => m.DVFYT3, i =>
+            {
+                i.NestedExtension().TextBox(s =>
+                {
+                    s.Name = "DVFYT3";
+                    s.ShowModelErrors = true;
+                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                });
+            });
+            g.Items.Add(m => m.DVFYT4, i =>
+            {
+                i.NestedExtension().TextBox(s =>
+                {
+                    s.Name = "DVFYT4";
+                    s.ShowModelErrors = true;
+                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                });
+            });
+            g.Items.Add(m => m.ACTIVE, i =>
+            {
+                i.NestedExtension().CheckBox(s =>
+                {
+                    s.Name = "ACTIVE";
+                    s.Checked = true;
+                });
+            });
+        });
+
+        FormLayoutHelper<DOVKUR>.Settings(formLayoutsettings);
+    }).Bind(Model).Render();
+
+    Html.DevExpress().Button(
+        settings =>
+        {
+            settings.Name = "getDoviz";
+            settings.Text = "Merkez Bankası'ndan al";
+            settings.Width = Unit.Pixel(100);
+            settings.ControlStyle.CssClass = "buttonAlign";
+            settings.ClientSideEvents.Click = @"function (s, e) { " + "doviz.DovizKaydet(" + menuTag + ", " +
+                                              "'gridDovizKur', '" + Url.Action("DovizKurKaydet", "Islem", new { area = "GN", manual = true }) + "', " +
+                                              "" + "\"formDovizKuruEkle\"" + ", 'pageControlDovizKur', 0, true);" + " }";
+        }).Render();
+
+    Html.RenderAction("FormFooterPartial", "Main", new
+    {
+        area = "",
+        ekleJs = "scriptToolbarDev.FormKaydetWithTab(" + menuTag + ", " +
+                 "'gridDovizKur', '" + Url.Action("DovizKurKaydet", "Islem", new { area = "GN" }) + "', " +
+                 "" + "\"formDovizKuruEkle\"" + ", 'pageControlDovizKur', 0, false);",
+        iptalJs = "scriptToolbarDev.FormIptalWithTab('pageControlDovizKur',0);"
+    });
+
+}

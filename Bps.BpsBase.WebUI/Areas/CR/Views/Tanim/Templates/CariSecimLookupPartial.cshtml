@@ -1,0 +1,58 @@
+﻿
+@model List<Bps.BpsBase.Entities.Concrete.CR.CRCARI>
+@{
+    var name = ViewData["Name"].ToString();
+    var enable = (bool)ViewData["Enable"];
+    var cariKod = ViewData["CariKod"].ToString();
+}
+@Html.DevExpress().GridLookup(settings =>
+{
+    settings.Name = name;
+    settings.GridViewProperties.CallbackRouteValues = new { Controller = "Tanim", Action = "CariSecimLookupPartial", area = "CR", cmbName = name };
+
+    settings.KeyFieldName = "CRKODU";
+    settings.Properties.Width = Unit.Percentage(100);
+    settings.Properties.ClientSideEvents.Init = "function(s, e) { s.GetGridView().SetWidth(s.GetWidth()); }";
+    settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Single;
+    settings.Properties.TextFormatString = "{1}";
+    settings.Properties.NullText = "Cari Kart Seçiniz !";
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.Columns.Add("CRKODU");
+    settings.Columns.Add("CRUNV1");
+    settings.Columns.Add("CRUNV2");
+    settings.Enabled = enable;
+
+    settings.GridViewProperties.Settings.ShowFilterRow = true;
+    settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+    settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+    settings.GridViewProperties.SettingsPager.PageSize = 7;
+    settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+        Html.DevExpress().Button(btnSettings =>
+        {
+            btnSettings.Name = "btnClose_" + name;
+            btnSettings.UseSubmitBehavior = false;
+            btnSettings.Text = "Kapat";
+            btnSettings.ClientSideEvents.Click = "function(s, e) {" + name + ".ConfirmCurrentSelection();" + name + ".HideDropDown();}";
+        }).Render();
+        ViewContext.Writer.Write("</div>");
+    });
+
+    settings.DataBound = (sender, e) =>
+    {
+        var gridLookup = (MVCxGridLookup)sender;
+        gridLookup.GridView.Width = Unit.Percentage(100);
+    };
+
+    settings.PreRender = (sender, e) =>
+    {
+        ASPxGridLookup l = (ASPxGridLookup)sender;
+        if (!string.IsNullOrEmpty(cariKod))
+        {
+            l.GridView.Selection.SetSelectionByKey(cariKod, true);
+        }
+    };
+}).BindList(Model).GetHtml()

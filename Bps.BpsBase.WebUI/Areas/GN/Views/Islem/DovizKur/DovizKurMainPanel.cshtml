@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "DovizKurMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.DevExpress().PageControl(
+        settings =>
+        {
+            settings.Name = "pageControlDovizKur";
+            PageControlHelper.Settings(settings, false);
+            settings.ActiveTabIndex = 0;
+
+            settings.TabPages.Add("Döviz Kurları", "DovizKur_Tab1").SetContent(() =>
+            {
+                Html.RenderAction("DovizKurGridPartial", "Islem", new { area = "GN" });
+            });
+
+            settings.TabPages.Add("Döviz İşlemleri", "DovizKur_Tab2").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+}

@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AF8E9BB2-899A-4ECD-BBD2-5CD2DC4D73CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bps.BpsBase.DataAccess</RootNamespace>
+    <AssemblyName>Bps.BpsBase.DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.21.9.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.21.9\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4, Version=1.2.6.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.1.2.6\lib\net45\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4.Streams, Version=1.2.6.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.Streams.1.2.6\lib\net45\K4os.Compression.LZ4.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Hash.xxHash, Version=1.0.6.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Hash.xxHash.1.0.6\lib\net45\K4os.Hash.xxHash.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=8.0.32.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.8.0.32.1\lib\net452\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstract\CM\ICmaksnDal.cs" />
+    <Compile Include="Abstract\CM\ICmkartDal.cs" />
+    <Compile Include="Abstract\CR\ICradrsDal.cs" />
+    <Compile Include="Abstract\CR\ICrbankDal.cs" />
+    <Compile Include="Abstract\CR\ICrcafyDal.cs" />
+    <Compile Include="Abstract\CR\ICrcariDal.cs" />
+    <Compile Include="Abstract\CR\ICrytklDal.cs" />
+    <Compile Include="Abstract\FY\IFyshopifyimageDal.cs" />
+    <Compile Include="Abstract\FY\IFyshopifyoptionDal.cs" />
+    <Compile Include="Abstract\FY\IFyshopifyorderDal.cs" />
+    <Compile Include="Abstract\FY\IFyshopifyproductDal.cs" />
+    <Compile Include="Abstract\FY\IFyshopifyvariantDal.cs" />
+    <Compile Include="Abstract\GN\IGnbnhrDal.cs" />
+    <Compile Include="Abstract\GN\IGndpnoDal.cs" />
+    <Compile Include="Abstract\GN\IGndptnDal.cs" />
+    <Compile Include="Abstract\GN\IGndptpDal.cs" />
+    <Compile Include="Abstract\GN\IGndpzmDal.cs" />
+    <Compile Include="Abstract\GN\IGnevrkDal.cs" />
+    <Compile Include="Abstract\GN\IGnfileDal.cs" />
+    <Compile Include="Abstract\GN\IGnklopDal.cs" />
+    <Compile Include="Abstract\GN\IGnkoslDal.cs" />
+    <Compile Include="Abstract\GN\IGnkukrDal.cs" />
+    <Compile Include="Abstract\GN\IGnkullDal.cs" />
+    <Compile Include="Abstract\GN\IGnkxmlDal.cs" />
+    <Compile Include="Abstract\GN\IGnlkhrDal.cs" />
+    <Compile Include="Abstract\GN\IGnmenuDal.cs" />
+    <Compile Include="Abstract\GN\IGnmesjDal.cs" />
+    <Compile Include="Abstract\GN\IGnophrDal.cs" />
+    <Compile Include="Abstract\GN\IGnoptpDal.cs" />
+    <Compile Include="Abstract\GN\IGnorgaDal.cs" />
+    <Compile Include="Abstract\GN\IGnorhrDal.cs" />
+    <Compile Include="Abstract\GN\IGnthrkDal.cs" />
+    <Compile Include="Abstract\GN\IGntipiDal.cs" />
+    <Compile Include="Abstract\GN\IGnyetbDal.cs" />
+    <Compile Include="Abstract\GN\IGnyetkDal.cs" />
+    <Compile Include="Abstract\IK\IIkpersDal.cs" />
+    <Compile Include="Abstract\IS\IIsplanDal.cs" />
+    <Compile Include="Abstract\IS\IIsplstDal.cs" />
+    <Compile Include="Abstract\IS\IIsrevzDal.cs" />
+    <Compile Include="Abstract\IS\IIsrvhrDal.cs" />
+    <Compile Include="Abstract\IS\IIsurbgDal.cs" />
+    <Compile Include="Abstract\IS\IIsyropDal.cs" />
+    <Compile Include="Abstract\IS\IIsyrtnDal.cs" />
+    <Compile Include="Abstract\KS\IKskasaDal.cs" />
+    <Compile Include="Abstract\MH\IMhhsplDal.cs" />
+    <Compile Include="Abstract\SA\ISadegaDal.cs" />
+    <Compile Include="Abstract\SH\IShsrvsDal.cs" />
+    <Compile Include="Abstract\SN\ISnifbaDal.cs" />
+    <Compile Include="Abstract\SN\ISnkrtrDal.cs" />
+    <Compile Include="Abstract\SN\ISnkrtyDal.cs" />
+    <Compile Include="Abstract\SN\ISnsnkrDal.cs" />
+    <Compile Include="Abstract\SN\ISntynnDal.cs" />
+    <Compile Include="Abstract\SP\ISpdkdrDal.cs" />
+    <Compile Include="Abstract\SP\ISpfbasDal.cs" />
+    <Compile Include="Abstract\SP\ISpfharDal.cs" />
+    <Compile Include="Abstract\SP\ISpftipDal.cs" />
+    <Compile Include="Abstract\SP\ISpftopDal.cs" />
+    <Compile Include="Abstract\SP\ISphrplDal.cs" />
+    <Compile Include="Abstract\SP\ISpkoslDal.cs" />
+    <Compile Include="Abstract\SP\ISpodtbDal.cs" />
+    <Compile Include="Abstract\SP\ISprezvDal.cs" />
+    <Compile Include="Abstract\SP\ISpuropDal.cs" />
+    <Compile Include="Abstract\ST\IStaltgDal.cs" />
+    <Compile Include="Abstract\ST\IStanagDal.cs" />
+    <Compile Include="Abstract\ST\IStbdrnDal.cs" />
+    <Compile Include="Abstract\ST\IStcinsDal.cs" />
+    <Compile Include="Abstract\ST\IStcrkdDal.cs" />
+    <Compile Include="Abstract\ST\IStdepoDal.cs" />
+    <Compile Include="Abstract\ST\IStdepvDal.cs" />
+    <Compile Include="Abstract\ST\IStdpynDal.cs" />
+    <Compile Include="Abstract\ST\IStdurmDal.cs" />
+    <Compile Include="Abstract\ST\IStftipDal.cs" />
+    <Compile Include="Abstract\ST\ISthbasDal.cs" />
+    <Compile Include="Abstract\ST\ISthrktDal.cs" />
+    <Compile Include="Abstract\ST\IStkartDal.cs" />
+    <Compile Include="Abstract\ST\IStkfiyDal.cs" />
+    <Compile Include="Abstract\ST\IStkfytDal.cs" />
+    <Compile Include="Abstract\ST\IStkmihDal.cs" />
+    <Compile Include="Abstract\ST\IStkmizDal.cs" />
+    <Compile Include="Abstract\ST\IStmaltDal.cs" />
+    <Compile Include="Abstract\ST\IStmhsbDal.cs" />
+    <Compile Include="Abstract\ST\IStnameDal.cs" />
+    <Compile Include="Abstract\ST\IStolcuDal.cs" />
+    <Compile Include="Abstract\ST\IStoptmDal.cs" />
+    <Compile Include="Abstract\ST\IStsaleDal.cs" />
+    <Compile Include="Abstract\ST\IStseriDal.cs" />
+    <Compile Include="Abstract\ST\ISttdtrDal.cs" />
+    <Compile Include="Abstract\ST\ISturopDal.cs" />
+    <Compile Include="Abstract\ST\ISturyrDal.cs" />
+    <Compile Include="Abstract\ST\IStvmihDal.cs" />
+    <Compile Include="Abstract\ST\IStvmizDal.cs" />
+    <Compile Include="Abstract\ST\IStvuryDal.cs" />
+    <Compile Include="Abstract\TS\ITsfbasDal.cs" />
+    <Compile Include="Abstract\TS\ITsfharDal.cs" />
+    <Compile Include="Abstract\TS\ITsftipDal.cs" />
+    <Compile Include="Abstract\UA\IUakltnDal.cs" />
+    <Compile Include="Abstract\UA\IUakltpDal.cs" />
+    <Compile Include="Abstract\UA\IUamltyDal.cs" />
+    <Compile Include="Abstract\UA\IUastbgDal.cs" />
+    <Compile Include="Abstract\UA\IUastrtDal.cs" />
+    <Compile Include="Abstract\UR\IUragacDal.cs" />
+    <Compile Include="Abstract\UR\IUragvrDal.cs" />
+    <Compile Include="Abstract\UR\IUrsureDal.cs" />
+    <Compile Include="Abstract\WM\IWmadrsDal.cs" />
+    <Compile Include="Abstract\WM\IWmadrtDal.cs" />
+    <Compile Include="Abstract\WM\IWmhratDal.cs" />
+    <Compile Include="Abstract\WM\IWmhrktDal.cs" />
+    <Compile Include="Abstract\WM\IWmnksbDal.cs" />
+    <Compile Include="Abstract\WM\IWmsthrDal.cs" />
+    <Compile Include="Abstract\\IDovkurDal.cs" />
+    <Compile Include="Abstract\\ILockedDal.cs" />
+    <Compile Include="Abstract\\ILogsDal.cs" />
+    <Compile Include="Abstract\\ISirketDal.cs" />
+    <Compile Include="Concrete\Context\BpsContext.cs" />
+    <Compile Include="Concrete\Context\DbConf.cs" />
+    <Compile Include="Concrete\EntityFramework\CM\EfCmaksnDal.cs" />
+    <Compile Include="Concrete\EntityFramework\CM\EfCmkartDal.cs" />
+    <Compile Include="Concrete\EntityFramework\CR\EfCradrsDal.cs" />
+    <Compile Include="Concrete\EntityFramework\CR\EfCrbankDal.cs" />
+    <Compile Include="Concrete\EntityFramework\CR\EfCrcafyDal.cs" />
+    <Compile Include="Concrete\EntityFramework\CR\EfCrcariDal.cs" />
+    <Compile Include="Concrete\EntityFramework\CR\EfCrytklDal.cs" />
+    <Compile Include="Concrete\EntityFramework\FY\EfFyshopifyimageDal.cs" />
+    <Compile Include="Concrete\EntityFramework\FY\EfFyshopifyoptionDal.cs" />
+    <Compile Include="Concrete\EntityFramework\FY\EfFyshopifyorderDal.cs" />
+    <Compile Include="Concrete\EntityFramework\FY\EfFyshopifyproductDal.cs" />
+    <Compile Include="Concrete\EntityFramework\FY\EfFyshopifyvariantDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnbnhrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGndpnoDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGndptnDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGndptpDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGndpzmDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnevrkDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnfileDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnklopDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnkoslDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnkukrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnkullDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnkxmlDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnlkhrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnmenuDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnmesjDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnophrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnoptpDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnorgaDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnorhrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnthrkDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGntipiDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnyetbDal.cs" />
+    <Compile Include="Concrete\EntityFramework\GN\EfGnyetkDal.cs" />
+    <Compile Include="Concrete\EntityFramework\IK\EfIkpersDal.cs" />
+    <Compile Include="Concrete\EntityFramework\IS\EfIsplanDal.cs" />
+    <Compile Include="Concrete\EntityFramework\IS\EfIsplstDal.cs" />
+    <Compile Include="Concrete\EntityFramework\IS\EfIsrevzDal.cs" />
+    <Compile Include="Concrete\EntityFramework\IS\EfIsrvhrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\IS\EfIsurbgDal.cs" />
+    <Compile Include="Concrete\EntityFramework\IS\EfIsyropDal.cs" />
+    <Compile Include="Concrete\EntityFramework\IS\EfIsyrtnDal.cs" />
+    <Compile Include="Concrete\EntityFramework\KS\EfKskasaDal.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\BaseEntityMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\CM\CmaksnMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\CM\CmkartMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\CR\CradrsMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\CR\CrbankMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\CR\CrcafyMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\CR\CrcariMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\CR\CrytklMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\FY\FyshopifyimageMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\FY\FyshopifyoptionMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\FY\FyshopifyorderMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\FY\FyshopifyproductMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\FY\FyshopifyvariantMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnbnhrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GndpnoMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GndptnMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GndptpMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GndpzmMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnevrkMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnfileMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnklopMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnkoslMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnkukrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnkullMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnkxmlMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnlkhrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnmenuMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnmesjMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnophrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnoptpMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnorgaMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnorhrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnthrkMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GntipiMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnyetbMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\GN\GnyetkMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\IK\IkpersMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\IS\IsplanMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\IS\IsplstMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\IS\IsrevzMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\IS\IsrvhrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\IS\IsurbgMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\IS\IsyropMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\IS\IsyrtnMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\KS\KskasaMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\MH\MhhsplMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SA\SadegaMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SH\ShsrvsMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SN\SnifbaMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SN\SnkrtrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SN\SnkrtyMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SN\SnsnkrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SN\SntynnMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SpdkdrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SpfbasMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SpfharMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SpftipMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SpftopMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SphrplMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SpkoslMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SpodtbMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SprezvMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\SP\SpuropMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StaltgMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StanagMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StbdrnMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StcinsMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StcrkdMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StdepoMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StdepvMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StdpynMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StdurmMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StftipMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\SthbasMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\SthrktMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StkartMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StkfiyMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StkfytMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StkmihMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StkmizMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StmaltMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StmhsbMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StnameMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StolcuMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StoptmMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StsaleMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StseriMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\SttdtrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\SturopMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\SturyrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StvmihMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StvmizMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\ST\StvuryMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\TS\TsfbasMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\TS\TsfharMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\TS\TsftipMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\UA\UakltnMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\UA\UakltpMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\UA\UamltyMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\UA\UastbgMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\UA\UastrtMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\UR\UragacMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\UR\UragvrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\UR\UrsureMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\WM\WmadrsMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\WM\WmadrtMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\WM\WmhratMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\WM\WmhrktMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\WM\WmnksbMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\WM\WmsthrMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\\DovkurMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\\LockedMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\\LogsMap.cs" />
+    <Compile Include="Concrete\EntityFramework\Mappings\\SirketMap.cs" />
+    <Compile Include="Concrete\EntityFramework\MH\EfMhhsplDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SA\EfSadegaDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SH\EfShsrvsDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SN\EfSnifbaDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SN\EfSnkrtrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SN\EfSnkrtyDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SN\EfSnsnkrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SN\EfSntynnDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSpdkdrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSpfbasDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSpfharDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSpftipDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSpftopDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSphrplDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSpkoslDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSpodtbDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSprezvDal.cs" />
+    <Compile Include="Concrete\EntityFramework\SP\EfSpuropDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStaltgDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStanagDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStbdrnDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStcinsDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStcrkdDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStdepoDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStdepvDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStdpynDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStdurmDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStftipDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfSthbasDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfSthrktDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStkartDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStkfiyDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStkfytDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStkmihDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStkmizDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStmaltDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStmhsbDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStnameDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStolcuDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStoptmDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStsaleDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStseriDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfSttdtrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfSturopDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfSturyrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStvmihDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStvmizDal.cs" />
+    <Compile Include="Concrete\EntityFramework\ST\EfStvuryDal.cs" />
+    <Compile Include="Concrete\EntityFramework\TS\EfTsfbasDal.cs" />
+    <Compile Include="Concrete\EntityFramework\TS\EfTsfharDal.cs" />
+    <Compile Include="Concrete\EntityFramework\TS\EfTsftipDal.cs" />
+    <Compile Include="Concrete\EntityFramework\UA\EfUakltnDal.cs" />
+    <Compile Include="Concrete\EntityFramework\UA\EfUakltpDal.cs" />
+    <Compile Include="Concrete\EntityFramework\UA\EfUamltyDal.cs" />
+    <Compile Include="Concrete\EntityFramework\UA\EfUastbgDal.cs" />
+    <Compile Include="Concrete\EntityFramework\UA\EfUastrtDal.cs" />
+    <Compile Include="Concrete\EntityFramework\UR\EfUragacDal.cs" />
+    <Compile Include="Concrete\EntityFramework\UR\EfUragvrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\UR\EfUrsureDal.cs" />
+    <Compile Include="Concrete\EntityFramework\WM\EfWmadrsDal.cs" />
+    <Compile Include="Concrete\EntityFramework\WM\EfWmadrtDal.cs" />
+    <Compile Include="Concrete\EntityFramework\WM\EfWmhratDal.cs" />
+    <Compile Include="Concrete\EntityFramework\WM\EfWmhrktDal.cs" />
+    <Compile Include="Concrete\EntityFramework\WM\EfWmnksbDal.cs" />
+    <Compile Include="Concrete\EntityFramework\WM\EfWmsthrDal.cs" />
+    <Compile Include="Concrete\EntityFramework\\EfDovkurDal.cs" />
+    <Compile Include="Concrete\EntityFramework\\EfLockedDal.cs" />
+    <Compile Include="Concrete\EntityFramework\\EfLogsDal.cs" />
+    <Compile Include="Concrete\EntityFramework\\EfSirketDal.cs" />
+    <Compile Include="MySql.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Concrete\NHibernate\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bps.BpsBase.Entities\Bps.BpsBase.Entities.csproj">
+      <Project>{B4D1DD09-B78A-434A-8785-807B0F3634B8}</Project>
+      <Name>Bps.BpsBase.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bps.Core\Bps.Core.csproj">
+      <Project>{5ed0b4a6-e53f-46cf-a8f1-f7d8c8676cc1}</Project>
+      <Name>Bps.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

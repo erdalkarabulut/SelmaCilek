@@ -1,0 +1,92 @@
+﻿@{
+    Layout = null;
+}
+
+@using System.Web.UI.WebControls
+@using AnimationType = DevExpress.Web.AnimationType
+@using CloseAction = DevExpress.Web.CloseAction
+@model List<Bps.Core.Web.Model.Devexpress.GridLayoutModel>
+
+<style>
+    .txtYerlesimTextBox {  
+        float: left;  
+    } 
+    .btnYerlesimSave {  
+        float: right;  
+    }  
+</style>
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppYerlesimWindow";
+        settings.Width = 700;
+        settings.Height = 560;
+        settings.AllowDragging = true;
+        settings.Images.Header.IconID = IconID.AlignmentAlignverticalleft16x16;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Yerleşim Ekranı";
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.Styles.Content.Paddings.Padding = 0;
+        settings.ClientSideEvents.CloseButtonClick = "function(s, e) {console.log(arguments); }";  
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm())
+            {
+                Html.RenderAction("YerlesimGridParital", "Main", new {area="", menuTag = ViewData["menuTag"], gridName = ViewData["gridName"] });
+            }
+
+            Html.DevExpress().Panel(settingsPanel =>
+            {
+                settingsPanel.Name = "ppYerlesimBottomPanel";
+                settingsPanel.Height = 40;
+                //settings.SetContent(SetButton().ToHtmlString());
+                //settingsPanel.SettingsCollapsing.ExpandButton.Visible = true;
+                settingsPanel.Styles.Panel.VerticalAlign = VerticalAlign.Bottom;
+                settingsPanel.Styles.Panel.Paddings.PaddingTop = 5;
+                settingsPanel.SetContent(() =>
+                {
+
+                    Html.DevExpress().FormLayout(formLayoutsettings =>
+                    {
+                        formLayoutsettings.Name = "ppYerlesimForm";
+                        formLayoutsettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        formLayoutsettings.Items.AddGroupItem(g =>
+                        {
+                            g.ColCount = 2;
+                            g.Caption = "Yeni Kayıt";
+                            g.Items.Add(i =>
+                            {
+                                i.FieldName = "Adı";
+                                i.NestedExtension().TextBox(s =>
+                                {
+                                    s.ShowModelErrors = true;
+                                    s.Text = "İsim";
+                                    s.Name = "txtYerlesimTextBox";
+                                    s.Properties.ValidationSettings.Display = Display.Dynamic;
+                                });
+                            });
+                            g.Items.Add(i =>
+                            {
+                                i.Caption = "";
+                                i.NestedExtension().Button(s =>
+                                {
+                                    s.Text = "Kaydet";
+                                    s.Name = "btnYerlesimSave";
+                                    s.Styles.Style.CssClass = "btnYerlesimSave";
+                                    s.ClientSideEvents.Click = "" +
+                                    "function(s, e){scriptToolbarDev.LayoutSave('" + ViewData["gridName"] + "','" + Html.Raw(Url.Action("SaveLayout", "Main", new { area = "" })) + "')}";
+                                });
+                            });
+                        });
+                    }).Render();
+                });
+            }).Render();
+        });
+    }).GetHtml()

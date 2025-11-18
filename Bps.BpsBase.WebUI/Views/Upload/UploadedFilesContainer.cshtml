@@ -1,0 +1,42 @@
+﻿@using Bps.BpsBase.Entities.Models.GN.Listed
+<script type="text/javascript">
+    var useExtendedPopup = @(ViewData["UseExtendedPopup"] != null ? ViewData["UseExtendedPopup"].ToString().ToLower() : "false");
+    DXUploadedFilesContainer.ApplySettings("width: 240px; max-width: 240px", "width: 70px; max-width: 70px", "width: 100px", useExtendedPopup);
+</script>
+
+@*@Html.DevExpress().RoundPanel(
+    settings =>
+    {
+        settings.Name = "FilesRoundPanel";
+        settings.EnableClientSideAPI = true;
+        settings.HeaderText = "Yüklenen dosyalar";
+        settings.Width = Unit.Percentage(100);
+        settings.Height = Unit.Pixel(180);
+        settings.ControlStyle.CssClass = "uploadFilesContainerPanel";
+    }).GetHtml()*@
+
+@{
+    Html.DevExpress().GridView<UploadedFilesModel>(settings =>
+    {
+        settings.Name = "gridMenu";
+        settings.KeyFieldName = "FLNAME";
+        settings.CallbackRouteValues = new { Controller = "Tanim", Action = "MenuGridPartial"};
+
+        settings.Columns.Add(m => m.GNSIZE, column =>
+        {
+            column.Visible = false;
+        });
+
+        settings.Columns.Add(m => m.FLNAME, column =>
+        {
+        });
+
+        settings.Columns.Add(m => m.GNSIZE, column =>
+        {
+        });
+
+        settings.SettingsBehavior.AllowSelectSingleRowOnly = true;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+    }).Bind(Model).Render();
+}

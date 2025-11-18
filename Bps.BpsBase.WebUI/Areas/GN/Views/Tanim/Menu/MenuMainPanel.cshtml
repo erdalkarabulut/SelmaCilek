@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "MenuMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model int?
+<body>
+
+@using (Html.BeginForm())
+{
+    @Html.Action("MenuGridPartial","Tanim")
+
+    <script type="text/javascript">
+        function FormMenuKaydet() {
+            bpsMain.submitForm('formMenuEkle',
+                'gridMenu',
+                'ppMenuEkle',
+                '@Html.Raw(Url.Action("MenuKaydet", "Tanim", new {area="GN"}))',
+                @Model);
+        }
+    </script>
+}
+</body>

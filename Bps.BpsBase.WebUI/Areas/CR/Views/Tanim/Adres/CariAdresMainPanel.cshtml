@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "CariAdresMainPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model int?
+<script src="../../../../Areas/CR/Assets/Js/cariKart.js"></script>
+<body>
+    @using (Html.BeginForm())
+    {
+
+        @Html.DevExpress().PageControl(settings =>
+        {
+
+            settings.Name = "pageControlCariAdres";
+            PageControlHelper.Settings(settings, false);
+
+            settings.TabPages.Add("Ara", "cariAdresTab1").SetContent(() =>
+            {
+                Html.DevExpress().FormLayout(formLayoutsettings =>
+                {
+                    formLayoutsettings.Name = "formCariKartAra";
+                    formLayoutsettings.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.Off;
+                    formLayoutsettings.AlignItemCaptions = true;
+                    formLayoutsettings.Items.AddGroupItem(g =>
+                    {
+                        g.Caption = "Ara";
+                        g.ColCount = 1;
+                        g.Paddings.Padding = Unit.Pixel(0);
+                        g.Paddings.PaddingTop = Unit.Pixel(10);
+                        g.GroupBoxDecoration = GroupBoxDecoration.HeadingLine;
+                        g.GroupBoxStyle.Caption.Font.Bold = true;
+                        g.GroupBoxStyle.Caption.Font.Size = 16;
+                        g.GroupBoxStyle.Caption.CssClass = "groupCaption";
+                        g.Items.Add(i =>
+                        {
+                            i.Caption = "Cari Kart";
+                            i.CaptionSettings.AssociatedNestedExtensionName = "cmbCariAdres_CariKart";
+                            i.SetNestedContent(() =>
+                            {
+                                Html.RenderAction("CariSecimLookupPartial", "Tanim", new { area = "CR", cariKod = "", cmbName = "cmbCariAdres_CariKart" });
+                            });
+                        });
+
+                        g.Items.Add(i =>
+                        {
+                            i.ShowCaption = DefaultBoolean.False;
+                            i.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+                        }).SetNestedContent(() =>
+                        {
+                            Html.DevExpress().Button(s =>
+                            {
+                                s.Name = "btnCariAdres_Ara";
+                                s.Text = "Ara";
+                                s.ControlStyle.CssClass = "buttonAlign";
+                                s.Styles.Style.HorizontalAlign = HorizontalAlign.Right;
+                                s.Images.Image.IconID = IconID.ActionsSearch16x16devav;
+                                s.ClientSideEvents.Click = @"function(s,e) {cariAdres.CariAdresAra(" + Model + ")}";
+                            }).Render();
+                        });
+                    });
+                }).Render();
+            });
+            settings.TabPages.Add("Liste", "cariAdresTab2").SetContent(() =>
+            {
+                Html.RenderAction("CariAdresGridPartial", "Tanim", new { area = "CR" });
+            });
+            settings.TabPages.Add("İşlemler", "cariAdresTab3").SetContent(() =>
+            {
+                ViewContext.Writer.Write("<div id='editableContainer'>");
+                ViewContext.Writer.Write("</div>");
+            });
+        }).GetHtml()
+    }
+</body>

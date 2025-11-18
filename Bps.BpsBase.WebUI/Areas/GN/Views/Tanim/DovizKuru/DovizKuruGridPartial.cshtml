@@ -1,0 +1,120 @@
+﻿@using Bps.BpsBase.Entities.Concrete
+@using Bps.Core.Web.Model
+@using DevExpress.Web.Mvc.UI
+@model List<DOVKUR>
+
+@{
+    Html.DevExpress().GridView<DOVKUR>(settings =>
+    {
+        settings.Name = "gridDovizKuru";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new { Controller = "Tanim", Action = "DovizKuruGridPartial" };
+        settings.ClientSideEvents.BeginCallback = "function(s,e){ e.customArgs['menuTag'] =" + ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG + ";}";
+
+        var prm = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("DovizKuruEkleWindow", "Tanim", new {area = "GN"}),
+            DegistirUrl = Url.Action("DovizKuruEkleWindow", "Tanim", new {area = "GN"}),
+            SilUrl = Url.Action("DovizKuruSil", "Tanim", new {area = "GN"}),
+            EklePopup = "ppDovizKuruEkle",
+            DegistirPopup = "ppDovizKuruEkle",
+            EkleDiv = "dovizKuruEkleDiv",
+            DegistirDiv = "dovizKurunEkleDiv",
+            YerlesimDiv = "dovizKuruLayoutDiv",
+            BelgeAkisDiv = "dovizKuruBelgeAkisDiv",
+            TopluAktarDiv = "dovizKuruTopluAktDiv",
+            MenuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG,
+            Type = "DOVKUR"
+        };
+        
+        var yetki = (ProjeMenuListed) ViewData["YetkiModel"];
+        settings.Toolbars.Add(toolbar =>
+        {
+            toolbar.Name = "tmpToolBar";
+            toolbar.Enabled = true;
+            toolbar.Position = GridToolbarPosition.Top;
+            toolbar.ItemAlign = GridToolbarItemAlign.Left;
+
+            MVCxGridViewToolbarItem addButton = new MVCxGridViewToolbarItem();
+            addButton.Text = "Ekle";
+            addButton.Name = "tb_Add";
+            addButton.Enabled = yetki.EKLEME == 1;
+            addButton.Command = GridViewToolbarCommand.Custom;
+            addButton.NavigateUrl = @"javascript:dovizKuruScript.Ekle(" + prm.MenuTag + ", '" + prm.EkleUrl + "')";
+            addButton.Image.IconID = IconID.ActionsNew16x16;
+            toolbar.Items.Add(addButton);
+
+            MVCxGridViewToolbarItem editButton = new MVCxGridViewToolbarItem();
+            editButton.Text = "Değiştir";
+            editButton.Name = "tb_Edit";
+            editButton.Enabled = yetki.DEGIST == 1;
+            editButton.Command = GridViewToolbarCommand.Custom;
+            editButton.NavigateUrl = @"javascript:dovizKuruScript.Degistir('" + prm.Grid + "', " + prm.MenuTag + ", '" + prm.DegistirUrl + "')";
+            editButton.Image.IconID = IconID.ActionsEdit16x16devav;
+            toolbar.Items.Add(editButton);
+
+            MVCxGridViewToolbarItem deleteButton = new MVCxGridViewToolbarItem();
+            deleteButton.Text = "Sil";
+            deleteButton.Name = "tb_Delete";
+            deleteButton.Enabled = yetki.SILMEK == 1;
+            deleteButton.Command = GridViewToolbarCommand.Custom;
+            deleteButton.NavigateUrl = @"javascript:scriptToolbarDev.Sil('" + prm.Grid + "', '" + prm.SilUrl + "', " + prm.MenuTag + ")";
+            deleteButton.Image.IconID = IconID.ActionsCancel16x16;
+            toolbar.Items.Add(deleteButton);
+
+            toolbar.Items.Add(GridViewToolbarCommand.Refresh, true);
+
+            toolbar.Items.Add(i =>
+            {
+                i.Text = "Export to";
+                i.Image.IconID = DevExpress.Web.ASPxThemes.IconID.ActionsDownload16x16office2013;
+                i.BeginGroup = true;
+                i.Items.Add(GridViewToolbarCommand.ExportToPdf).Enabled = yetki.PDFGOS == 1;
+                i.Items.Add(GridViewToolbarCommand.ExportToDocx).Enabled = yetki.DOCGOS == 1;
+                i.Items.Add(GridViewToolbarCommand.ExportToRtf).Enabled = yetki.DOCGOS == 1;
+                i.Items.Add(GridViewToolbarCommand.ExportToXls).Enabled = yetki.EXCGOS == 1;
+                i.Items.Add(GridViewToolbarCommand.ExportToXlsx).Enabled = yetki.EXCGOS == 1;
+            });
+
+            toolbar.Items.Add(i =>
+            {
+                i.Text = "Ortam";
+                i.Image.IconID = DevExpress.Web.ASPxThemes.IconID.NavigationHome16x16;
+                i.BeginGroup = true;
+                i.Items.Add(blg =>
+                {
+                    blg.Name = "btn_BelgeAkis";
+                    blg.Text = "Belge Akışı";
+                    blg.Image.IconID = DevExpress.Web.ASPxThemes.IconID.ActionsFill16x16;
+                    blg.NavigateUrl = @"javascript:scriptToolbarDev.BelgeAkisi('" + prm.Grid + "', '" + prm.BelgeAkisDiv + "', '" + prm.Type + "', " + prm.MenuTag + ", " + "'" + Html.Raw(Url.Action("BelgeAkisiWindow", "Main", new {area = ""})) + "')";
+                });
+                //i.Items.Add(exportitem =>
+                //{
+                //    exportitem.Name = "CustomExportToXLSX";
+                //    exportitem.Text = "Export to XLSX(WYSIWYG)";
+                //    exportitem.Image.IconID = DevExpress.Web.ASPxThemes.IconID.ExportExporttoxlsx16x16office2013;
+                //});
+            });
+
+            MVCxGridViewToolbarItem saveLayout = new MVCxGridViewToolbarItem();
+            saveLayout.Text = "Yerleşim";
+            saveLayout.Name = "tb_Yerlesim";
+            saveLayout.Command = GridViewToolbarCommand.Custom;
+            saveLayout.NavigateUrl = @"javascript:scriptToolbarDev.YerlesimWindow('" + prm.YerlesimDiv + "', '" + prm.Grid + "', 'ppYerlesimWindow', " + "'" + Html.Raw(Url.Action("YerlesimWindow", "Main", new {area = ""})) + "'" + "," + prm.MenuTag + ")";
+            saveLayout.Image.IconID = IconID.AlignmentAlignverticalleft16x16;
+
+            toolbar.Items.Add(saveLayout);
+        });
+
+        GridViewHelper<DOVKUR>.Settings(settings, new DOVKUR());
+    }).Bind(Model).Render();
+}
+<div id="dovizKuruEkleDiv">
+</div>
+<div id="dovizKuruLayoutDiv">
+</div>
+<div id="dovizKuruBelgeAkisDiv">
+</div>
+<div id="dovizKuruTopluAktDiv">
+</div>

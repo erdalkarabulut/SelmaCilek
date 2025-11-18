@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\PostSharp.6.4.8\build\PostSharp.props" Condition="Exists('..\packages\PostSharp.6.4.8\build\PostSharp.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{27DEA96C-2ED7-40CE-B36D-C24F387D4171}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bps.BpsBase.Business</RootNamespace>
+    <AssemblyName>Bps.BpsBase.Business</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Office.v20.1.Core, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v20.1.Core, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v20.1, Version=20.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.8.6.1\lib\net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PostSharp, Version=6.4.8.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Redist.6.4.8\lib\net45\PostSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstract\CR\ICradrsService.cs" />
+    <Compile Include="Abstract\CR\ICrcariService.cs" />
+    <Compile Include="Abstract\GN\IGndptnService.cs" />
+    <Compile Include="Abstract\GN\IGnevrkService.cs" />
+    <Compile Include="Abstract\GN\IGnfileService.cs" />
+    <Compile Include="Abstract\GN\IGnkullService.cs" />
+    <Compile Include="Abstract\GN\IGnmenuService.cs" />
+    <Compile Include="Abstract\GN\IGnmesjService.cs" />
+    <Compile Include="Abstract\GN\IGnService.cs" />
+    <Compile Include="Abstract\GN\IGnthrkService.cs" />
+    <Compile Include="Abstract\GN\IGntipiService.cs" />
+    <Compile Include="Abstract\GN\IGnyetkService.cs" />
+    <Compile Include="Abstract\IK\IIkpersService.cs" />
+    <Compile Include="Abstract\KS\IKskasaService.cs" />
+    <Compile Include="Abstract\MH\IMhhsplService.cs" />
+    <Compile Include="Abstract\SA\ISadegaService.cs" />
+    <Compile Include="Abstract\ST\IStaltgService.cs" />
+    <Compile Include="Abstract\ST\IStanagService.cs" />
+    <Compile Include="Abstract\ST\IStcinsService.cs" />
+    <Compile Include="Abstract\ST\IStdepoService.cs" />
+    <Compile Include="Abstract\ST\IStdurmService.cs" />
+    <Compile Include="Abstract\ST\IStftipService.cs" />
+    <Compile Include="Abstract\ST\ISthrktService.cs" />
+    <Compile Include="Abstract\ST\IStkartService.cs" />
+    <Compile Include="Abstract\ST\IStkmizService.cs" />
+    <Compile Include="Abstract\ST\IStmaltService.cs" />
+    <Compile Include="Abstract\ST\IStmhsbService.cs" />
+    <Compile Include="Abstract\ST\IStnameService.cs" />
+    <Compile Include="Abstract\ST\IStokService.cs" />
+    <Compile Include="Abstract\ST\IStolcuService.cs" />
+    <Compile Include="Abstract\ST\IStsaleService.cs" />
+    <Compile Include="Abstract\ST\ISttdtrService.cs" />
+    <Compile Include="Abstract\\IDovkurService.cs" />
+    <Compile Include="Abstract\\ILockedService.cs" />
+    <Compile Include="Abstract\\ILogsService.cs" />
+    <Compile Include="Abstract\\ISirketService.cs" />
+    <Compile Include="Concrete\Managers\CR\CradrsManager.cs" />
+    <Compile Include="Concrete\Managers\CR\CrcariManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GndptnManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GnevrkManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GnfileManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GnkullManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GnManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GnmenuManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GnmesjManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GnthrkManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GntipiManager.cs" />
+    <Compile Include="Concrete\Managers\GN\GnyetkManager.cs" />
+    <Compile Include="Concrete\Managers\IK\IkpersManager.cs" />
+    <Compile Include="Concrete\Managers\KS\KskasaManager.cs" />
+    <Compile Include="Concrete\Managers\MH\MhhsplManager.cs" />
+    <Compile Include="Concrete\Managers\SA\SadegaManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StaltgManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StanagManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StcinsManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StdepoManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StdurmManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StftipManager.cs" />
+    <Compile Include="Concrete\Managers\ST\SthrktManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StkartManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StkmizManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StmaltManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StmhsbManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StnameManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StokManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StolcuManager.cs" />
+    <Compile Include="Concrete\Managers\ST\StsaleManager.cs" />
+    <Compile Include="Concrete\Managers\ST\SttdtrManager.cs" />
+    <Compile Include="Concrete\Managers\\DovkurManager.cs" />
+    <Compile Include="Concrete\Managers\\LockedManager.cs" />
+    <Compile Include="Concrete\Managers\\LogsManager.cs" />
+    <Compile Include="Concrete\Managers\\SirketManager.cs" />
+    <Compile Include="DependencyResolvers\Exception\BusinessException.cs" />
+    <Compile Include="DependencyResolvers\Message\MessageProcess.cs" />
+    <Compile Include="DependencyResolvers\Ninject\BusinessModule.cs" />
+    <Compile Include="DependencyResolvers\Ninject\InstanceFactory.cs" />
+    <Compile Include="DependencyResolvers\Ninject\ValidationModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidationRules\FluentValidation\CR\CradrsValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\CR\CrcariValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GndptnValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GnevrkNoValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GnevrkValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GnfileValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GnkullValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GnmenuValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GnmesjValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GnthrkValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GntipiValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\GN\GnyetkValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\IK\IkpersValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\KS\KskasaValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\MH\MhhsplValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\SA\SadegaValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\GenelStokKartValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StaltgValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StanagValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StcinsValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StdepoValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StdurmValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StftipValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\SthrktValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StkartValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StkmizValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StmaltValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StmhsbValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StnameValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StolcuValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\StsaleValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\ST\SttdtrValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\\DovkurValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\\LockedValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\\LogsValidator.cs" />
+    <Compile Include="ValidationRules\FluentValidation\\SirketValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bps.BpsBase.DataAccess\Bps.BpsBase.DataAccess.csproj">
+      <Project>{af8e9bb2-899a-4ecd-bbd2-5cd2dc4d73cf}</Project>
+      <Name>Bps.BpsBase.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bps.BpsBase.Entities\Bps.BpsBase.Entities.csproj">
+      <Project>{B4D1DD09-B78A-434A-8785-807B0F3634B8}</Project>
+      <Name>Bps.BpsBase.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bps.Core\Bps.Core.csproj">
+      <Project>{5ed0b4a6-e53f-46cf-a8f1-f7d8c8676cc1}</Project>
+      <Name>Bps.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web.DemoData\Web.DemoData.csproj">
+      <Project>{b681c0f5-978d-45a0-a3b5-6d3860fd749d}</Project>
+      <Name>Web.DemoData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\PostSharp.6.4.8\build\PostSharp.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.4.8\build\PostSharp.props'))" />
+    <Error Condition="!Exists('..\packages\PostSharp.6.4.8\build\PostSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PostSharp.6.4.8\build\PostSharp.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\PostSharp.6.4.8\build\PostSharp.targets" Condition="Exists('..\packages\PostSharp.6.4.8\build\PostSharp.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

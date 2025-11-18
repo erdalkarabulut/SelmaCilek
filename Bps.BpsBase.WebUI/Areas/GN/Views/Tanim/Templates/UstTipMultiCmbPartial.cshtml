@@ -1,0 +1,36 @@
+﻿@using Bps.BpsBase.Entities.Models.GN.Listed
+@model Bps.BpsBase.Entities.Models.GN.Single.CmbComboModel
+@{
+    var nameskods = (List<ChildNameTipKod>)ViewData["ChildNamesTipKods"];
+}
+@Html.DevExpress().ComboBoxFor(m => m.HARKOD, settings =>
+{
+    settings.Name = ViewData["ComboboxName"].ToString();
+    settings.Properties.ValueType = typeof(string);
+    settings.Properties.TextField = "TANIMI";
+    settings.Properties.ValueField = "HARKOD";
+    settings.Width = Unit.Percentage(100);
+    settings.Properties.TextFormatString = "{0}";
+    settings.Properties.Columns.Add("TANIMI", "Tanımı", 100);
+    settings.Properties.Columns.Add("TIPKOD", "Tip Kod", 100);
+    settings.Properties.Columns.Add("HARKOD", "Hareket Kodu", 80);
+    settings.Properties.Columns.Add("Id", "Id", 50);
+    settings.Properties.CallbackPageSize = 15;
+    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+    var x = " ";
+    for (int i = 0; i < nameskods.Count; i++)
+    {
+        x += nameskods[i].ChildName + ".PerformCallback({ustTipKod:s.GetItem(s.GetSelectedIndex()).texts[1], " +
+             "tipKod:'" + nameskods[i].AltTipKod + "'," +
+             "cmbName:'" + nameskods[i].ChildName + "'," +
+             "parentId: s.GetItem(s.GetSelectedIndex()).texts[3]}); ";
+    }
+    settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { " +x  +  "}";
+
+    settings.CallbackRouteValues = new { Controller = "Tanim", Action = "TipHrkCmbPartial", area = "GN",tipkod= ViewData["tipKod"],harkod= ViewData["harKod"],cmbName= ViewData["ComboboxName"] };
+
+}).BindList(Model.TipHareketList).Bind(Model.HARKOD).GetHtml()
+<script>
+
+
+</script>

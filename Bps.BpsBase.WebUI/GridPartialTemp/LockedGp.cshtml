@@ -1,0 +1,114 @@
+@using Bps.BpsBase.Entities.Concrete;
+@using Bps.Core.Web.Model
+@model List<LOCKED>
+
+@{
+    Html.DevExpress().GridView<LOCKED>(settings =>
+    {
+        settings.Name = "gridLocked";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "---", Action ="LockedGp", area = ""};
+
+        var yetki = (ProjeMenuListed)ViewData["YetkiModel"];
+        var toolParam = new DevToolBarParam()
+        {
+            Grid = settings.Name,
+            EkleUrl = Url.Action("LockedPartial", "---", new { area = "" }),
+            DegistirUrl = Url.Action("LockedPartial", "---", new { area = "" }),
+            SilUrl = Url.Action("LockedSil", "---", new { area = "" }),
+            EklePopup = "ppLockedEkle", 
+            DegistirPopup = "ppLockedDegistir", 
+            EkleDiv = "lockedEkleDiv", 
+            DegistirDiv = "lockedEkleDiv", 
+            BelgeAkisDiv = "lockedBelgeAkisDiv", 
+            YerlesimDiv = "lockedLayoutDiv", 
+            TopluAktarDiv = "lockedTopluAktarDiv", 
+            MenuTag = ((ProjeMenuListed)ViewData["YetkiModel"]).MNUTAG,
+            Type = "LOCKED", 
+            ItemList = new List<MVCxGridViewToolbarItem>()
+        };
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "", 
+            settings,
+            yetki = (ProjeMenuListed)ViewData["YetkiModel"],
+            toolParam = toolParam
+        });
+
+        #region Columns
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Id";
+            column.Visible = false;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "TABLNM";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "KULKOD";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LOCKID";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LCKDAT";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "LCTIME";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CHKCTR";
+            column.Visible = true;
+            column.MaxWidth = 2000;
+            column.MinWidth = 150;
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            var prop = (EditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = true;
+        });
+
+        #endregion Columns
+
+        GridViewHelper<LOCKED>.SettingsWihoutColumns(settings, new LOCKED());
+    }).Bind(Model).Render();
+}
+
+<div id="lockedEkleDiv"></div>
+<div id="lockedLayoutDiv"></div>
+<div id="lockedBelgeAkisDiv"></div>
+<div id="lockedTopluAktarDiv"></div>

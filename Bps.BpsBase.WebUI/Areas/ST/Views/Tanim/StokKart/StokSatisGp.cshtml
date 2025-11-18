@@ -1,0 +1,125 @@
+﻿@using Bps.BpsBase.Entities.Concrete.ST
+@using DevExpress.Web.Mvc.UI
+
+@model IEnumerable<STSALE>
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    var stokKodu = (string)ViewData["StokKodu"];
+    var menuTag = (int)ViewData["MenuTag"];
+}
+@(Html.DevExpress().GridView<STSALE>(settings =>
+{
+    settings.Name = "gridStSale";
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "Tanim", Action = "StokSatisGp", area = "ST", menuTag = menuTag, stokKodu = stokKodu };
+    //settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "Takvim", Action = "BatchEditingUpdateModel" };
+
+    settings.SettingsResizing.ColumnResizeMode = ColumnResizeMode.Disabled;
+    settings.Settings.ShowFilterRow = false;
+    settings.Settings.ShowHeaderFilterButton = false;
+    //settings.SettingsBehavior.AllowDragDrop = false;
+    settings.SettingsBehavior.AllowGroup = false;
+    settings.SettingsBehavior.AllowSort = false;
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+    settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
+    settings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+    settings.SettingsEditing.BatchEditSettings.HighlightDeletedRows = true;
+    settings.SettingsEditing.BatchEditSettings.KeepChangesOnCallbacks = DefaultBoolean.True;
+    settings.Height = 594;
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowCancelButton = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+    settings.CommandColumn.ShowCancelButton = true;
+    settings.CommandButtonInitialize = (sender, e) =>
+    {
+        if ((e.ButtonType == ColumnCommandButtonType.Update))
+        {
+            e.Visible = false;
+        }
+    };
+    settings.CommandColumn.Width = Unit.Pixel(150);
+
+    settings.KeyFieldName = "Id";
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "SLORKD";
+        c.ColumnType = MVCxGridViewColumnType.ComboBox;
+        c.EditorProperties().ComboBox(p =>
+        {
+            p.TextField = "TANIMI";
+            p.ValueField = "HARKOD";
+            p.ValueType = typeof(string);
+            p.BindList(ViewData["SatisOrgList"]);
+            p.ValidationSettings.RequiredField.IsRequired = true;
+            p.ValidationSettings.CausesValidation = true;
+        });
+    });
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "SLKNKD";
+        c.ColumnType = MVCxGridViewColumnType.ComboBox;
+        c.EditorProperties().ComboBox(p =>
+        {
+            p.TextField = "TANIMI";
+            p.ValueField = "HARKOD";
+            p.ValueType = typeof(string);
+            p.BindList(ViewData["DagitimKanalList"]);
+            p.ValidationSettings.RequiredField.IsRequired = true;
+            p.ValidationSettings.CausesValidation = true;
+        });
+    });
+
+    settings.Columns.Add(m => m.ASGMIK, c =>
+    {
+        c.FieldName = "ASGMIK";
+        c.ColumnType = MVCxGridViewColumnType.SpinEdit;
+        var prop = (SpinEditProperties)c.PropertiesEdit;
+        prop.ValidationSettings.RequiredField.IsRequired = true;
+        prop.ValidationSettings.CausesValidation = true;
+    });
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "OLCUKD";
+        c.ColumnType = MVCxGridViewColumnType.ComboBox;
+        c.EditorProperties().ComboBox(p =>
+        {
+            p.TextField = "TANIMI";
+            p.ValueField = "HARKOD";
+            p.ValueType = typeof(string);
+            p.BindList(ViewData["OlcuList"]);
+            p.ValidationSettings.RequiredField.IsRequired = true;
+            p.ValidationSettings.CausesValidation = true;
+        });
+    });
+    settings.Columns.Add(m => m.MALGK1, c =>
+    {
+        c.FieldName = "MALGK1";
+        c.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    settings.Columns.Add(m => m.MALGK1, c =>
+    {
+        c.FieldName = "MALGK2";
+        c.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    settings.Columns.Add(m => m.MALGK1, c =>
+    {
+        c.FieldName = "MALGK3";
+        c.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.InitNewRow = (sender, e) =>
+    {
+
+    };
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        ASPxEdit editor = (ASPxEdit)e.Editor;
+        editor.ValidationSettings.Display = Display.None;
+    };
+
+}).Bind(Model).GetHtml())

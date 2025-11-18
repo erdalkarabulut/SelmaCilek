@@ -1,0 +1,100 @@
+﻿@using Bps.BpsBase.Entities.Concrete.GN
+@model GNMESJ
+
+@{
+    Layout = null;
+}
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "ppMesajEkle";
+        settings.Width = 600;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Mesaj " + (Model.Id > 0 ? "Düzenle" : "Ekle");
+        settings.ShowOnPageLoad = true;
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.ShowFooter = true;
+
+        settings.SetContent(() =>
+        {
+            @Html.DevExpress().FormLayout(formLayoutsettings =>
+            {
+                formLayoutsettings.Name = "formMesajEkle";
+
+                formLayoutsettings.Items.AddGroupItem(g =>
+                {
+                    g.Caption = "Mesaj Detayı";
+                    g.ColCount = 2;
+
+                    g.Items.Add(m => m.Id, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.SIRKID, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.EKKULL, i => { i.ClientVisible = false; });
+                    g.Items.Add(m => m.ETARIH, i => { i.ClientVisible = false; });
+
+                    g.Items.Add(m => m.LANGKD, i =>
+                    {
+                        i.NestedExtension().ComboBox(s =>
+                        {
+                            s.Name = "LANGKD";
+                            s.Properties.CallbackPageSize = 15;
+                            s.Properties.TextField = "TANIMI";
+                            s.Properties.ValueField = "HARKOD";
+                            s.Properties.DataSource = ViewData["DilList"];
+                            s.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                            s.Properties.DropDownStyle = DropDownStyle.DropDown;
+                        });
+                    });
+                    g.Items.Add(m => m.MESJKD, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "MESJKD";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.MESJNO, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "MESJNO";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.MSTEXT, i =>
+                    {
+                        i.NestedExtension().TextBox(s =>
+                        {
+                            s.Name = "MSTEXT";
+                            s.ShowModelErrors = true;
+                            s.Properties.ValidationSettings.Display = Display.Dynamic;
+                        });
+                    });
+                    g.Items.Add(m => m.ACTIVE, i =>
+                    {
+                        i.NestedExtension().CheckBox(s =>
+                        {
+                            s.Name = "ACTIVE";
+                            s.Checked = true;
+                        });
+                    });
+                });
+                FormLayoutHelper<GNMESJ>.Settings(formLayoutsettings);
+            }).Bind(Model).Render();
+        });
+
+        settings.SetFooterTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<div id='menuFormFooter'>");
+            Html.RenderAction("FormFooterPartial", "Main", new { area = "", ekleJs = "FormMesajKaydet();", iptalJs = "ppMesajEkle.Hide();" });
+            ViewContext.Writer.Write("</div>");
+        });
+    }).GetHtml()

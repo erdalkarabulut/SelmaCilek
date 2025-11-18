@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Mesaj Ekranı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Bps.Core.Web.Session
+@model int?
+
+<body>
+
+@using (Html.BeginForm())
+{
+    @Html.Action("MesajGridPartial", "Tanim")
+
+    <script type="text/javascript">
+        function FormMesajKaydet() {
+            bpsMain.submitForm('formMesajEkle',
+                'gridMesaj',
+                'ppMesajEkle',
+                '@Html.Raw(Url.Action("MesajKaydet", "Tanim", new {area=SessionHelper.ProjeKod}))',
+                @Model);
+        }
+    </script>
+}
+</body>

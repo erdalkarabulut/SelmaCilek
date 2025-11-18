@@ -1,0 +1,58 @@
+﻿@using Bps.BpsBase.Entities.Concrete.ST
+@using Bps.Core.Web.Model
+@model List<STMALT>
+
+@{
+    Html.DevExpress().GridView<STMALT>(settings =>
+    {
+        settings.Name = "gridStokTedTur";
+        settings.KeyFieldName = "Id";
+        settings.CallbackRouteValues = new {Controller = "Tanim", Action = "StokMalTuruGridPartial", area = "ST", menuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG};
+
+        @Html.Action("ToolBar", "Main", new
+        {
+            area = "",
+            settings,
+            yetki = (ProjeMenuListed) ViewData["YetkiModel"],
+            toolParam = new DevToolBarParam()
+            {
+                Grid = settings.Name,
+                EkleUrl = Url.Action("StokMalTuruEkleWindow", "Tanim", new {area = "ST"}),
+                DegistirUrl = Url.Action("StokMalTuruEkleWindow", "Tanim", new {area = "ST"}),
+                SilUrl = Url.Action("StokMalTuruSil", "Tanim", new {area = "ST"}),
+                EklePopup = "ppStokMalTuruEkle",
+                DegistirPopup = "ppStokMalTuruEkle",
+                EkleDiv = "stokMalTuruEkleDiv",
+                DegistirDiv = "stokMalTuruEkleDiv",
+                YerlesimDiv = "malTurLayoutDiv",
+                BelgeAkisDiv = "malTurBelgeAkisDiv",
+                TopluAktarDiv = "malTurTopluAktDiv",
+                MenuTag = ((ProjeMenuListed) ViewData["YetkiModel"]).MNUTAG,
+                Type = "STMALT"
+            }
+        });
+
+        //List<string> excludeList = new List<string>();
+        //excludeList.Add("STBKDR");
+
+        //settings.Columns.Add(m => m.STBKDR, column =>
+        //{
+        //    column.EditorProperties().ComboBox(p =>
+        //    {
+        //        p.TextField = "TANIMI";
+        //        p.ValueField = "HARKOD";
+        //        p.ValueType = typeof(string);
+        //        p.BindList(ViewData["Sekmeler"]);
+        //    });
+        //});
+        GridViewHelper<STMALT>.Settings(settings, new STMALT());
+    }).Bind(Model).Render();
+}
+<div id="stokMalTuruEkleDiv">
+</div>
+<div id="malTurLayoutDiv">
+</div>
+<div id="malTurBelgeAkisDiv">
+</div>
+<div id="malTurTopluAktDiv">
+</div>
