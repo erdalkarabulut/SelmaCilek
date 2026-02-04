@@ -521,7 +521,7 @@ namespace Bps.BpsBase.Entities.Models.Shopify.Siparis
     public class Fulfillment
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("admin_graphql_api_id")]
         public string AdminGraphqlApiId { get; set; }
@@ -530,13 +530,13 @@ namespace Bps.BpsBase.Entities.Models.Shopify.Siparis
         public DateTime? CreatedAt { get; set; }
 
         [JsonProperty("location_id")]
-        public long LocationId { get; set; }
+        public long? LocationId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
 
         [JsonProperty("order_id")]
-        public long OrderId { get; set; }
+        public long? OrderId { get; set; }
 
         [JsonProperty("origin_address")]
         public object OriginAddress { get; set; }
@@ -578,7 +578,7 @@ namespace Bps.BpsBase.Entities.Models.Shopify.Siparis
     public class LineItem
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("admin_graphql_api_id")]
         public string AdminGraphqlApiId { get; set; }
@@ -587,10 +587,10 @@ namespace Bps.BpsBase.Entities.Models.Shopify.Siparis
         public List<object> AttributedStaffs { get; set; }
 
         [JsonProperty("current_quantity")]
-        public int CurrentQuantity { get; set; }
+        public int? CurrentQuantity { get; set; }
 
         [JsonProperty("fulfillable_quantity")]
-        public int FulfillableQuantity { get; set; }
+        public int? FulfillableQuantity { get; set; }
 
         [JsonProperty("fulfillment_service")]
         public string FulfillmentService { get; set; }
@@ -602,7 +602,7 @@ namespace Bps.BpsBase.Entities.Models.Shopify.Siparis
         public bool GiftCard { get; set; }
 
         [JsonProperty("grams")]
-        public int Grams { get; set; }
+        public int? Grams { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -617,22 +617,22 @@ namespace Bps.BpsBase.Entities.Models.Shopify.Siparis
         public bool ProductExists { get; set; }
 
         [JsonProperty("product_id")]
-        public long ProductId { get; set; }
+        public long? ProductId { get; set; }
 
         [JsonProperty("properties")]
         public List<object> Properties { get; set; }
 
         [JsonProperty("quantity")]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
 
         [JsonProperty("requires_shipping")]
-        public bool RequiresShipping { get; set; }
+        public bool? RequiresShipping { get; set; }
 
         [JsonProperty("sku")]
         public string Sku { get; set; }
 
         [JsonProperty("taxable")]
-        public bool Taxable { get; set; }
+        public bool? Taxable { get; set; }
 
         [JsonProperty("title")]
         public string Title { get; set; }
@@ -644,7 +644,7 @@ namespace Bps.BpsBase.Entities.Models.Shopify.Siparis
         public PriceSet TotalDiscountSet { get; set; }
 
         [JsonProperty("variant_id")]
-        public long VariantId { get; set; }
+        public long? VariantId { get; set; }
 
         [JsonProperty("variant_inventory_management")]
         public object VariantInventoryManagement { get; set; }

@@ -83,7 +83,7 @@ namespace Bps.BpsBase.Business.Concrete.Managers.XX
             }
 
 
-            string baseUrl = $"https://{shopName}.myshopify.com/admin/api/2024-01/{ShopifyJson}.json?updated_at_min={tarih}&limit=250" + ekstring;
+            string baseUrl = $"https://{shopName}.myshopify.com/admin/api/2025-04/{ShopifyJson}.json?updated_at_min={tarih}&limit=250" + ekstring;
 
             var client = new RestClient(baseUrl);
             string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{apiKey}:{apiPassword}"));
@@ -438,7 +438,7 @@ namespace Bps.BpsBase.Business.Concrete.Managers.XX
             FYShopifyOrder fYShopifyProduct = new FYShopifyOrder();
             List<ShopifyOrder> products = JsonConvert.DeserializeObject<List<ShopifyOrder>>(jsonString);
 
-            foreach (var product in products.OrderBy(v => v.UpdatedAt).ToList())
+            foreach (var product in products.OrderBy(v => v.UpdatedAt> utcTime).ToList())
             {
                 
                 
@@ -450,7 +450,10 @@ namespace Bps.BpsBase.Business.Concrete.Managers.XX
                 fYShopifyProduct.Updated_at = product.UpdatedAt;
                 fYShopifyProduct.CustomerId = product.Customer.Id.ToString();
                 fYShopifyProduct.CustomerName = product.Customer.FirstName + " " + product.Customer.LastName;
-                fYShopifyProduct.Source = product.ShippingLines[0].Source;
+                if (product.ShippingLines.Count > 0)
+                {
+                    fYShopifyProduct.Source = product.ShippingLines[0].Source;
+                }
                 fYShopifyProduct.FinancialStatus = product.FinancialStatus;
                 fYShopifyProduct.order_status_url = product.OrderStatusUrl;
                 fYShopifyProduct.fulfillment_status = product.FulfillmentStatus;
@@ -463,8 +466,11 @@ namespace Bps.BpsBase.Business.Concrete.Managers.XX
                 {
                     fYShopifyProduct.shipment_status = "";
                 }
+                if (product.ShippingLines.Any())
+                {
 
-                fYShopifyProduct.shipping_code = product.ShippingLines[0].Code;
+                    fYShopifyProduct.shipping_code = product.ShippingLines[0].Code;
+                }
                 //fYShopifyProduct.admin_graphql_api_id = product.admin_graphql_api_id;
                 fYShopifyProduct.ACTIVE = true;
 
