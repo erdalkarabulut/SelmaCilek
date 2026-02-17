@@ -140,7 +140,7 @@ namespace BPS.Windows.Forms
 
                 if (ImgUrunSlider.Images.Count == 0)
                 {
-                    if (ImgFYUrunSlider.Images[0] != null)
+                    if (ImgFYUrunSlider.Images.Count > 0 && ImgFYUrunSlider.Images[0] != null)
                     {
                         File.Delete(imageFolder + imageName);
                         Image FirstImage = ImgFYUrunSlider.Images[0];

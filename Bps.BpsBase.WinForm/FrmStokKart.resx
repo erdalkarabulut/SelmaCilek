@@ -184,6 +184,26 @@
     <value>345, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="editorButtonImageOptions1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAB10RVh0VGl0
+        bGUAQ2xvc2U7RXhpdDtCYXJzO1JpYmJvbjtGA7noAAADHUlEQVQ4T43Tf0yUdRzA8cdQU1EZGri1spBf
+        QQaiwgEeZYAa4o6aoPMPy9ncXG7AHzGQpANpM3Kl4I/N3eZkysypc25xQJwua9ZOLsaJIHcqp8TJj7vn
+        TDqeY/XHu30erv5r64/39nm+3+d57dm+z6OMftmoKIrygqIoEYqizP0fzQsn98+RhyMeHTb/8OSLBh43
+        SvV4Gs2zHTbjaficYb06huvrGDbX8ch8iKFDtbfCoDJPNrRfu2ZzhNPnznAdaD2SFc3erjdUW4OiKPMF
+        mO/+7CDanXYCF09w92AlllVpdG8v1a8lW1kZlrg0nNUVqBeaUc8f517VpwIsEODFweoqpn++jrO6nNYt
+        O7FZHXy7v5aObSY6TSX6bGvvoXXzTvqqDuBv/Ya+8koBFgqwoO+TAwRvXcWyMpVhtxdfQMPtUblU3qA3
+        5FEZ8wd56PJieTUV39mj2D/eJ8AiARb+uO19AhdbsJXt4E7TMYLaX/ifh3A9UXE9Vpn8PcTU9J/6nm17
+        KSM1e+kqKBIgUoBFtsKtjB+r4bfqPXQXF/NLUzMTz0JMBDTGn2mMqyFuHznO90VFeCp24d5VwHe5+QIs
+        FiDSmrcJb2M5Dz98j44NOXSZv2LMr/HUP43XF8Tr0+isa8KaY8BVupH7H+RxbZ1RgCUCLL6etZGR2n10
+        ZGZwtbKe/gc+RieDqFMh1OczjEwEcbonuVJhxpqRxkBRJpdWGwRYKsCSy+k5+qu1rUrGP+Zn1DdNYGoG
+        Z/NJvVnkD3xP/bTFJePMT+d80joBogRY2paSyYO9JhwlhdzYvYcZVaW36Sg2Yzbdxmx9lrUbuz/CviWP
+        3twUzr72lgDRAkSdi8vg/o4CBooN9BS/w+XkN7hpzGKw5G0GTHnczM3U1+ybNtD3bjqOtfGceTlFgGU6
+        YHnlTfq3ZtNrSOJu/hpcpfnc25yFw5CAY30C/YXrGTQZ6c1NxZ7+OvbVKzkVk/gvEPl1bOJPp1ckcTo2
+        mVOxSZyMkRJnW57AiWUJtOjF0xIdT3N0PEei4m7/c4zyW8oHIdrycC/9RzHhZJYjjPgbpxkalshGQkEA
+        AAAASUVORK5CYII=
+</value>
+  </data>
   <data name="btnRaporDizayn.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAA50RVh0VGl0
@@ -224,7 +244,7 @@
     <value>516, 17</value>
   </metadata>
   <metadata name="bindingNavigator2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 134</value>
+    <value>970, 95</value>
   </metadata>
   <data name="bindingNavigatorAddNewItem1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -291,10 +311,10 @@
 </value>
   </data>
   <metadata name="sTDPYNBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 212</value>
+    <value>640, 173</value>
   </metadata>
   <metadata name="bindingNavigator7.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>960, 173</value>
+    <value>486, 173</value>
   </metadata>
   <data name="toolStripButton19.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -361,13 +381,13 @@
 </value>
   </data>
   <metadata name="sTKMIZBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>171, 134</value>
+    <value>1124, 95</value>
   </metadata>
   <metadata name="sTDEPOBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>692, 17</value>
   </metadata>
   <metadata name="bindingNavigator3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>496, 134</value>
+    <value>171, 134</value>
   </metadata>
   <data name="bindingNavigatorAddNewItem2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -434,10 +454,10 @@
 </value>
   </data>
   <metadata name="sTSALEBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>540, 56</value>
+    <value>375, 56</value>
   </metadata>
   <metadata name="bindingNavigator4.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>793, 134</value>
+    <value>468, 134</value>
   </metadata>
   <data name="toolStripButton1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -504,10 +524,10 @@
 </value>
   </data>
   <metadata name="sTNAMEBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>171, 173</value>
+    <value>1023, 134</value>
   </metadata>
   <metadata name="bindingNavigator5.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 173</value>
+    <value>869, 134</value>
   </metadata>
   <data name="toolStripButton7.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -574,10 +594,10 @@
 </value>
   </data>
   <metadata name="sTOLCUBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>901, 95</value>
+    <value>654, 95</value>
   </metadata>
   <metadata name="bindingNavigator1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>342, 134</value>
+    <value>17, 134</value>
   </metadata>
   <data name="bindingNavigatorAddNewItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -644,10 +664,10 @@
 </value>
   </data>
   <metadata name="sTURYRBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>645, 173</value>
+    <value>171, 173</value>
   </metadata>
   <metadata name="bindingNavigator6.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>491, 173</value>
+    <value>17, 173</value>
   </metadata>
   <data name="toolStripButton13.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -714,10 +734,10 @@
 </value>
   </data>
   <metadata name="sTBDRNBindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>488, 212</value>
+    <value>1111, 173</value>
   </metadata>
   <metadata name="bindingNavigator8.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>334, 212</value>
+    <value>957, 173</value>
   </metadata>
   <data name="toolStripButton25.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -784,10 +804,10 @@
 </value>
   </data>
   <metadata name="mHHSPLBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>182, 56</value>
+    <value>17, 56</value>
   </metadata>
   <metadata name="sTFTIPBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 56</value>
+    <value>1214, 17</value>
   </metadata>
   <metadata name="gNDPTNBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>865, 17</value>
@@ -796,28 +816,28 @@
     <value>1043, 17</value>
   </metadata>
   <metadata name="tipHareketListModelBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>894, 56</value>
+    <value>729, 56</value>
   </metadata>
   <metadata name="tipHareketListModelBindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 95</value>
+    <value>970, 56</value>
   </metadata>
   <metadata name="tipHareketListModelBindingSource2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>264, 95</value>
+    <value>17, 95</value>
   </metadata>
   <metadata name="tipHareketListModelBindingSource3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>654, 95</value>
+    <value>407, 95</value>
   </metadata>
   <metadata name="sTDEPOBindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>360, 56</value>
+    <value>195, 56</value>
   </metadata>
   <metadata name="gNDPTNBindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>709, 56</value>
+    <value>544, 56</value>
   </metadata>
   <metadata name="dxErrorProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1074, 95</value>
+    <value>827, 95</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>367</value>
+    <value>179</value>
   </metadata>
   <data name="FrmStokKart.IconOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1091,25 +1111,25 @@
 </value>
   </data>
   <metadata name="dxErrorProvider2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>511, 95</value>
+    <value>264, 95</value>
   </metadata>
   <metadata name="dxErrorProvider3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>650, 134</value>
+    <value>325, 134</value>
   </metadata>
   <metadata name="dxErrorProvider4.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>947, 134</value>
+    <value>622, 134</value>
   </metadata>
   <metadata name="dxErrorProvider5.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>348, 173</value>
+    <value>1200, 134</value>
   </metadata>
   <metadata name="dxErrorProvider6.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>817, 173</value>
+    <value>343, 173</value>
   </metadata>
   <metadata name="dxErrorProvider7.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>191, 212</value>
+    <value>814, 173</value>
   </metadata>
   <metadata name="popEtiket.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1090, 134</value>
+    <value>765, 134</value>
   </metadata>
   <data name="barButYazdir.ImageOptions.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

@@ -37,8 +37,8 @@ namespace Bps.Core.GlobalStaticsVariables
         public bool? RenkBeden { get; set; }
 
         public string shopName { get; set; }
-        public string apiKey { get; set; }
-        public string apiPassword { get; set; }
+        public string apiClientId { get; set; }
+        public string apiClientSecret { get; set; }
 
 
         public Global ShallowCopy()

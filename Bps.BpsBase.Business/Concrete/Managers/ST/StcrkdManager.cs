@@ -12,6 +12,7 @@ using Bps.BpsBase.Business.Abstract.ST;
 using Bps.BpsBase.DataAccess.Abstract.ST;
 using Bps.BpsBase.Entities.Concrete.ST;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 #region ClientUsing
 
@@ -257,6 +258,20 @@ namespace Bps.BpsBase.Business.Concrete.Managers.ST
             sonuc.Nesne = _stcrkdDal.Get(x => x.CRVRKO == _crvrko && x.CRKODU == _crkodu);
             sonuc.Status = ResponseStatusEnum.OK;
             return sonuc;
+        }
+
+        public string Ncch_HardDelete_Log(string stkodu, Global global)
+        {
+            try
+            {
+                var sql = @"DELETE FROM STCRKD WHERE STKODU = @Stkodu AND SIRKID = @SirketId";
+                _stcrkdDal.ExecuteSqlQuery(sql, new SqlParameter("@SirketId", global.SirketId), new SqlParameter("@Stkodu", stkodu));
+                return "Stokla ilgili tüm entegrasyonlar silindi";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
         }
 
         #endregion ClientFunc

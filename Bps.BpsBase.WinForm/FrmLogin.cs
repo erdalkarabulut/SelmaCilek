@@ -150,8 +150,8 @@ namespace BPS.Windows.Forms
             global.SirketGuid = sirket.SRGUID;
             global.RenkBeden = sirket.RNKBDN ?? false;
             global.shopName = ConfigurationManager.AppSettings["shopName"];
-            global.apiKey = ConfigurationManager.AppSettings["apiKey"];
-            global.apiPassword = ConfigurationManager.AppSettings["apiPassword"];
+            global.apiClientId = ConfigurationManager.AppSettings["apiClientId"];
+            global.apiClientSecret = ConfigurationManager.AppSettings["apiClientSecret"];
             ///// silinecek
             //FrmChildBase newForm = null;
             //if (global.UserKod == "admin")

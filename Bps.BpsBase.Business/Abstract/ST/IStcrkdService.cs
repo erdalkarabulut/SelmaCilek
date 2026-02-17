@@ -35,6 +35,7 @@ namespace Bps.BpsBase.Business.Abstract.ST
        
         StandardResponse Ncch_MultiAdd_Log(List<STCRKD> stcrkd, Global global, bool yetkiKontrol = true);
         StandardResponse<STCRKD> Ncch_GetByCRVRKO_NLog(string _crvrko, string _crkodu, Global global, bool yetkiKontrol = true);
+        string Ncch_HardDelete_Log(string stkodu, Global global);
         #endregion ClientFunc
     }
 }

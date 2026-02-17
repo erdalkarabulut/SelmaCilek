@@ -135,13 +135,33 @@
   <metadata name="sTBDRNBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>670, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="editorButtonImageOptions1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAB10RVh0VGl0
+        bGUAQ2xvc2U7RXhpdDtCYXJzO1JpYmJvbjtGA7noAAADHUlEQVQ4T43Tf0yUdRzA8cdQU1EZGri1spBf
+        QQaiwgEeZYAa4o6aoPMPy9ncXG7AHzGQpANpM3Kl4I/N3eZkysypc25xQJwua9ZOLsaJIHcqp8TJj7vn
+        TDqeY/XHu30erv5r64/39nm+3+d57dm+z6OMftmoKIrygqIoEYqizP0fzQsn98+RhyMeHTb/8OSLBh43
+        SvV4Gs2zHTbjaficYb06huvrGDbX8ch8iKFDtbfCoDJPNrRfu2ZzhNPnznAdaD2SFc3erjdUW4OiKPMF
+        mO/+7CDanXYCF09w92AlllVpdG8v1a8lW1kZlrg0nNUVqBeaUc8f517VpwIsEODFweoqpn++jrO6nNYt
+        O7FZHXy7v5aObSY6TSX6bGvvoXXzTvqqDuBv/Ya+8koBFgqwoO+TAwRvXcWyMpVhtxdfQMPtUblU3qA3
+        5FEZ8wd56PJieTUV39mj2D/eJ8AiARb+uO19AhdbsJXt4E7TMYLaX/ifh3A9UXE9Vpn8PcTU9J/6nm17
+        KSM1e+kqKBIgUoBFtsKtjB+r4bfqPXQXF/NLUzMTz0JMBDTGn2mMqyFuHznO90VFeCp24d5VwHe5+QIs
+        FiDSmrcJb2M5Dz98j44NOXSZv2LMr/HUP43XF8Tr0+isa8KaY8BVupH7H+RxbZ1RgCUCLL6etZGR2n10
+        ZGZwtbKe/gc+RieDqFMh1OczjEwEcbonuVJhxpqRxkBRJpdWGwRYKsCSy+k5+qu1rUrGP+Zn1DdNYGoG
+        Z/NJvVnkD3xP/bTFJePMT+d80joBogRY2paSyYO9JhwlhdzYvYcZVaW36Sg2Yzbdxmx9lrUbuz/CviWP
+        3twUzr72lgDRAkSdi8vg/o4CBooN9BS/w+XkN7hpzGKw5G0GTHnczM3U1+ybNtD3bjqOtfGceTlFgGU6
+        YHnlTfq3ZtNrSOJu/hpcpfnc25yFw5CAY30C/YXrGTQZ6c1NxZ7+OvbVKzkVk/gvEPl1bOJPp1ckcTo2
+        mVOxSZyMkRJnW57AiWUJtOjF0xIdT3N0PEei4m7/c4zyW8oHIdrycC/9RzHhZJYjjPgbpxkalshGQkEA
+        AAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="sTCRKDBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>844, 17</value>
   </metadata>
   <metadata name="bindingNavigator3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>516, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="bindingNavigatorAddNewItem2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS

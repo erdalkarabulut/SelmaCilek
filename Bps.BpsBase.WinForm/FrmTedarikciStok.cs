@@ -760,5 +760,10 @@ namespace BPS.Windows.Forms
         {
             
         }
-    }
+
+		private void repButtonSil_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
+		{
+
+		}
+	}
 }
